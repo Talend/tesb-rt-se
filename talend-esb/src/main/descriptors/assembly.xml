@@ -29,7 +29,7 @@
         <!-- Expanded Camel Runtime -->
         <fileSet>
             <directory>target/dependencies/camel/apache-camel-${camel.version}</directory>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>./</outputDirectory>
             <excludes>
                 <exclude>README</exclude>
                 <exclude>README.txt</exclude>
@@ -42,13 +42,13 @@
         </fileSet>
         <fileSet>
             <directory>target/dependencies/camel/apache-camel-${camel.version}/examples</directory>
-            <outputDirectory>/examples/apache/camel</outputDirectory>
+            <outputDirectory>./examples/apache/camel</outputDirectory>
         </fileSet>
 
         <!-- Expanded CXF Runtime -->
         <fileSet>
             <directory>target/dependencies/cxf/apache-cxf-${cxf.version}</directory>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>./</outputDirectory>
             <excludes>
                 <exclude>LICENSE</exclude>
                 <exclude>NOTICE</exclude>
@@ -74,26 +74,26 @@
         </fileSet>
         <fileSet>
             <directory>target/dependencies/cxf/apache-cxf-${cxf.version}/samples</directory>
-            <outputDirectory>/examples/apache/cxf</outputDirectory>
+            <outputDirectory>./examples/apache/cxf</outputDirectory>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
         </fileSet>
         <fileSet>
             <directory>target/dependencies/cxf/apache-cxf-${cxf.version}/etc</directory>
-            <outputDirectory>/examples/apache/etc</outputDirectory>
+            <outputDirectory>./examples/apache/etc</outputDirectory>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
         </fileSet>
         <fileSet>
             <directory>target/dependencies/cxf/apache-cxf-${cxf.version}/docs/api</directory>
-            <outputDirectory>/docs/cxf-api</outputDirectory>
+            <outputDirectory>./docs/cxf-api</outputDirectory>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
         </fileSet>
 
         <fileSet>
             <directory>target/dependencies/cxf/apache-cxf-${cxf.version}/bin</directory>
-            <outputDirectory>/bin</outputDirectory>
+            <outputDirectory>./bin</outputDirectory>
             <includes>
                 <include>**/*</include>
             </includes>
@@ -106,7 +106,7 @@
         </fileSet>
         <fileSet>
             <directory>target/dependencies/cxf/apache-cxf-${cxf.version}/bin</directory>
-            <outputDirectory>/bin</outputDirectory>
+            <outputDirectory>./bin</outputDirectory>
             <includes>
                 <include>*.bat</include>
             </includes>
@@ -117,7 +117,7 @@
 
         <fileSet>
             <directory>target/classes/bin</directory>
-            <outputDirectory>/bin</outputDirectory>
+            <outputDirectory>./bin</outputDirectory>
             <includes>
                 <include>**/*</include>
             </includes>
@@ -131,7 +131,7 @@
         </fileSet>
         <fileSet>
             <directory>target/classes/bin</directory>
-            <outputDirectory>/bin</outputDirectory>
+            <outputDirectory>./bin</outputDirectory>
             <includes>
                 <include>*.bat</include>
                 <include>*.cmd</include>
@@ -142,7 +142,7 @@
         </fileSet>
         <fileSet>
             <directory>${basedir}/src/main/scripts</directory>
-            <outputDirectory>/container/scripts</outputDirectory>
+            <outputDirectory>./container/scripts</outputDirectory>
             <includes>
                 <include>**/*</include>
             </includes>
@@ -154,7 +154,7 @@
         <!-- Expanded ZooKeeper Runtime -->
         <fileSet>
             <directory>target/dependencies/zookeeper/zookeeper-${zookeeper.package.version}</directory>
-            <outputDirectory>/zookeeper</outputDirectory>
+            <outputDirectory>./zookeeper</outputDirectory>
             <excludes>
                 <exclude>LICENSE.txt</exclude>
                 <exclude>NOTICE.txt</exclude>
@@ -168,7 +168,7 @@
         </fileSet>
         <fileSet>
             <directory>target/dependencies/zookeeper/zookeeper-${zookeeper.package.version}/bin</directory>
-            <outputDirectory>/zookeeper/bin</outputDirectory>
+            <outputDirectory>./zookeeper/bin</outputDirectory>
             <includes>
                 <include>*.sh</include>
             </includes>
@@ -178,7 +178,7 @@
         </fileSet>
         <fileSet>
             <directory>zookeeper</directory>
-            <outputDirectory>/zookeeper</outputDirectory>
+            <outputDirectory>./zookeeper</outputDirectory>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
         </fileSet>
@@ -186,7 +186,7 @@
         <!-- Expanded Karaf Runtime -->
         <fileSet>
             <directory>target/dependencies/apache-karaf/apache-karaf-${karaf.version}</directory>
-            <outputDirectory>/container</outputDirectory>
+            <outputDirectory>./container</outputDirectory>
             <excludes>
                 <exclude>**/examples/**</exclude>
                 <exclude>bin/**</exclude>
@@ -232,7 +232,7 @@
         <!-- Copy over win bin/* separately to get the correct file mode -->
         <fileSet>
             <directory>target/dependencies/apache-karaf/apache-karaf-${karaf.version}/bin</directory>
-            <outputDirectory>/container/bin</outputDirectory>
+            <outputDirectory>./container/bin</outputDirectory>
             <includes>
                 <include>setenv.bat</include>
             </includes>
@@ -242,7 +242,7 @@
         </fileSet>
         <fileSet>
             <directory>${basedir}/src/main/bin</directory>
-            <outputDirectory>/container/bin</outputDirectory>
+            <outputDirectory>./container/bin</outputDirectory>
             <includes>
                 <include>*.bat</include>
             </includes>
@@ -254,7 +254,7 @@
         <!-- Copy over bin/* separately to get the correct file mode -->
         <fileSet>
             <directory>target/dependencies/apache-karaf/apache-karaf-${karaf.version}/bin</directory>
-            <outputDirectory>/container/bin</outputDirectory>
+            <outputDirectory>./container/bin</outputDirectory>
             <includes>
                 <include>setenv</include>
             </includes>
@@ -264,7 +264,7 @@
         </fileSet>
         <fileSet>
             <directory>${basedir}/src/main/bin</directory>
-            <outputDirectory>/container/bin</outputDirectory>
+            <outputDirectory>./container/bin</outputDirectory>
             <excludes>
                 <exclude>*.bat</exclude>
             </excludes>
@@ -276,7 +276,7 @@
         <!-- Expanded ActiveMQ Runtime -->
         <fileSet>
             <directory>target/dependencies/activemq-unix/apache-activemq-${activemq.version}</directory>
-            <outputDirectory>/activemq</outputDirectory>
+            <outputDirectory>./activemq</outputDirectory>
             <excludes>
                 <exclude>bin/**</exclude>
                 <exclude>LICENSE</exclude>
@@ -287,13 +287,13 @@
         <!-- Copy over unix activemq bin/ subdirectories -->
         <fileSet>
             <directory>target/dependencies/activemq-unix/apache-activemq-${activemq.version}/bin</directory>
-            <outputDirectory>/activemq/bin</outputDirectory>
+            <outputDirectory>./activemq/bin</outputDirectory>
         </fileSet>
 
         <!-- Copy over win activemq bin/ subdirectories -->
         <fileSet>
             <directory>target/dependencies/activemq-win/apache-activemq-${activemq.version}/bin</directory>
-            <outputDirectory>/activemq/bin</outputDirectory>
+            <outputDirectory>./activemq/bin</outputDirectory>
             <includes>
                 <include>win*/**</include>
                 <include>*.bat</include>
@@ -304,7 +304,7 @@
         <!-- Copy license and other files from root -->
         <fileSet>
             <directory>${basedir}/..</directory>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>./</outputDirectory>
             <includes>
                 <include>README.txt</include>
                 <include>NOTICE</include>
@@ -314,7 +314,7 @@
         </fileSet>
         <fileSet>
             <directory>target</directory>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>./</outputDirectory>
             <includes>
                 <include>LICENSE.txt</include>
             </includes>
@@ -325,7 +325,7 @@
         <!-- Copy over the container README.txt -->
         <fileSet>
             <directory>${basedir}</directory>
-            <outputDirectory>/container</outputDirectory>
+            <outputDirectory>./container</outputDirectory>
             <includes>
                 <include>README.txt</include>
             </includes>
@@ -336,20 +336,20 @@
         <!-- Copy config files to container/etc -->
         <fileSet>
             <directory>src/main/distribution/text</directory>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>./</outputDirectory>
             <fileMode>0644</fileMode>
             <directoryMode>777</directoryMode>
         </fileSet>
         <fileSet>
             <directory>target/classes/etc</directory>
-            <outputDirectory>/container/etc/</outputDirectory>
+            <outputDirectory>./container/etc/</outputDirectory>
             <lineEnding>unix</lineEnding>
             <fileMode>0644</fileMode>
             <directoryMode>777</directoryMode>
         </fileSet>
         <fileSet>
             <directory>target/dependencies/etc</directory>
-            <outputDirectory>/container/etc/</outputDirectory>
+            <outputDirectory>./container/etc/</outputDirectory>
             <lineEnding>unix</lineEnding>
             <fileMode>0644</fileMode>
             <directoryMode>777</directoryMode>
@@ -357,7 +357,7 @@
 
         <fileSet>
             <directory>target/features-repo</directory>
-            <outputDirectory>/container/system</outputDirectory>
+            <outputDirectory>./container/system</outputDirectory>
             <excludes>
                 <!-- exclude JDBC drivers because of licensing limitation -->
                 <exclude>mysql/**</exclude>
@@ -417,7 +417,7 @@
         <!-- Woraround for xjc-utils version (TESB-21746) -->
         <fileSet>
             <directory>target/features-repo</directory>
-            <outputDirectory>/container/system</outputDirectory>
+            <outputDirectory>./container/system</outputDirectory>
             <includes>
                 <include>org/apache/cxf/xjc-utils/cxf-xjc-runtime/3.2.1/**</include>
             </includes>
@@ -426,13 +426,13 @@
         <!-- Copy Add-ons -->
         <fileSet>
             <directory>target/add-ons</directory>
-            <outputDirectory>/add-ons</outputDirectory>
+            <outputDirectory>./add-ons</outputDirectory>
             <fileMode>0644</fileMode>
             <directoryMode>755</directoryMode>
         </fileSet>
         <fileSet>
             <directory>${basedir}/../sam/sam-server/target/classes</directory>
-            <outputDirectory>/add-ons/sam/db</outputDirectory>
+            <outputDirectory>./add-ons/sam/db</outputDirectory>
             <includes>
                 <include>*.sql</include>
             </includes>
@@ -444,7 +444,7 @@
         <!-- Copy Locator proxy resources -->
         <fileSet>
             <directory>${basedir}/../locator-service/locator-service-common/src/main/resources/model</directory>
-            <outputDirectory>/add-ons/locator</outputDirectory>
+            <outputDirectory>./add-ons/locator</outputDirectory>
             <fileMode>0644</fileMode>
             <directoryMode>755</directoryMode>
         </fileSet>
@@ -452,13 +452,13 @@
         <!-- SAP add-on -->
         <fileSet>
             <directory>sap</directory>
-            <outputDirectory>/add-ons/datasources/sap</outputDirectory>
+            <outputDirectory>./add-ons/datasources/sap</outputDirectory>
         </fileSet>
 
         <!-- Copy Examples -->
         <fileSet>
             <directory>${basedir}/../examples</directory>
-            <outputDirectory>/examples/talend</outputDirectory>
+            <outputDirectory>./examples/talend</outputDirectory>
             <excludes>
                 <!-- Exclude maven build target directory -->
                 <exclude>**/target/**</exclude>
@@ -476,7 +476,7 @@
         <!-- Copy Adapters -->
         <fileSet>
             <directory>${basedir}/../adapters</directory>
-            <outputDirectory>/add-ons/adapters</outputDirectory>
+            <outputDirectory>./add-ons/adapters</outputDirectory>
             <includes>
                 <include>nagios/**</include>
                 <include>README.txt</include>
@@ -486,7 +486,7 @@
         <!-- version.txt -->
         <fileSet>
             <directory>${basedir}/..</directory>
-            <outputDirectory>/container</outputDirectory>
+            <outputDirectory>./container</outputDirectory>
             <includes>
                 <include>version.txt</include>
             </includes>
@@ -497,7 +497,7 @@
         <!-- workaround for CXF version in Camel features file -->
         <file>
             <source>${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</source>
-            <outputDirectory>/container/system/org/apache/camel/karaf/apache-camel/${camel.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/camel/karaf/apache-camel/${camel.version}/</outputDirectory>
             <destName>apache-camel-${camel.version}-features.xml</destName>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
@@ -505,7 +505,7 @@
         <!-- workaround for CXF features descriptor -->
         <file>
             <source>${basedir}/target/dependencies/apache-cxf-${cxf.version}-features.xml</source>
-            <outputDirectory>/container/system/org/apache/cxf/karaf/apache-cxf/${cxf.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/cxf/karaf/apache-cxf/${cxf.version}/</outputDirectory>
             <destName>apache-cxf-${cxf.version}-features.xml</destName>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
@@ -513,251 +513,251 @@
         <!-- patch for xalan and xerces version -->
         <!--file>
             <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.xalan-${xalan.version}.jar</source>
-            <outputDirectory>/container/lib/endorsed/</outputDirectory>
+            <outputDirectory>./container/lib/endorsed/</outputDirectory>
             <fileMode>0644</fileMode>
         </file-->
         <file>
             <source>${basedir}/target/dependencies/org.apache.servicemix.bundles.xerces-${xerces.version}.jar</source>
-            <outputDirectory>/container/lib/endorsed/</outputDirectory>
+            <outputDirectory>./container/lib/endorsed/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- workaround for pax-url-classpath bundle (TESB-6904) -->
         <file>
             <source>${basedir}/target/dependencies/pax-url-classpath-${pax-url-classpath.version}.jar</source>
-            <outputDirectory>/container/system/org/ops4j/pax/url/pax-url-classpath/${pax-url-classpath.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/ops4j/pax/url/pax-url-classpath/${pax-url-classpath.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- Workaround for Karaf libraries in features -->
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.diagnostic.boot-${karaf.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.boot/${karaf.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.boot/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.jaas.boot-${karaf.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/jaas/org.apache.karaf.jaas.boot/${karaf.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/karaf/jaas/org.apache.karaf.jaas.boot/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch karaf standard features (TESB-25945) -->
         <file>
             <source>${basedir}/target/dependencies/standard-${karaf.version}-features.xml</source>
-            <outputDirectory>/container/system/org/apache/karaf/features/standard/${karaf.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/karaf/features/standard/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
         <!-- patch for pax-logging-log4j2 (TESB-20573) -->
         <file>
             <source>${basedir}/target/dependencies/framework-${karaf.version}-features.xml</source>
-            <outputDirectory>/container/system/org/apache/karaf/features/framework/${karaf.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/karaf/features/framework/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
         <file>
             <source>${basedir}/target/dependencies/pax-logging-log4j2-${pax-logging.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/ops4j/pax/logging/pax-logging-log4j2/${pax-logging.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/ops4j/pax/logging/pax-logging-log4j2/${pax-logging.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for activemq-camel (TESB-24591) -->
         <file>
             <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features.xml</source>
-            <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
         <!-- Patch jackson version (TESB-24693) -->
         <file>
             <source>${basedir}/target/dependencies/enterprise-${karaf.version}-features.xml</source>
-            <outputDirectory>/container/system/org/apache/karaf/features/enterprise/${karaf.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/karaf/features/enterprise/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
         <file>
             <source>${basedir}/target/dependencies/spring-${karaf.version}-features.xml</source>
-            <outputDirectory>/container/system/org/apache/karaf/features/spring/${karaf.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/karaf/features/spring/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
         <file>
             <source>${basedir}/target/dependencies/spring-legacy-${karaf.version}-features.xml</source>
-            <outputDirectory>/container/system/org/apache/karaf/features/spring-legacy/${karaf.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/karaf/features/spring-legacy/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
         <file>
             <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features-core.xml</source>
-            <outputDirectory>/container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
         <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
         <file>
             <source>${basedir}/target/dependencies/cxf-core-${cxf.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/cxf/cxf-core/${cxf.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/cxf/cxf-core/${cxf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/cxf-rt-transports-http-${cxf.version}.jar</source>
-            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-transports-http/${cxf.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/cxf/cxf-rt-transports-http/${cxf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for camel-core (TESB-25690) -->
         <file>
             <source>${basedir}/target/dependencies/camel-core-${camel.version}.tesb1.jar</source>
-            <outputDirectory>/container/system/org/apache/camel/camel-core/${camel.version}.tesb1/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/camel/camel-core/${camel.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-25565) -->
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.features.core-${karaf.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
         <file>
             <source>${basedir}/target/dependencies/org.apache.aries.blueprint.core-${blueprint.core.version}-TESB.jar</source>
-            <outputDirectory>/container/system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for org.apache.karaf.config.core (TESB-25795) -->
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.config.core-${karaf.version}.tesb1.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/config/org.apache.karaf.config.core/${karaf.version}.tesb1/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/karaf/config/org.apache.karaf.config.core/${karaf.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for decanter bundles (TESB-24788) -->
         <file>
             <source>${basedir}/target/dependencies/apache-karaf-decanter-${decanter.version}-features.xml</source>
-            <outputDirectory>/container/system/org/apache/karaf/decanter/apache-karaf-decanter/${decanter.version}/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/karaf/decanter/apache-karaf-decanter/${decanter.version}/</outputDirectory>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.decanter.appender.jms-${decanter.version}.tesb1.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/decanter/appender/org.apache.karaf.decanter.appender.jms/${decanter.version}.tesb1/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/karaf/decanter/appender/org.apache.karaf.decanter.appender.jms/${decanter.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.decanter.appender.jms-${decanter.version}.tesb1.cfg</source>
-            <outputDirectory>/container/system/org/apache/karaf/decanter/appender/org.apache.karaf.decanter.appender.jms/${decanter.version}.tesb1/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/karaf/decanter/appender/org.apache.karaf.decanter.appender.jms/${decanter.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.decanter.collector.jms-${decanter.version}.tesb1.jar</source>
-            <outputDirectory>/container/system/org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.jms/${decanter.version}.tesb1/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.jms/${decanter.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.decanter.collector.jms-${decanter.version}.tesb1.cfg</source>
-            <outputDirectory>/container/system/org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.jms/${decanter.version}.tesb1/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.jms/${decanter.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- workaround for Jackson version (TESB-26035) -->
         <file>
             <source>${basedir}/target/dependencies/jackson-core-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/core/jackson-core/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/core/jackson-core/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-databind-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/core/jackson-databind/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/core/jackson-databind/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-annotations-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/core/jackson-annotations/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/core/jackson-annotations/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-dataformat-cbor-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-dataformat-csv-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-csv/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-csv/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-dataformat-smile-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-dataformat-xml-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-dataformat-yaml-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-datatype-guava-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/datatype/jackson-datatype-guava/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/datatype/jackson-datatype-guava/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-datatype-jdk8-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-datatype-jsr310-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-jaxrs-base-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/jaxrs/jackson-jaxrs-base/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/jaxrs/jackson-jaxrs-base/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-jaxrs-json-provider-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/jaxrs/jackson-jaxrs-json-provider/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/jaxrs/jackson-jaxrs-json-provider/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-jr-objects-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/jr/jackson-jr-objects/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/jr/jackson-jr-objects/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-module-afterburner-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/module/jackson-module-afterburner/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/module/jackson-module-afterburner/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-module-jaxb-annotations-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-module-jsonSchema-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/module/jackson-module-jsonSchema/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/module/jackson-module-jsonSchema/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-module-paranamer-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/module/jackson-module-paranamer/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/module/jackson-module-paranamer/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
             <source>${basedir}/target/dependencies/jackson-module-scala_2.11-${jackson.version}.jar</source>
-            <outputDirectory>/container/system/com/fasterxml/jackson/module/jackson-module-scala_2.11/${jackson.version}/</outputDirectory>
+            <outputDirectory>./container/system/com/fasterxml/jackson/module/jackson-module-scala_2.11/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for cxf-rt-transports-http-jetty (TESB-25945) -->
         <file>
             <source>${basedir}/target/dependencies/cxf-rt-transports-http-jetty-${cxf.version}.tesb1.jar</source>
-            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-transports-http-jetty/${cxf.version}.tesb1/</outputDirectory>
+            <outputDirectory>./container/system/org/apache/cxf/cxf-rt-transports-http-jetty/${cxf.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
 
     <dependencySets>
         <dependencySet>
-            <outputDirectory>/add-ons/sts</outputDirectory>
+            <outputDirectory>./add-ons/sts</outputDirectory>
             <outputFileNameMapping>SecurityTokenService.war</outputFileNameMapping>
             <unpack>false</unpack>
             <scope>runtime</scope>
