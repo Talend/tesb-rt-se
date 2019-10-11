@@ -45,7 +45,7 @@ a) Without Service Registry
 
       tesb:start-aux-store
 
-      feature:repo-add mvn:org.talend.esb.examples.library-service/library-features/7.2.1-SNAPSHOT/xml
+      feature:repo-add mvn:org.talend.esb.examples.library-service/library-features/<version>/xml
 
       - run the following command if you have not started an external ActiveMQ broker
 
