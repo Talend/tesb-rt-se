@@ -1,8 +1,8 @@
 ###################### Filebeat Configuration Example #########################
 
-#=========================== Filebeat prospectors =============================
+#=========================== Filebeat inputs =============================
 
-filebeat.prospectors:
+filebeat.inputs:
 
 - type: log
   enabled: true
