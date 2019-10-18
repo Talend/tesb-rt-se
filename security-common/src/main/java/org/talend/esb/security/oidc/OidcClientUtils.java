@@ -56,6 +56,8 @@ public class OidcClientUtils {
 	public static String getPublicClientID() {
 		return oidcConfiguration.getPublicClientId();
 	}
+
+	public static String getClientSecret() { return oidcConfiguration.getClientSecret(); }
 	
 	public static OidcConfiguration getOidcConfiguration() {
 		return oidcConfiguration;
@@ -162,6 +164,9 @@ public class OidcClientUtils {
 		if (clientId == null || clientId.isEmpty()) {
 			throw new Exception("OIDC client ID setting is null or empty");
 		}
+
+		String clientSecret = oidcConfiguration.getClientSecret();
+
 		String scope = oidcConfiguration.getScope();
 
 		@SuppressWarnings("rawtypes")

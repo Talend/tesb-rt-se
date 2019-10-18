@@ -8,6 +8,7 @@ public class OidcConfiguration {
 	public static final String OIDC_TOKEN_ENDPOINT_LOCATION = "token.endpoint";
 	public static final String OIDC_VALIDATION_ENDPOINT_LOCATION = "validation.endpoint";
 	public static final String OIDC_PUBLIC_CLIENT_ID = "public.client.id";
+	public static final String OIDC_CLIENT_SECRET = "client.secret";
 	public static final String OIDC_SCOPE = "scope";
 
 	private static final String DEFAULT_OIDC_SCOPE = "openid";
@@ -34,8 +35,21 @@ public class OidcConfiguration {
 		return oidcProperties.get(OIDC_PUBLIC_CLIENT_ID);
 	}
 
+	public String getClientSecret() {
+
+		if (System.getProperty(OIDC_CLIENT_SECRET) != null) {
+			return (String) System.getProperty(OIDC_CLIENT_SECRET);
+		}
+
+		return oidcProperties.get(OIDC_CLIENT_SECRET);
+	}
+
 	public void setPublicClientId(String publicClientId) {
 		oidcProperties.put(OIDC_PUBLIC_CLIENT_ID, publicClientId);
+	}
+
+	public void setClientSecret(String clientSecret) {
+		oidcProperties.put(OIDC_CLIENT_SECRET, clientSecret);
 	}
 
 	public String getScope() {

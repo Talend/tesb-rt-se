@@ -18,6 +18,8 @@
  */
 package org.talend.esb.security.oidc;
 
+import org.apache.cxf.common.util.Base64Utility;
+
 import java.io.InputStream;
 import java.util.Map;
 
@@ -50,6 +52,8 @@ public class OidcAccessTokenValidator implements ContainerRequestFilter {
 			String accessToken = authzHeader.substring("Bearer ".length());
 			if (accessToken != null && !accessToken.isEmpty()) {
 				String validationEndpoint = oidcConfiguration.getValidationEndpoint();
+				String clientSecret = oidcConfiguration.getClientSecret();
+				String publicClientId = oidcConfiguration.getPublicClientId();
 
 				if(validationEndpoint==null){
 					throw new RuntimeException("Location of Oidc validation endpoint is not set");
@@ -59,6 +63,10 @@ public class OidcAccessTokenValidator implements ContainerRequestFilter {
 								java.util.Collections
 										.singletonList(new org.apache.cxf.jaxrs.provider.json.JSONProvider<String>()))
 						.type("application/x-www-form-urlencoded");
+				if(clientSecret !=null){
+					String AuthorizationBase64 = Base64Utility.encode((publicClientId + ":" + clientSecret).getBytes());
+					oidcWebClient.header("Authorization","Basic " + AuthorizationBase64);
+				}
 				javax.ws.rs.core.Response response = oidcWebClient
 						.post("token="
 								+ java.net.URLEncoder.encode(accessToken,
