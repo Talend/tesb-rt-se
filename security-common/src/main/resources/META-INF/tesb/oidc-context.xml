@@ -53,7 +53,7 @@
         <property name="publicClientId" value="${public.client.id}"/>
         <property name="tokenEndpoint" value="${token.endpoint}"/>
         <property name="validationEndpoint" value="${validation.endpoint}"/>
-        <property name="client.secret" value="${client.secret}"/>
+        <property name="clientSecret" value="${client.secret}"/>
         <property name="scope" value="${scope}"/>
     </bean>
     

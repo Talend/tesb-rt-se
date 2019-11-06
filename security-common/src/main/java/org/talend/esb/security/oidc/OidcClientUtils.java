@@ -57,8 +57,10 @@ public class OidcClientUtils {
 		return oidcConfiguration.getPublicClientId();
 	}
 
-	public static String getClientSecret() { return oidcConfiguration.getClientSecret(); }
-	
+	public static String getClientSecret() {
+		return oidcConfiguration.getClientSecret();
+	}
+
 	public static OidcConfiguration getOidcConfiguration() {
 		return oidcConfiguration;
 	}
