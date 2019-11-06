@@ -167,8 +167,6 @@ public class OidcClientUtils {
 			throw new Exception("OIDC client ID setting is null or empty");
 		}
 
-		String clientSecret = oidcConfiguration.getClientSecret();
-
 		String scope = oidcConfiguration.getScope();
 
 		@SuppressWarnings("rawtypes")
