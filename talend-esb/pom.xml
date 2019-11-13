@@ -936,7 +936,7 @@
                                 <artifactItem>
                                      <groupId>org.apache.cxf</groupId>
                                      <artifactId>cxf-rt-transports-http-jetty</artifactId>
-                                     <version>${cxf.version}.tesb1</version>
+                                     <version>${cxf.version}</version>
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
