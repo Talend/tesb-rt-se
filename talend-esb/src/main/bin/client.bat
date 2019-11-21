@@ -211,15 +211,28 @@ if "%EXTRA_JAVA_OPTS%" == "" goto :KARAF_EXTRA_JAVA_OPTS_END
     set JAVA_OPTS=%JAVA_OPTS% %EXTRA_JAVA_OPTS%
 :KARAF_EXTRA_JAVA_OPTS_END
 
-set CLASSPATH=%KARAF_HOME%\system\org\apache\karaf\org.apache.karaf.client\4.2.4\org.apache.karaf.client-4.2.4.jar
+set CLASSPATH=%KARAF_HOME%\system\org\apache\karaf\org.apache.karaf.client\4.2.7\org.apache.karaf.client-4.2.7.jar
 set CLASSPATH=%CLASSPATH%;%KARAF_HOME%\system\org\apache\sshd\sshd-core\1.7.0\sshd-core-1.7.0.jar
-set CLASSPATH=%CLASSPATH%;%KARAF_HOME%\system\org\fusesource\jansi\jansi\1.17.1\jansi-1.17.1.jar
-set CLASSPATH=%CLASSPATH%;%KARAF_HOME%\system\org\jline\jline\3.10.0\jline-3.10.0.jar
+set CLASSPATH=%CLASSPATH%;%KARAF_HOME%\system\org\fusesource\jansi\jansi\1.18\jansi-1.18.jar
+set CLASSPATH=%CLASSPATH%;%KARAF_HOME%\system\org\jline\jline\3.12.1\jline-3.12.1.jar
 set CLASSPATH=%CLASSPATH%;%KARAF_HOME%\system\org\slf4j\slf4j-api\1.7.12\slf4j-api-1.7.12.jar
 
 :EXECUTE
-    if "%SHIFT%" == "true" SET ARGS=%2 %3 %4 %5 %6 %7 %8 %9
-    if not "%SHIFT%" == "true" SET ARGS=%1 %2 %3 %4 %5 %6 %7 %8 %9
+    set arg1=%~1
+    set arg2=%~2
+    set arg3=%~3
+    set arg4=%~4
+    set arg5=%~5
+    set arg6=%~6
+    set arg7=%~7
+    set arg8=%~8
+    set arg9=%~9
+    shift
+    set arg10=%~9
+    shift
+    set arg11=%~9
+    if "%SHIFT%" == "true" SET ARGS=%arg2% %arg3% %arg4% %arg5% %arg6% %arg7% %arg8% %arg9% %arg10% %arg11%
+    if not "%SHIFT%" == "true" SET ARGS=%arg1% %arg2% %arg3% %arg4% %arg5% %arg6% %arg7% %arg8% %arg9% %arg10% %arg11%
     rem Execute the Java Virtual Machine
     "%JAVA%" %JAVA_OPTS% %OPTS% -classpath "%CLASSPATH%" -Dkaraf.instances="%KARAF_HOME%\instances" -Dkaraf.home="%KARAF_HOME%" -Dkaraf.base="%KARAF_BASE%" -Dkaraf.etc="%KARAF_ETC%" -Dkaraf.log="%KARAF_LOG%" -Djava.io.tmpdir="%KARAF_DATA%\tmp" -Djava.util.logging.config.file="%KARAF_BASE%\etc\java.util.logging.properties" %KARAF_OPTS% org.apache.karaf.client.Main %ARGS%
 

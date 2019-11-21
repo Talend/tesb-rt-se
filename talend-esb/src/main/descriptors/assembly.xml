@@ -202,23 +202,10 @@
                 <!-- TESB-24618 upgrade cxf to 3.3.1 -->
                 <exclude>etc/jre.properties</exclude>
                 <exclude>lib/endorsed/**</exclude>
-                <!-- patch karaf standard features (TESB-25945) -->
-                <exclude>system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
-                <!-- patch for pax-logging-log4j2 (TESB-20573) -->
-                <exclude>system/org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
-                <exclude>system/org/ops4j/pax/logging/pax-logging-log4j2/${pax-logging.version}/pax-logging-log4j2-${pax-logging.version}.jar</exclude>
-                <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-25565) -->
-                <exclude>system/org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/**</exclude>
                 <!-- Patch jackson version (TESB-24693) -->
                 <exclude>system/org/apache/karaf/features/enterprise/${karaf.version}/enterprise-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/apache/karaf/features/spring/${karaf.version}/spring-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/apache/karaf/features/spring-legacy/${karaf.version}/spring-legacy-${karaf.version}-features.xml</exclude>
-                <!-- Patch jetty version (TESB-25945) -->
-                <exclude>system/org/ops4j/pax/web/pax-web-features/7.2.8/**</exclude>
-                <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
-                <exclude>system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/**</exclude>
-                <!-- patch for org.apache.karaf.config.core (TESB-25795) -->
-                <exclude>system/org/apache/karaf/config/org.apache.karaf.config.core/${karaf.version}/**</exclude>
                 <exclude>README.md</exclude>
                 <exclude>RELEASE-NOTES.md</exclude>
                 <exclude>BUILDING.md</exclude>
@@ -374,11 +361,6 @@
                 <!-- patch for xalan and xerces version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
-                <!-- patch karaf standard features (TESB-25945) -->
-                <exclude>org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
-                <!-- patch for pax-logging-log4j2 (TESB-20573) -->
-                <exclude>org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
-                <exclude>org/ops4j/pax/logging/pax-logging-log4j2/${pax-logging.version}/pax-logging-log4j2-${pax-logging.version}.jar</exclude>
                 <!-- patch for activemq-camel (TESB-24591) -->
                 <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
                 <!-- Patch jackson version (TESB-24693) -->
@@ -393,25 +375,13 @@
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.9.8/**</exclude>
                 <exclude>com/fasterxml/jackson/*/*/2.9.*/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xstream/1.4.8_1/**</exclude>
-                <!-- Patch jetty version (TESB-25945) -->
-                <exclude>org/eclipse/jetty/jetty-*/9.4.12.v20180830/**</exclude>
-                <exclude>org/eclipse/jetty/websocket/*/9.4.12.v20180830/**</exclude>
-                <exclude>org/ops4j/pax/web/pax-web-features/7.2.8/**</exclude>
                 <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
                 <exclude>org/apache/cxf/cxf-core/**</exclude>
                 <exclude>org/apache/cxf/cxf-rt-transports-http/**</exclude>
-                <!-- patch for camel-core (TESB-25690) -->
-                <exclude>org/apache/camel/camel-core/**</exclude>
-                <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-25565) -->
-                <exclude>org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/**</exclude>
-                <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
-                <exclude>org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/**</exclude>
                 <!-- patch for decanter bundles (TESB-24788) -->
                 <exclude>org/apache/karaf/decanter/apache-karaf-decanter/${decanter.version}/apache-karaf-decanter-${decanter.version}-features.xml</exclude>
                 <exclude>org/apache/karaf/decanter/appender/org.apache.karaf.decanter.appender.jms/${decanter.version}/**</exclude>
                 <exclude>org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.jms/${decanter.version}/**</exclude>
-                <!-- patch for cxf-rt-transports-http-jetty (TESB-25945) -->
-                <exclude>org/apache/cxf/cxf-rt-transports-http-jetty/**</exclude>
             </excludes>
         </fileSet>
         <!-- Woraround for xjc-utils version (TESB-21746) -->
@@ -538,25 +508,6 @@
             <outputDirectory>./container/system/org/apache/karaf/jaas/org.apache.karaf.jaas.boot/${karaf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- patch karaf standard features (TESB-25945) -->
-        <file>
-            <source>${basedir}/target/dependencies/standard-${karaf.version}-features.xml</source>
-            <outputDirectory>./container/system/org/apache/karaf/features/standard/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-            <lineEnding>unix</lineEnding>
-        </file>
-        <!-- patch for pax-logging-log4j2 (TESB-20573) -->
-        <file>
-            <source>${basedir}/target/dependencies/framework-${karaf.version}-features.xml</source>
-            <outputDirectory>./container/system/org/apache/karaf/features/framework/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-            <lineEnding>unix</lineEnding>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/pax-logging-log4j2-${pax-logging.version}-TESB.jar</source>
-            <outputDirectory>./container/system/org/ops4j/pax/logging/pax-logging-log4j2/${pax-logging.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
         <!-- patch for activemq-camel (TESB-24591) -->
         <file>
             <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features.xml</source>
@@ -600,30 +551,6 @@
             <outputDirectory>./container/system/org/apache/cxf/cxf-rt-transports-http/${cxf.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- patch for camel-core (TESB-25690) -->
-        <file>
-            <source>${basedir}/target/dependencies/camel-core-${camel.version}.tesb1.jar</source>
-            <outputDirectory>./container/system/org/apache/camel/camel-core/${camel.version}.tesb1/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-25565) -->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.features.core-${karaf.version}-TESB.jar</source>
-            <outputDirectory>./container/system/org/apache/karaf/features/org.apache.karaf.features.core/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.aries.blueprint.core-${blueprint.core.version}-TESB.jar</source>
-            <outputDirectory>./container/system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- patch for org.apache.karaf.config.core (TESB-25795) -->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.config.core-${karaf.version}.tesb1.jar</source>
-            <outputDirectory>./container/system/org/apache/karaf/config/org.apache.karaf.config.core/${karaf.version}.tesb1/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
         <!-- patch for decanter bundles (TESB-24788) -->
         <file>
             <source>${basedir}/target/dependencies/apache-karaf-decanter-${decanter.version}-features.xml</source>
@@ -651,7 +578,7 @@
             <outputDirectory>./container/system/org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.jms/${decanter.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- workaround for Jackson version (TESB-26035) -->
+        <!-- patch for Jackson version (TESB-27154) -->
         <file>
             <source>${basedir}/target/dependencies/jackson-core-${jackson.version}.jar</source>
             <outputDirectory>./container/system/com/fasterxml/jackson/core/jackson-core/${jackson.version}/</outputDirectory>
@@ -745,12 +672,6 @@
         <file>
             <source>${basedir}/target/dependencies/jackson-module-scala_2.11-${jackson.version}.jar</source>
             <outputDirectory>./container/system/com/fasterxml/jackson/module/jackson-module-scala_2.11/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- patch for cxf-rt-transports-http-jetty (TESB-25945) -->
-        <file>
-            <source>${basedir}/target/dependencies/cxf-rt-transports-http-jetty-${cxf.version}.tesb1.jar</source>
-            <outputDirectory>./container/system/org/apache/cxf/cxf-rt-transports-http-jetty/${cxf.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

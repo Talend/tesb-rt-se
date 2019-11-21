@@ -263,7 +263,7 @@ if not exist "%JAVA_HOME%\bin\server\jvm.dll" (
 )
 
 rem Setup default memory settings
-SET KARAF_SCRIPT="karaf.bat"
+SET KARAF_SCRIPT="trun.bat"
 if exist "%DIRNAME%setmem.bat" (
   call "%DIRNAME%setmem.bat"
 )
@@ -434,8 +434,8 @@ if "%KARAF_PROFILER%" == "" goto :RUN
             "%JAVA%" %JAVA_OPTS% %OPTS% ^
                 --add-reads=java.xml=java.logging ^
                 --add-exports=java.base/org.apache.karaf.specs.locator=java.xml,ALL-UNNAMED ^
-                --patch-module java.base=lib/endorsed/org.apache.karaf.specs.locator-4.2.4.jar ^
-                --patch-module java.xml=lib/endorsed/org.apache.karaf.specs.java.xml-4.2.4.jar ^
+                --patch-module java.base=lib/endorsed/org.apache.karaf.specs.locator-4.2.7.jar ^
+                --patch-module java.xml=lib/endorsed/org.apache.karaf.specs.java.xml-4.2.7.jar ^
                 --add-opens java.base/java.security=ALL-UNNAMED ^
                 --add-opens java.base/java.net=ALL-UNNAMED ^
                 --add-opens java.base/java.lang=ALL-UNNAMED ^
