@@ -30,22 +30,12 @@
     <artifactId>talend-esb</artifactId>
     <name>Talend ESB :: Assembly</name>
     <packaging>pom</packaging>
+    <description>Packages TESB_SE final product</description>
 
     <properties>
-        <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
-        <jclouds.version>2.1.2</jclouds.version>
-        <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
-        <wss4j.version>2.2.2</wss4j.version>
-        <xerces.version>2.12.0_1</xerces.version>
-        <log4j.version>1.2.17</log4j.version>
-        <pax-web.version>7.2.10</pax-web.version>
-        <pax-logging.version>1.10.1</pax-logging.version>
-        <javax-annotation.version>1.3.1</javax-annotation.version>
-        <blueprint.core.version>1.8.3</blueprint.core.version>
-        <jackson.version>2.9.9</jackson.version>
-        <!-- Jetty version declared in parent POM -->
-        <!-- <jetty.version>9.4.18.v20190429</jetty.version> -->
-    </properties>
+        <!-- used for assembly & dependency type, overwritten by dev-unix-assembly-only & dev-win-assembly-only profiles -->
+        <assembly.formats>tar.gz,zip</assembly.formats>
+	</properties>
 
     <dependencies>
         <dependency>
@@ -61,121 +51,6 @@
             <version>${pax-url-classpath.version}</version>
             <type>jar</type>
         </dependency>
-        <!-- workaround for Jackson version (TESB-26035) -->
-        <!-- <dependency>
-             <groupId>com.fasterxml.jackson.core</groupId>
-             <artifactId>jackson-core</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.core</groupId>
-             <artifactId>jackson-databind</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.core</groupId>
-             <artifactId>jackson-annotations</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.dataformat</groupId>
-             <artifactId>jackson-dataformat-cbor</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.dataformat</groupId>
-             <artifactId>jackson-dataformat-csv</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.dataformat</groupId>
-             <artifactId>jackson-dataformat-smile</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.dataformat</groupId>
-             <artifactId>jackson-dataformat-xml</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.dataformat</groupId>
-             <artifactId>jackson-dataformat-yaml</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.datatype</groupId>
-             <artifactId>jackson-datatype-guava</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.datatype</groupId>
-             <artifactId>jackson-datatype-jdk8</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.datatype</groupId>
-             <artifactId>jackson-datatype-jsr310</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.jaxrs</groupId>
-             <artifactId>jackson-jaxrs-base</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.jaxrs</groupId>
-             <artifactId>jackson-jaxrs-json-provider</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.jr</groupId>
-             <artifactId>jackson-jr-objects</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.module</groupId>
-             <artifactId>jackson-module-afterburner</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.module</groupId>
-             <artifactId>jackson-module-jaxb-annotations</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.module</groupId>
-             <artifactId>jackson-module-jsonSchema</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.module</groupId>
-             <artifactId>jackson-module-paranamer</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency>
-        <dependency>
-             <groupId>com.fasterxml.jackson.module</groupId>
-             <artifactId>jackson-module-scala_2.11</artifactId>
-             <version>${jackson.version}</version>
-             <type>jar</type>
-        </dependency> -->
     </dependencies>
 
     <build>
@@ -227,7 +102,7 @@
                                 <descriptor>mvn:org.apache.karaf.features/enterprise-legacy/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.decanter/apache-karaf-decanter/${decanter.version}/xml/features</descriptor>
-                                <descriptor>mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features</descriptor>
+<!--                                <descriptor>mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features</descriptor> --> 
 <!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
@@ -237,11 +112,11 @@
                             </descriptors>
                             <features>
                                 <!-- Core Features -->
-                                <feature>spring/4.3.22.RELEASE_2</feature>
-                                <feature>spring/5.0.12.RELEASE_1</feature>
-                                <feature>spring-jdbc/5.0.12.RELEASE_1</feature>
-                                <feature>spring-tx/5.0.12.RELEASE_1</feature>
-                                <feature>spring-jms/5.0.12.RELEASE_1</feature>
+                                <feature>spring-aspects/5.1.9.RELEASE_1</feature>
+                                <feature>spring-instrument/5.1.9.RELEASE_1</feature>
+                                <feature>spring-messaging/5.1.9.RELEASE_1</feature>
+                                <feature>spring-websocket/5.1.9.RELEASE_1</feature>
+                                <feature>spring-security/5.1.5.RELEASE_1</feature>
                                 <feature>jetty</feature>
                                 <feature>webconsole</feature>
                                 <feature>eventadmin</feature>
@@ -252,11 +127,6 @@
                                 <feature>jndi</feature>
                                 <feature>jms</feature>
                                 <feature>aries-blueprint-spring</feature>
-                                <!-- pax-web version patch (TESB-25945) -->
-                                <feature>pax-web-core/${pax-web.version}</feature>
-                                <feature>pax-jetty/${jetty.version}</feature>
-                                <feature>pax-jetty-http2/${pax-web.version}</feature>
-                                <feature>pax-war/${pax-web.version}</feature>
                                 <!-- ActiveMQ Features -->
                                 <feature>activemq</feature>
                                 <feature>activemq-blueprint</feature>
@@ -511,7 +381,6 @@
                                 <feature>camel-weather</feature>
                                 <feature>camel-websocket</feature>
                                 <feature>camel-xmlbeans</feature>
-                                <feature>camel-xmljson</feature>
                                 <feature>camel-xmlrpc</feature>
                                 <feature>camel-xmlsecurity</feature>
                                 <feature>camel-xmpp</feature>
@@ -686,34 +555,6 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.apache.karaf.jaas.boot-${karaf.version}.jar</destFileName>
                                 </artifactItem>
-                                <!-- patch the jetty version (TESB-25945) -->
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.features</groupId>
-                                    <artifactId>standard</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <classifier>features</classifier>
-                                    <type>xml</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>standard-${karaf.version}-features.xml</destFileName>
-                                </artifactItem>
-                                <!-- patch for pax-logging-log4j2 (TESB-20573) -->
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.features</groupId>
-                                    <artifactId>framework</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <classifier>features</classifier>
-                                    <type>xml</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>framework-${karaf.version}-features.xml</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.ops4j.pax.logging</groupId>
-                                    <artifactId>pax-logging-log4j2</artifactId>
-                                    <version>${pax-logging.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>pax-logging-log4j2-${pax-logging.version}-TESB.jar</destFileName>
-                                </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.activemq</groupId>
                                     <artifactId>activemq-karaf</artifactId>
@@ -774,43 +615,6 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>cxf-rt-transports-http-${cxf.version}.jar</destFileName>
                                 </artifactItem>
-                                <!-- patch for camel-core (TESB-25690) -->
-                                <artifactItem>
-                                    <groupId>org.apache.camel</groupId>
-                                    <artifactId>camel-core</artifactId>
-                                    <version>${camel.version}.tesb1</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>camel-core-${camel.version}.tesb1.jar</destFileName>
-                                </artifactItem>
-                                <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-25565) -->
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.features</groupId>
-                                    <artifactId>org.apache.karaf.features.core</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>org.apache.karaf.features.core-${karaf.version}-TESB.jar</destFileName>
-                                </artifactItem>
-                                <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
-                                <artifactItem>
-                                    <groupId>org.apache.aries.blueprint</groupId>
-                                    <artifactId>org.apache.aries.blueprint.core</artifactId>
-                                    <version>${blueprint.core.version}</version>
-                                    <classifier>TESB</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>org.apache.aries.blueprint.core-${blueprint.core.version}-TESB.jar</destFileName>
-                                </artifactItem>
-                                <!-- patch for org.apache.karaf.config.core (TESB-25795) -->
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.config</groupId>
-                                    <artifactId>org.apache.karaf.config.core</artifactId>
-                                    <version>${karaf.version}.tesb1</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>org.apache.karaf.config.core-${karaf.version}.tesb1.jar</destFileName>
-                                </artifactItem>
                                 <!-- patch for decanter bundles (TESB-24788) -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.decanter</groupId>
@@ -851,7 +655,7 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.apache.karaf.decanter.collector.jms-${decanter.version}.tesb1.cfg</destFileName>
                                 </artifactItem>
-                               <!-- workaround for Jackson version (TESB-26035) -->
+                               <!-- upgrade Jackson version (TESB-27154) -->
                                 <artifactItem>
                                      <groupId>com.fasterxml.jackson.core</groupId>
                                      <artifactId>jackson-core</artifactId>
@@ -985,13 +789,6 @@
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
-                                <artifactItem>
-                                     <groupId>org.apache.cxf</groupId>
-                                     <artifactId>cxf-rt-transports-http-jetty</artifactId>
-                                     <version>${cxf.version}.tesb1</version>
-                                     <type>jar</type>
-                                     <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -1007,111 +804,105 @@
                                     <groupId>org.apache.karaf</groupId>
                                     <artifactId>apache-karaf</artifactId>
                                     <version>${karaf.version}</version>
-                                    <type>tar.gz</type>
-                                    <outputDirectory>target/dependencies/unix</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.karaf</groupId>
-                                    <artifactId>apache-karaf</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <type>zip</type>
-                                    <outputDirectory>target/dependencies/win</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>unpack-camel</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.apache.camel</groupId>
-                                    <artifactId>apache-camel</artifactId>
-                                    <version>${camel.version}</version>
-                                    <type>tar.gz</type>
-                                    <outputDirectory>target/dependencies/camel</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>unpack-cxf</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.apache.cxf</groupId>
-                                    <artifactId>apache-cxf</artifactId>
-                                    <version>${cxf.version}</version>
-                                    <type>tar.gz</type>
-                                    <outputDirectory>target/dependencies/cxf</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>unpack-zookeeper</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.apache.zookeeper</groupId>
-                                    <artifactId>zookeeper</artifactId>
-                                    <version>${zookeeper.package.version}</version>
-                                    <type>tar.gz</type>
-                                    <outputDirectory>target/dependencies/zookeeper</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>unpack-activemq</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.apache.activemq</groupId>
-                                    <artifactId>apache-activemq</artifactId>
-                                    <version>${activemq.version}</version>
-                                    <type>tar.gz</type>
-                                    <classifier>bin</classifier>
-                                    <outputDirectory>target/dependencies/activemq-unix</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.activemq</groupId>
-                                    <artifactId>apache-activemq</artifactId>
-                                    <version>${activemq.version}</version>
-                                    <type>zip</type>
-                                    <classifier>bin</classifier>
-                                    <outputDirectory>target/dependencies/activemq-win</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <id>collect-add-ons</id>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <target>
+									<type>tar.gz</type>
+									<outputDirectory>target/dependencies/apache-karaf</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unpack-camel</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.apache.camel</groupId>
+									<artifactId>apache-camel</artifactId>
+									<version>${camel.version}</version>
+									<type>tar.gz</type>
+									<outputDirectory>target/dependencies/camel</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unpack-cxf</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.apache.cxf</groupId>
+									<artifactId>apache-cxf</artifactId>
+									<version>${cxf.version}</version>
+									<type>tar.gz</type>
+									<outputDirectory>target/dependencies/cxf</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unpack-zookeeper</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.apache.zookeeper</groupId>
+									<artifactId>zookeeper</artifactId>
+									<version>${zookeeper.version}</version>
+									<type>tar.gz</type>
+									<outputDirectory>target/dependencies/zookeeper</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unpack-activemq</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+                            <!-- must be decompressed twice as apache-activemq tar.gz/zip contents are different -->
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.apache.activemq</groupId>
+									<artifactId>apache-activemq</artifactId>
+									<version>${activemq.version}</version>
+									<type>tar.gz</type>
+									<classifier>bin</classifier>
+									<outputDirectory>target/dependencies/activemq-unix</outputDirectory>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.apache.activemq</groupId>
+									<artifactId>apache-activemq</artifactId>
+									<version>${activemq.version}</version>
+									<type>zip</type>
+									<classifier>bin</classifier>
+									<outputDirectory>target/dependencies/activemq-win</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>collect-add-ons</id>
+						<phase>generate-resources</phase>
+						<configuration>
+							<target>
                                 <patternset id="no.sources.javadoc">
                                     <exclude name="**/target/*-sources.*" />
                                     <exclude name="**/target/*-javadoc.*" />
@@ -1221,12 +1012,8 @@
                         <configuration>
                             <target>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.apache.camel/camel-core/${camel.version}&lt;</replacetoken>
-                                        <replacevalue>mvn:org.apache.camel/camel-core/${camel.version}.tesb1&lt;</replacevalue>
-                                    </replacefilter>
                                     <replacefilter
-                                        token="apache-cxf/3.2.7/xml/features"
+                                        token="apache-cxf/3.2.10/xml/features"
                                         value="apache-cxf/${cxf.version}/xml/features"/>
                                     <replacefilter
                                         token="pax-cdi-features/1.0.0.RC1/xml/features"
@@ -1245,10 +1032,6 @@
                                         <replacetoken>mvn:org.apache.abdera/abdera-parser/1.1.3</replacetoken>
                                         <replacevalue>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/1.1.3_2</replacevalue>
                                     </replacefilter>
-                                    <!-- patch CAMEL-13241 -->
-                                    <replacefilter
-                                        token="${backport-util-concurrent-version}"
-                                        value="3.1"/>
                                     <!-- Patch the TESB-25669 -->
                                     <replacefilter>
                                         <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/2.9.0&lt;/bundle&gt;</replacetoken>
@@ -1262,83 +1045,58 @@
                                         <replacetoken>mvn:org.codehaus.woodstox/woodstox-core-asl/4.3.0</replacetoken>
                                         <replacevalue>mvn:com.fasterxml.woodstox/woodstox-core/5.0.3</replacevalue>
                                     </replacefilter>
-                                    <!-- patch the jackson version (TESB-26035) -->
+                                    <!-- patch the jackson version (TESB-27154) -->
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-databind/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-databind/2.9.9.3"
                                         value="mvn:com.fasterxml.jackson.core/jackson-databind/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-cbor/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-cbor/2.9.9"
                                         value="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-cbor/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-csv/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-csv/2.9.9"
                                         value="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-csv/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-smile/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-smile/2.9.9"
                                         value="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-smile/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-xml/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-xml/2.9.9"
                                         value="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-xml/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.9.9"
                                         value="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.datatype/jackson-datatype-guava/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.datatype/jackson-datatype-guava/2.9.9"
                                         value="mvn:com.fasterxml.jackson.datatype/jackson-datatype-guava/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jdk8/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jdk8/2.9.9"
                                         value="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jdk8/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.9.9"
                                         value="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jsr310/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/2.9.9"
                                         value="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/2.9.7"
-                                        value="mvn:com.fasterxml.jackson.jaxrx/jackson-jaxrs-json-provider/${jackson.version}"/>
+                                        token="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/2.9.9"
+                                        value="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.jr/jackson-jr-objects/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.jr/jackson-jr-objects/2.9.9"
                                         value="mvn:com.fasterxml.jackson.jr/jackson-jr-objects/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.module/jackson-module-afterburner/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.module/jackson-module-afterburner/2.9.9"
                                         value="mvn:com.fasterxml.jackson.module/jackson-module-afterburner/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.module/jackson-module-jaxb-annotations/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.module/jackson-module-jaxb-annotations/2.9.9"
                                         value="mvn:com.fasterxml.jackson.module/jackson-module-jaxb-annotations/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.module/jackson-module-jsonSchema/2.9.7"
+                                        token="mvn:com.fasterxml.jackson.module/jackson-module-jsonSchema/2.9.9"
                                         value="mvn:com.fasterxml.jackson.module/jackson-module-jsonSchema/${jackson.version}"/>
-                                    <!-- <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-core/2.6.1"
-                                        value="mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-databind/2.6.1"
-                                        value="mvn:com.fasterxml.jackson.core/jackson-databind/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.6.1"
-                                        value="mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/2.6.1"
-                                        value="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/2.6.1"
-                                        value="mvn:com.fasterxml.jackson.jaxrx/jackson-jaxrs-json-provider/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.module/jackson-module-jaxb-paranamer/2.6.1"
-                                        value="mvn:com.fasterxml.jackson.module/jackson-module-jaxb-paranamer/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.module/jackson-module-scala_2.11/2.6.1"
-                                        value="mvn:com.fasterxml.jackson.module/jackson-module-scala_2.11/${jackson.version}"/> -->
-                                    <!-- patch the jetty version (TESB-25945) -->
-                                    <replacefilter
-                                        token="/9.4.12.v20180830&lt;"
-                                        value="/${jetty.version}&lt;"/>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
@@ -1404,134 +1162,71 @@
                                         <replacetoken>&lt;bundle start-level="25"&gt;mvn:org.jvnet.staxex/stax-ex/1.7.6&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
                                     </replacefilter>
-                                    <!-- patch the jackson version (TESB-26035) -->
+                                    <!-- patch the jackson version (TESB-27154) -->
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.8"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.10"
                                         value="mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-databind/2.9.8"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-databind/2.9.10"
                                         value="mvn:com.fasterxml.jackson.core/jackson-databind/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.8"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.10"
                                         value="mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.9.8"
+                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.9.10"
                                         value="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.module/jackson-module-jaxb-annotations/2.9.8"
+                                        token="mvn:com.fasterxml.jackson.module/jackson-module-jaxb-annotations/2.9.10"
                                         value="mvn:com.fasterxml.jackson.module/jackson-module-jaxb-annotations/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/2.9.8"
-                                        value="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/2.9.8"
-                                        value="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/${jackson.version}"/>
-                                    <!-- patch for cxf-rt-transports-http-jetty (TESB-25945) -->
-                                    <replacefilter
-                                        token="mvn:org.apache.cxf/cxf-rt-transports-http-jetty/3.3.1&lt;"
-                                        value="mvn:org.apache.cxf/cxf-rt-transports-http-jetty/3.3.1.tesb1&lt;"/>
+                                        token="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.9.10"
+                                        value="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jsr310/${jackson.version}"/>
                                 </replace>
-                                <replace file="target/dependencies/framework-${karaf.version}-features.xml">
-                                    <!-- patch for pax-logging-log4j2 (TESB-20573) -->
-                                    <replacefilter
-                                        token="org.ops4j.pax.logging/pax-logging-log4j2/${pax-logging.version}&lt;"
-                                        value="org.ops4j.pax.logging/pax-logging-log4j2/${pax-logging.version}/jar/TESB&lt;"/>
-                                    <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-25565) -->
-                                    <replacefilter
-                                        token="org.apache.karaf.features/org.apache.karaf.features.core/${karaf.version}&lt;"
-                                        value="org.apache.karaf.features/org.apache.karaf.features.core/${karaf.version}/jar/TESB&lt;"/>
-                                </replace>
-                                <replace file="target/dependencies/standard-${karaf.version}-features.xml">
-                                    <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-25565) -->
-                                    <replacefilter
-                                        token="org.apache.karaf.features/org.apache.karaf.features.core/${karaf.version}&lt;"
-                                        value="org.apache.karaf.features/org.apache.karaf.features.core/${karaf.version}/jar/TESB&lt;"/>
-                                    <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
-                                    <replacefilter
-                                        token="mvn:org.apache.aries.blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}&lt;"
-                                        value="mvn:org.apache.aries.blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/jar/TESB&lt;"/>
-                                    <!-- patch for org.apache.karaf.config.core (TESB-25795) -->
-                                    <replacefilter
-                                        token="mvn:org.apache.karaf.config/org.apache.karaf.config.core/${karaf.version}&lt;"
-                                        value="mvn:org.apache.karaf.config/org.apache.karaf.config.core/${karaf.version}.tesb1&lt;"/>
-                                    <!-- upgrade Jetty version to 9.4.18.v20190429 (TESB-25945) -->
-                                    <replacefilter
-                                        token="9.4.12.v20180830"
-                                        value="${jetty.version}"/>
-                                    <replacefilter
-                                        token="mvn:org.ops4j.pax.web/pax-web-features/7.2.8/xml/features"
-                                        value="mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features"/>
-                                    <replacefilter>
-                                        <replacetoken>feature name="pax-http-service" description="Pax-Web OSGi HTTP Service" version="7.2.8"</replacetoken>
-                                        <replacevalue>feature name="pax-http-service" description="Pax-Web OSGi HTTP Service" version="${pax-web.version}"</replacevalue>
-                                    </replacefilter>
-                                 </replace>
-                                 <!-- patch for pax-logging-log4j2 (TESB-20573) -->
-                                 <replaceregexp byline="true"
-                                        match="^(\s*mvn\\:org\.ops4j\.pax\.logging/pax-logging-log4j2/${pax-logging.version})(\s*=.*)$"
-                                        replace="\1/jar/TESB\2${line.separator}mvn\\\\:javax\.annotation/javax\.annotation-api/${javax-annotation.version} = 10">
-                                    <fileset dir="target/dependencies/unix/apache-karaf-${karaf.version}/etc/">
-                                        <include name="startup.properties"/>
-                                    </fileset>
-                                    <fileset dir="target/dependencies/win/apache-karaf-${karaf.version}/etc/">
-                                        <include name="startup.properties"/>
-                                    </fileset>
-                                 </replaceregexp>
-                                 <!-- patch for Karaf org.apache.karaf.features.core bundle (TESB-25565) -->
-                                 <replaceregexp byline="true"
-                                           match="^(\s*mvn\\:org.apache.karaf.features/org.apache.karaf.features.core/${karaf.version})(\s*=.*)$"
-                                           replace="\1/jar/TESB\2">
-                                    <fileset dir="target/dependencies/unix/apache-karaf-${karaf.version}/etc/">
-                                        <include name="startup.properties"/>
-                                    </fileset>
-                                    <fileset dir="target/dependencies/win/apache-karaf-${karaf.version}/etc/">
-                                        <include name="startup.properties"/>
-                                    </fileset>
-                                 </replaceregexp>
-
+                                <!-- patch the cxf-jackson feature (TESB-27214/CXF-8155) -->
+                                <replaceregexp byline="false" flags="gim"
+                                        file="target/dependencies/apache-cxf-${cxf.version}-features.xml"
+                                        match="^(\s*&lt;bundle&gt;wrap:mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base.*\s*)\s*(\s*&lt;/bundle&gt;)$"
+                                        replace="&lt;bundle start-level=&quot;35&quot;&gt;mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/${jackson.version}&lt;/bundle&gt;">
+                                </replaceregexp>
+                                <replaceregexp byline="false" flags="gim"
+                                        file="target/dependencies/apache-cxf-${cxf.version}-features.xml"
+                                        match="^(\s*&lt;bundle&gt;wrap:mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider.*\s*)\s*(\s*&lt;/bundle&gt;)$"
+                                        replace="&lt;bundle start-level=&quot;35&quot;&gt;mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/${jackson.version}&lt;/bundle&gt;">
+                                </replaceregexp>
                                 <replace file="target/dependencies/enterprise-${karaf.version}-features.xml">
-                                    <!-- patch the jackson version (TESB-26035) -->
+                                    <!-- patch the jackson version (TESB-27154) -->
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.6"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-databind/2.9.6"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-databind/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-databind/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.6"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}"/>
                                 </replace>
                                 <replace file="target/dependencies/spring-${karaf.version}-features.xml">
-                                    <!-- patch the jackson version (TESB-26035) -->
+                                    <!-- patch the jackson version (TESB-27154) -->
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.6"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-databind/2.9.6"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-databind/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-databind/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.6"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}"/>
                                 </replace>
-                                <replace file="target/dependencies/spring-legacy-${karaf.version}-features.xml">
-                                    <!-- patch dependencies for jetty  version (TESB-25945) -->
-                                    <replacefilter
-                                        token="mvn:org.ops4j.pax.web/pax-web-features/7.2.8/xml/features"
-                                        value="mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features"/>
-                                </replace>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
+                                    <!-- patch the jackson version (TESB-27154) -->
                                     <replacefilter
-                                        token="&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xstream/1.4.8_1&lt;"
-                                        value="&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xstream/1.4.10_1&lt;"/>
-                                    <!-- patch the jackson version (TESB-26035) -->
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.8"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-databind/2.9.8"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-databind/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-databind/${jackson.version}"/>
                                     <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.8"
+                                        token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}"/>
                                 </replace>
                                 <!-- patch for decanter bundles (TESB-24788) -->
@@ -1571,38 +1266,30 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4</version>
-                <executions>
-                    <execution>
-                        <id>bin</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>src/main/descriptors/win-bin.xml</descriptor>
-                                <descriptor>src/main/descriptors/unix-bin.xml</descriptor>
-                            </descriptors>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <tarLongFileMode>gnu</tarLongFileMode>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>bin</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>src/main/descriptors/assembly.xml</descriptor>
+							</descriptors>
+							<appendAssemblyId>false</appendAssemblyId>
+							<tarLongFileMode>gnu</tarLongFileMode>
                             <finalName>TESB_SE-V${packages.version}</finalName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
+                            <formats>${assembly.formats}</formats>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
@@ -1612,6 +1299,28 @@
             </plugin>
         </plugins>
     </build>
+
+    <!-- specific profiles for building only tar.gz or zip distributions -->
+    <profiles>
+        <profile>
+            <id>dev-unix-assembly-only</id>
+            <properties>
+                <assembly.formats>tar.gz</assembly.formats>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev-win-assembly-only</id>
+            <properties>
+                <assembly.formats>zip</assembly.formats>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev-dir-assembly-only</id>
+            <properties>
+                <assembly.formats>dir</assembly.formats>
+            </properties>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>
