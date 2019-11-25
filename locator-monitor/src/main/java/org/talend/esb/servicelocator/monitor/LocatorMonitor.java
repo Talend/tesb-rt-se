@@ -71,6 +71,8 @@ public class LocatorMonitor {
     private static final Marker SERVICE_INFO = MarkerFactory.getMarker("SERVICE_INFO");
     private static final Marker ENDPOINTS = MarkerFactory.getMarker("ENDPOINTS");
     private static final Marker ENDPOINT_INFO = MarkerFactory.getMarker("ENDPOINT_INFO");
+    
+    private static final String SLFJ_MARKER = "slf4j.marker"; 
 
     /**
      * Number in seconds to request SL for active/inactive services. Default is 10 seconds.
@@ -151,6 +153,7 @@ public class LocatorMonitor {
                                 MDC.put(LAST_TIME_STARTED, formatTimeStamp(lastTimeStarted));
                                 long lastTimeStopped = endpoint.getLastTimeStopped();
                                 MDC.put(LAST_TIME_STOPPED, formatTimeStamp(lastTimeStopped));
+                                MDC.put(SLFJ_MARKER, ENDPOINT_INFO);
                                 String[] mdcPropertyKeys = addPropertiesToMDC(endpoint.getProperties());
                                 if (alive) {
                                     activeEndpoints++;
@@ -163,9 +166,9 @@ public class LocatorMonitor {
                                     totalOfflineEndpoints++;
                                 }
                                 cleanMDC(mdcPropertyKeys);
-                                cleanMDC(ACTIVE, ADDRESS, PROTOCOL, TRANSPORT, LAST_TIME_STARTED, LAST_TIME_STOPPED);
+                                cleanMDC(ACTIVE, ADDRESS, PROTOCOL, TRANSPORT, LAST_TIME_STARTED, LAST_TIME_STOPPED, SLFJ_MARKER);
                             }
-
+                            MDC.put(SLFJ_MARKER, SERVICE_INFO);
                             MDC.remove(ACTIVE);
                             MDC.put(COUNT, endpoints.size());
                             LOG.info(SERVICE_INFO, "{} endpoints are registered for service {}", endpoints.size(), service);
@@ -189,6 +192,7 @@ public class LocatorMonitor {
                         }
 
                         // Absolute Numbers for Services
+                        MDC.put(SLFJ_MARKER, SERVICES);
                         MDC.put(COUNT, services.size());
                         MDC.remove(ACTIVE);
                         LOG.info(SERVICES, "{} services are registered at the ServiceLocator", services.size());
@@ -203,6 +207,7 @@ public class LocatorMonitor {
                                                                                                                                - activeService);
 
                         // Absolute Numbers for Endpoints
+                        MDC.put(SLFJ_MARKER, ENDPOINTS);
                         MDC.put(COUNT, totalActiveEndpoints + totalOfflineEndpoints);
                         MDC.remove(ACTIVE);
                         LOG.info(ENDPOINTS, "{} endpoints are registered at the ServiceLocator", totalActiveEndpoints + totalOfflineEndpoints);
@@ -216,7 +221,7 @@ public class LocatorMonitor {
                         LOG.info(ENDPOINTS, "{} endpoints are currently registered at the ServiceLocator but are not available",
                                  totalOfflineEndpoints);
 
-                        cleanMDC(COUNT, ACTIVE);
+                        cleanMDC(COUNT, ACTIVE, SLFJ_MARKER);
                     }
                 } catch (ServiceLocatorException e) {
                     LOG.warn("Error during SL monitoring", e);
