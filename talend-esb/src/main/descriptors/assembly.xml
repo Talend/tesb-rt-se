@@ -206,6 +206,8 @@
                 <exclude>system/org/apache/karaf/features/enterprise/${karaf.version}/enterprise-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/apache/karaf/features/spring/${karaf.version}/spring-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/apache/karaf/features/spring-legacy/${karaf.version}/spring-legacy-${karaf.version}-features.xml</exclude>
+                <exclude>system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
+                <exclude>system/org/apache/karaf/config/org.apache.karaf.config.core/${karaf.version}/**</exclude>
                 <exclude>README.md</exclude>
                 <exclude>RELEASE-NOTES.md</exclude>
                 <exclude>BUILDING.md</exclude>
@@ -382,6 +384,8 @@
                 <exclude>org/apache/karaf/decanter/apache-karaf-decanter/${decanter.version}/apache-karaf-decanter-${decanter.version}-features.xml</exclude>
                 <exclude>org/apache/karaf/decanter/appender/org.apache.karaf.decanter.appender.jms/${decanter.version}/**</exclude>
                 <exclude>org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.jms/${decanter.version}/**</exclude>
+                <exclude>org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
+                <exclude>org/apache/karaf/config/org.apache.karaf.config.core/${karaf.version}/**</exclude>
             </excludes>
         </fileSet>
         <!-- Woraround for xjc-utils version (TESB-21746) -->
@@ -672,6 +676,17 @@
         <file>
             <source>${basedir}/target/dependencies/jackson-module-scala_2.11-${jackson.version}.jar</source>
             <outputDirectory>./container/system/com/fasterxml/jackson/module/jackson-module-scala_2.11/${jackson.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/standard-${karaf.version}-features.xml</source>
+            <outputDirectory>./container/system/org/apache/karaf/features/standard/${karaf.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
+        <file>
+            <source>${basedir}/target/dependencies/org.apache.karaf.config.core-${org.apache.karaf.config.core.tesb.version}.jar</source>
+            <outputDirectory>./container/system/org/apache/karaf/config/org.apache.karaf.config.core/${org.apache.karaf.config.core.tesb.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>

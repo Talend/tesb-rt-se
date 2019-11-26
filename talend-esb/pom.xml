@@ -102,7 +102,7 @@
                                 <descriptor>mvn:org.apache.karaf.features/enterprise-legacy/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.decanter/apache-karaf-decanter/${decanter.version}/xml/features</descriptor>
-<!--                                <descriptor>mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features</descriptor> --> 
+<!--                                <descriptor>mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
@@ -127,6 +127,7 @@
                                 <feature>jndi</feature>
                                 <feature>jms</feature>
                                 <feature>aries-blueprint-spring</feature>
+                                <feature>config</feature>
                                 <!-- ActiveMQ Features -->
                                 <feature>activemq</feature>
                                 <feature>activemq-blueprint</feature>
@@ -540,6 +541,15 @@
                                 </artifactItem>
                                 <!-- Workaround for Karaf libraries in features -->
                                 <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>standard</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <type>xml</type>
+                                    <classifier>features</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>standard-${karaf.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.apache.karaf.diagnostic</groupId>
                                     <artifactId>org.apache.karaf.diagnostic.boot</artifactId>
                                     <version>${karaf.version}</version>
@@ -789,6 +799,13 @@
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.config</groupId>
+                                    <artifactId>org.apache.karaf.config.core</artifactId>
+                                    <version>${org.apache.karaf.config.core.tesb.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -1011,6 +1028,11 @@
                         <phase>generate-resources</phase>
                         <configuration>
                             <target>
+                                <replace file="target/dependencies/standard-${karaf.version}-features.xml">
+                                    <replacefilter
+                                        token="mvn:org.apache.karaf.config/org.apache.karaf.config.core/${karaf.version}&lt;"
+                                        value="mvn:org.apache.karaf.config/org.apache.karaf.config.core/${org.apache.karaf.config.core.tesb.version}&lt;"/>
+                                </replace>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
                                     <replacefilter
                                         token="apache-cxf/3.2.10/xml/features"
