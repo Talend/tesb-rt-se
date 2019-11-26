@@ -21,12 +21,15 @@ package org.talend.esb.sam.common.service;
 
 import java.util.List;
 
+import javax.jws.WebService;
+
 import org.talend.esb.sam.common.event.Event;
 
 
 /**
  * Public interface for the business logic of MonitoringService.
  */
+@WebService
 public interface MonitoringService {
 
     /**
