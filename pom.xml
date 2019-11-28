@@ -132,7 +132,7 @@
         <pax-cdi.version>1.0.0.RC2</pax-cdi.version>
 
         <jclouds.version>2.1.2</jclouds.version>
-        <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
+        <pax-url-classpath.version>2.6.2</pax-url-classpath.version>
         <wss4j.version>2.2.4</wss4j.version>
         <xerces.version>2.12.0_1</xerces.version>
         <log4j.version>1.2.17</log4j.version>
