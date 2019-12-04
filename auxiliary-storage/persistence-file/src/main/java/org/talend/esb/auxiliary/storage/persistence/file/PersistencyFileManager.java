@@ -18,8 +18,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamClass;
 import java.util.logging.Level;
 
 import org.apache.commons.io.FileUtils;
@@ -45,6 +48,7 @@ public class PersistencyFileManager extends AbstractPersistencyManager {
 
             String filePath = createFilePath(key);
             File file = new File(filePath);
+            checkFileIsJailedToStorageDir(file);
             if (!file.exists()) {
                 return null;
             }
@@ -55,15 +59,15 @@ public class PersistencyFileManager extends AbstractPersistencyManager {
             String restoredContext = null;
 
             try {
-                ois = new ObjectInputStream(new FileInputStream(file));
+                ois = new PersistencyFileManagerObjectInputStream(new FileInputStream(file));
                 restoredContext = (String)ois.readObject();
 
             } catch (IOException e) {
-                LOG.log(Level.SEVERE, "Failed to resotre context. IOException. Error message: " + e.getMessage());
+                LOG.log(Level.SEVERE, "Failed to restore context. IOException. Error message: " + e.getMessage());
                 throw new PersistencyException("Error reading context store file "
                         + filePath + "  Underlying error message is:" + e.getMessage());
             } catch (ClassNotFoundException e) {
-                 LOG.log(Level.SEVERE, "Failed to resotre context. ClassNotFoundException. Error message: " + e.getMessage());
+                 LOG.log(Level.SEVERE, "Failed to restore context. ClassNotFoundException. Error message: " + e.getMessage());
                  throw new PersistencyException("Error reading context store file "
                          + filePath + "  Underlying error message is:" + e.getMessage());
             } finally {
@@ -88,6 +92,7 @@ public class PersistencyFileManager extends AbstractPersistencyManager {
 
             String filePath = createFilePath(key);
             File file = new File(filePath);
+            checkFileIsJailedToStorageDir(file);
 
             if (file.exists()) {
                 throw new ObjectAlreadyExistsException("Dublicated object with key {" + key + "}");
@@ -140,6 +145,17 @@ public class PersistencyFileManager extends AbstractPersistencyManager {
         this.storageDirPath = dirPath;
     }
 
+    private void checkFileIsJailedToStorageDir(File file) {
+        File baseDirectory = new File(storageDirPath != null ? storageDirPath : "");
+        try {
+            if (!file.getCanonicalPath().startsWith(baseDirectory.getCanonicalPath())) {
+                throw new PersistencyException("Path manipulation attack detected - attempting to write outside of the storageDirPath folder");
+            }
+        } catch (IOException e) {
+            throw new PersistencyException("Error checking whether the file is jailed to the storage dir", e);
+        }
+    }
+
 
     private String createFilePath(String key) {
         if (storageDirPath == null) {
@@ -162,5 +178,23 @@ public class PersistencyFileManager extends AbstractPersistencyManager {
         }
 
         file.delete();
+    }
+
+    /**
+     * Override ObjectInputStream so that only Strings can be deserialized
+     */
+    private static class PersistencyFileManagerObjectInputStream extends ObjectInputStream {
+
+        public PersistencyFileManagerObjectInputStream(InputStream in) throws IOException {
+            super(in);
+        }
+
+        @Override
+        protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+            if (!desc.getName().equals(String.class.getName())) {
+                throw new InvalidClassException("Unauthorized deserialization attempt", desc.getName());
+            }
+            return super.resolveClass(desc);
+        }
     }
 }
