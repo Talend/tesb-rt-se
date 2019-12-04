@@ -1,17 +1,20 @@
 package org.talend.esb.auxiliary.storage.persistence.file.test;
 
 
-import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.talend.esb.auxiliary.storage.common.exception.ObjectAlreadyExistsException;
 import org.talend.esb.auxiliary.storage.common.exception.ObjectNotFoundException;
+import org.talend.esb.auxiliary.storage.common.exception.PersistencyException;
 import org.talend.esb.auxiliary.storage.persistence.file.PersistencyFileManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class PersistencyFileManagerTest {
 
@@ -31,7 +34,6 @@ public class PersistencyFileManagerTest {
         cleanupRepo();
     }
 
-
     @Test
     public void testSave() {
         persistencyManager.storeObject("testSave", "1");
@@ -39,7 +41,6 @@ public class PersistencyFileManagerTest {
         Assert.assertNotNull(ctx);
         Assert.assertEquals("testSave", ctx);
     }
-
 
     @Test
     public void testRemove() {
@@ -60,10 +61,17 @@ public class PersistencyFileManagerTest {
         persistencyManager.removeObject("100500");
     }
 
+    @Test(expected = PersistencyException.class)
+    public void testSaveOutsideOfStorageDir() {
+        persistencyManager.storeObject("testSave", "../newfile");
+    }
 
-
-
-
+    @Test(expected = PersistencyException.class)
+    public void testDeserializeDate() throws IOException {
+        File newFile = new File(TMP_PATH + File.separator + "date.ctx");
+        Files.copy(Paths.get("src/test/resources/date.ctx"), newFile.toPath());
+        persistencyManager.restoreObject("date");
+    }
 
     private static void cleanupRepo() {
         File tempFolder = new File(TMP_PATH);
