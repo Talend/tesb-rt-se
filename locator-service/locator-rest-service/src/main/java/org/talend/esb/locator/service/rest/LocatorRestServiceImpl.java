@@ -341,14 +341,13 @@ public class LocatorRestServiceImpl implements LocatorService {
             names = getRotatedList(names);
             adress = names.get(0);
         } else {
+            String msg = "lookup Endpoint for " + removeCRLF(serviceName.toString()) + " failed, service is not known.";
             if (LOG.isLoggable(Level.WARNING)) {
-                LOG.log(Level.WARNING, "lookup Endpoint for " + serviceName
-                        + " failed, service is not known.");
+                LOG.log(Level.WARNING, msg);
             }
             throw new WebApplicationException(Response
                     .status(Status.NOT_FOUND)
-                    .entity("lookup Endpoint for " + serviceName
-                            + " failed, service is not known.").build());
+                    .entity(msg).build());
         }
         return buildEndpoint(serviceName, adress);
     }
@@ -408,7 +407,7 @@ public class LocatorRestServiceImpl implements LocatorService {
             }
         } else {
             if (LOG.isLoggable(Level.WARNING)) {
-                LOG.log(Level.WARNING, "lookup Endpoints for " + serviceName
+                LOG.log(Level.WARNING, "lookup Endpoints for " + removeCRLF(serviceName.toString())
                         + " failed, service is not known.");
             }
             throw new WebApplicationException(Response.status(Status.NOT_FOUND)
@@ -486,5 +485,9 @@ public class LocatorRestServiceImpl implements LocatorService {
             }
         }
         return builder.build();
+    }
+
+    private static String removeCRLF(String s) {
+        return s.replaceAll("\r\n?", "");
     }
 }
