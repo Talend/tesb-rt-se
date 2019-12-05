@@ -90,7 +90,7 @@ public class MonitoringWebService implements MonitoringService {
      */
     private static void throwFault(String code, String message, Throwable t) throws PutEventsFault {
         if (LOG.isLoggable(Level.SEVERE)) {
-            LOG.log(Level.SEVERE, "Throw Fault " + code + " " + message, t);
+            LOG.log(Level.SEVERE, "Throw Fault " + code + " " + removeCRLF(message), t);
         }
 
         FaultType faultType = new FaultType();
@@ -105,5 +105,9 @@ public class MonitoringWebService implements MonitoringService {
         faultType.setStackTrace(stringWriter.toString());
 
         throw new PutEventsFault(message, faultType, t);
+    }
+
+    private static String removeCRLF(String s) {
+        return s.replaceAll("\r\n?", "");
     }
 }

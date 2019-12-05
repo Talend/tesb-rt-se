@@ -27,7 +27,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
