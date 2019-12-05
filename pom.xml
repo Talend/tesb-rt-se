@@ -131,6 +131,9 @@
         <hibersap.version>1.2.0</hibersap.version>
         <javax.el.version>3.0.0</javax.el.version>
         <pax-cdi.version>1.0.0.RC2</pax-cdi.version>
+        <quartz.version>2.3.2</quartz.version>
+        <c3p0.bundle.version>0.9.5.4_1</c3p0.bundle.version>
+        <hikaricp.version>2.4.13</hikaricp.version>
 
         <jclouds.version>2.1.2</jclouds.version>
         <pax-url-classpath.version>2.6.2</pax-url-classpath.version>

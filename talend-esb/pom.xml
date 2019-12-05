@@ -799,6 +799,29 @@
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
+                                <!-- START Override Quartz/C3p0 in Camel - can be removed when we pick up Camel 2.24.3+/2.25.x -->
+                                <artifactItem>
+                                     <groupId>org.quartz-scheduler</groupId>
+                                     <artifactId>quartz</artifactId>
+                                     <version>${quartz.version}</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.c3p0</artifactId>
+                                     <version>${c3p0.bundle.version}</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>com.zaxxer</groupId>
+                                     <artifactId>HikariCP-java7</artifactId>
+                                     <version>${hikaricp.version}</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <!-- END Override Quartz/C3p0 in Camel - can be removed when we pick up Camel 2.24.3+/2.25.x -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.config</groupId>
                                     <artifactId>org.apache.karaf.config.core</artifactId>
@@ -1040,6 +1063,18 @@
                                     <replacefilter
                                         token="pax-cdi-features/1.0.0.RC1/xml/features"
                                         value="pax-cdi-features/${pax-cdi.version}/xml/features"/>
+                                    <!-- START Update Quartz/C3p0 in Camel - can be removed when we pick up Camel 2.24.3+/2.25.x -->
+                                    <replacefilter
+                                        token="c3p0/0.9.5.3_1"
+                                        value="c3p0/${c3p0.bundle.version}"/>
+                                    <replacefilter
+                                        token="quartz/2.3.0"
+                                        value="quartz/${quartz.version}"/>
+                                    <replacefilter
+                                        token="HikariCP-java6/2.3.13"
+                                        value="HikariCP-java7/${hikaricp.version}"/>
+                                    <!-- END Update Quartz/C3p0 in Camel - can be removed when we pick up Camel 2.24.3+/2.25.x -->
+
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
                                         <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_3&lt;/bundle&gt;</replacetoken>
