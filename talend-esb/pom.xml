@@ -665,7 +665,7 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>org.apache.karaf.decanter.collector.jms-${decanter.version}.tesb1.cfg</destFileName>
                                 </artifactItem>
-                               <!-- upgrade Jackson version (TESB-27154) -->
+                               <!-- upgrade Jackson version (TESB-27613) -->
                                 <artifactItem>
                                      <groupId>com.fasterxml.jackson.core</groupId>
                                      <artifactId>jackson-core</artifactId>
@@ -1102,7 +1102,7 @@
                                         <replacetoken>mvn:org.codehaus.woodstox/woodstox-core-asl/4.3.0</replacetoken>
                                         <replacevalue>mvn:com.fasterxml.woodstox/woodstox-core/5.0.3</replacevalue>
                                     </replacefilter>
-                                    <!-- patch the jackson version (TESB-27154) -->
+                                    <!-- patch the jackson version (TESB-27613) -->
                                     <replacefilter
                                         token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}"/>
@@ -1219,7 +1219,7 @@
                                         <replacetoken>&lt;bundle start-level="25"&gt;mvn:org.jvnet.staxex/stax-ex/1.7.6&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
                                     </replacefilter>
-                                    <!-- patch the jackson version (TESB-27154) -->
+                                    <!-- patch the jackson version (TESB-27613) -->
                                     <replacefilter
                                         token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.10"
                                         value="mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}"/>
@@ -1251,7 +1251,7 @@
                                         replace="&lt;bundle start-level=&quot;35&quot;&gt;mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/${jackson.version}&lt;/bundle&gt;">
                                 </replaceregexp>
                                 <replace file="target/dependencies/enterprise-${karaf.version}-features.xml">
-                                    <!-- patch the jackson version (TESB-27154) -->
+                                    <!-- patch the jackson version (TESB-27613) -->
                                     <replacefilter
                                         token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}"/>
@@ -1263,7 +1263,7 @@
                                         value="mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}"/>
                                 </replace>
                                 <replace file="target/dependencies/spring-${karaf.version}-features.xml">
-                                    <!-- patch the jackson version (TESB-27154) -->
+                                    <!-- patch the jackson version (TESB-27613) -->
                                     <replacefilter
                                         token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}"/>
@@ -1275,7 +1275,7 @@
                                         value="mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}"/>
                                 </replace>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
-                                    <!-- patch the jackson version (TESB-27154) -->
+                                    <!-- patch the jackson version (TESB-27613) -->
                                     <replacefilter
                                         token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}"/>

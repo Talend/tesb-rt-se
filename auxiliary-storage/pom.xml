@@ -60,8 +60,6 @@
         <jackrabbit.version>2.18.4</jackrabbit.version>
         <tika-core.version>1.22</tika-core.version>
 
-        <jackson.version>2.10.0</jackson.version>
-
     </properties>
 
 
