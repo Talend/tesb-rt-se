@@ -20,6 +20,7 @@
 
     <properties>
         <features.file>features.xml</features.file>
+        <org.springframework.beans.version>2.5.6</org.springframework.beans.version>
     </properties>
 
     <build>

@@ -27,6 +27,12 @@
             <groupId>org.apache.cxf.xjc-utils</groupId>
             <artifactId>cxf-xjc-runtime</artifactId>
             <version>${cxf.xjc.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.activation</groupId>
+                    <artifactId>jakarta.activation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
@@ -77,7 +83,6 @@
                                       <extraarg>-p</extraarg>
                                       <extraarg>http://customerservice.example.com/=org.customer.service</extraarg>
                                     </extraargs>
-                                    
                                     <bindingFiles>
                                         <bindingFile>${basedir}/src/main/resources/model/jaxwsBindingNew.xml</bindingFile>
                                     </bindingFiles>
@@ -90,7 +95,6 @@
                     </execution>
                 </executions>
             </plugin>
-            
         </plugins>
     </build>
 
