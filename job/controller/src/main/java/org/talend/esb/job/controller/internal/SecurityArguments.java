@@ -143,7 +143,7 @@ public class SecurityArguments {
                     sigUser = clientProperties.get("ws-" + SecurityConstants.SIGNATURE_USERNAME);
                 }
                 clientConfig.put(SecurityConstants.CALLBACK_HANDLER,
-                        new WSPasswordCallbackHandler(sigUser, clientProperties.get(SAMLRESTUtils.SIGNATURE_PASSWORD)));
+                        new WSPasswordCallbackHandler(sigUser, clientProperties.get(SecurityConstants.SIGNATURE_PASSWORD)));
             } else {
                 clientConfig.put(SecurityConstants.SIGNATURE_USERNAME, alias);
                 clientConfig.put(SecurityConstants.CALLBACK_HANDLER, new WSPasswordCallbackHandler(alias, password));

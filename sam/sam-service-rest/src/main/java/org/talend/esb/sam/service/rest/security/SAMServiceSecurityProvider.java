@@ -23,8 +23,6 @@ public class SAMServiceSecurityProvider {
     private String signatureUsername;
     private String signaturePassword;
 
-    private static final String ENDPOINT_SIGNATURE_PASSWORD = "security.signature.password";
-
     public JAXRSServerFactoryBean getMonitoringEndpoint() {
         return server;
     }
@@ -98,7 +96,7 @@ public class SAMServiceSecurityProvider {
         } else if (EsbSecurityConstants.SAML == esbSecurity) {
             endpointProperties.put(SecurityConstants.SIGNATURE_PROPERTIES, getSignatureProperties());
             endpointProperties.put(SecurityConstants.SIGNATURE_USERNAME, getSignatureUsername());
-            endpointProperties.put(ENDPOINT_SIGNATURE_PASSWORD, getSignaturePassword());
+            endpointProperties.put(SecurityConstants.SIGNATURE_PASSWORD, getSignaturePassword());
             endpointProperties.put(SecurityConstants.CALLBACK_HANDLER, new WSPasswordCallbackHandler(
                     getSignatureUsername(), getSignaturePassword()));
 
