@@ -23,7 +23,7 @@ This package contains several new examples that show advanced features
 of CXF.  All of the examples are setup to be built and run independently,
 but they are also all setup to be run in the Talend ESB OSGi container
 that can be obtained from:
-http://www.talend.com/download.php#ESB
+https://www.talend.com/products/application-integration/esb-open-studio/
 
 jaxws-cxf-sts: demonstrates having a SOAP client use CXF's stsclient
 to make a call to a Tomcat-hosted CXF Security Token Service (STS) and
