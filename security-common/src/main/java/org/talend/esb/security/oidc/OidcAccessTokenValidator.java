@@ -19,8 +19,10 @@
 package org.talend.esb.security.oidc;
 
 import org.apache.cxf.common.util.Base64Utility;
+import org.apache.commons.collections.map.LRUMap;
 
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.Map;
 
 import javax.annotation.Priority;
@@ -33,6 +35,7 @@ import javax.ws.rs.container.PreMatching;
 public class OidcAccessTokenValidator implements ContainerRequestFilter {
 
 	private OidcConfiguration oidcConfiguration = OidcClientUtils.getOidcConfiguration();
+	private Map<String,Map<String, String>> tokenCacheMap;
 	
 	public OidcAccessTokenValidator() {
 	}
@@ -45,6 +48,12 @@ public class OidcAccessTokenValidator implements ContainerRequestFilter {
 	public void filter(
 			javax.ws.rs.container.ContainerRequestContext requestContext)
 			throws java.io.IOException {
+
+
+		if(oidcConfiguration.getOidcCacheEnable() && tokenCacheMap == null){
+			tokenCacheMap =  (Map<String,Map<String, String>>) Collections.synchronizedMap(new LRUMap(oidcConfiguration.getOidcCacheSize()));
+		}
+
 		boolean authFailed = true;
 		String authzHeader = requestContext.getHeaders().getFirst(
 				"Authorization");
@@ -67,23 +76,58 @@ public class OidcAccessTokenValidator implements ContainerRequestFilter {
 					String AuthorizationBase64 = Base64Utility.encode((publicClientId + ":" + clientSecret).getBytes());
 					oidcWebClient.header("Authorization","Basic " + AuthorizationBase64);
 				}
-				javax.ws.rs.core.Response response = oidcWebClient
-						.post("token="
-								+ java.net.URLEncoder.encode(accessToken,
-										"UTF-8")
-								+ "&token_type_hint=access_token");
 
-				try {
-					Map<String, String> map = org.talend.esb.security.oidc.OidcClientUtils
-							.parseJson((InputStream) response.getEntity());
+				String token = "token="
+						+ java.net.URLEncoder.encode(accessToken,
+						"UTF-8")
+						+ "&token_type_hint=access_token";
+				javax.ws.rs.core.Response response = null;
+				Map<String,String> tokenDetails = null;
 
-					String active = map.get("active");
-					if (active != null && active.equalsIgnoreCase("true")) {
-						authFailed = false;
-					}
-				} catch (Exception e) {
-                    throw new RuntimeException(e);
+				if(oidcConfiguration.getOidcCacheEnable()) {
+					tokenDetails = tokenCacheMap.get(token);
+					//Check if the stored token is valid. If not, we have to request the IDP (the token may be refreshed on the server side)
+                    if(tokenDetails !=null) {
+                        String exp = (tokenDetails.get("exp") == null ? "" : tokenDetails.get("exp")) + "000";
+                        if (System.currentTimeMillis() > Long.valueOf(exp) ) {
+                            tokenDetails = null;
+                        }
+                    }
 				}
+
+				if(tokenDetails == null) {
+					response = oidcWebClient
+							.post(token);
+
+					try {
+
+						tokenDetails = org.talend.esb.security.oidc.OidcClientUtils
+								.parseJson((InputStream) response.getEntity());
+
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+					if(oidcConfiguration.getOidcCacheEnable()) {
+						tokenCacheMap.put(token, tokenDetails);
+					}
+
+				}
+
+				long currentTimeMs = System.currentTimeMillis();
+				String exp = (tokenDetails.get("exp")==null?"":tokenDetails.get("exp")) + "000";
+				if(Long.valueOf(exp) > currentTimeMs){
+					authFailed = false;
+				} else if(oidcConfiguration.getOidcCacheEnable()){
+					tokenCacheMap.remove(token);
+				}
+				/*String active = map.get("active");
+				if (active != null && active.equalsIgnoreCase("true")) {
+					authFailed = false;
+				}
+				 */
+
+
+
 			}
 		}
 

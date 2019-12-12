@@ -61,6 +61,12 @@ public class OidcClientUtils {
 		return oidcConfiguration.getClientSecret();
 	}
 
+	public static boolean getOidcCacheEnable(){return oidcConfiguration.getOidcCacheEnable(); };
+
+	public static int getOidcCacheSize(){return oidcConfiguration.getOidcCacheSize();};
+
+
+
 	public static OidcConfiguration getOidcConfiguration() {
 		return oidcConfiguration;
 	}

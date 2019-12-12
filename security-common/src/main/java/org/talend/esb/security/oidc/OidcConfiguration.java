@@ -10,9 +10,14 @@ public class OidcConfiguration {
 	public static final String OIDC_PUBLIC_CLIENT_ID = "public.client.id";
 	public static final String OIDC_CLIENT_SECRET = "client.secret";
 	public static final String OIDC_SCOPE = "scope";
+	public static final String OIDC_CACHE_ENABLE = "cache.use" ;
+	public static final String OIDC_CACHE_SIZE = "cache.size";
 
 	private static final String DEFAULT_OIDC_SCOPE = "openid";
 	private static final String DEFAULT_PUBLIC_CLIENT_ID = "aFSloIZSXHRQtA";
+	private static final int DEFAULT_OIDC_CACHE_SIZE = 100;
+
+
 
 	public Map<String, String> oidcProperties = new HashMap<String, String>();
 
@@ -63,6 +68,35 @@ public class OidcConfiguration {
 		}
 		return oidcProperties.get(OIDC_SCOPE);
 	}
+
+	public boolean getOidcCacheEnable(){
+		if ("true".equals(System.getProperty(OIDC_CACHE_ENABLE))) {
+			return true;
+		}
+
+		if("true".equals(oidcProperties.get(OIDC_CACHE_ENABLE))){
+			return true;
+		}
+			return false;
+	}
+
+	public int getOidcCacheSize(){
+		try{
+			if(System.getProperty(OIDC_CACHE_SIZE) != null){
+				return Integer.valueOf(System.getProperty(OIDC_CACHE_SIZE));
+			}
+
+			if(oidcProperties.get(OIDC_CACHE_SIZE) != null){
+				return Integer.valueOf(oidcProperties.get(OIDC_CACHE_SIZE));
+			}
+			return DEFAULT_OIDC_CACHE_SIZE;
+
+		} catch(Exception e){
+			return DEFAULT_OIDC_CACHE_SIZE;
+		}
+	}
+
+
 
 	public void setScope(String scope) {
 		oidcProperties.put(OIDC_SCOPE, scope);

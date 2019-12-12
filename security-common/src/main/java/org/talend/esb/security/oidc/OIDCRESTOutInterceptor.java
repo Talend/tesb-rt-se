@@ -21,6 +21,7 @@ public class OIDCRESTOutInterceptor extends AbstractPhaseInterceptor<Message> {
 	private String password;
 	private Map<String, String> oidcProperties;
 
+
 	public OIDCRESTOutInterceptor(String username, String password) {
 		super(Phase.POST_PROTOCOL);
 		this.username = username;
@@ -33,6 +34,7 @@ public class OIDCRESTOutInterceptor extends AbstractPhaseInterceptor<Message> {
 		this.password = password;
 		this.oidcProperties = oidcProperties;
 	}
+
 	
 	
 	

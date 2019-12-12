@@ -36,6 +36,8 @@
                 <prop key="validation.endpoint"></prop>
                 <prop key="client.secret"></prop>
                 <prop key="scope">oidc</prop>
+                <prop key="cache.use">true</prop>
+                <prop key="cache.size">100</prop>
             </props>
         </property>
     </bean>
@@ -55,6 +57,10 @@
         <property name="validationEndpoint" value="${validation.endpoint}"/>
         <property name="clientSecret" value="${client.secret}"/>
         <property name="scope" value="${scope}"/>
+        <property name="useCache" value="${cache.use}"/>
+        <property name="cacheSize" value="${cache.size}"/>
+
+
     </bean>
     
 </beans>
