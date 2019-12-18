@@ -52,6 +52,7 @@
         <endpoint.prefix>http://localhost:8040/services</endpoint.prefix>
         <sts.endpoint.prefix>${endpoint.prefix}</sts.endpoint.prefix>
 
+        <bouncycastle.version>1.60</bouncycastle.version>
         <cxf.version>3.3.4</cxf.version>
         <cxf.xjc.version>3.3.0</cxf.xjc.version>
         <camel.version>2.24.2</camel.version>
@@ -92,6 +93,11 @@
                 <groupId>org.apache.servicemix.specs</groupId>
                 <artifactId>org.apache.servicemix.specs.jaxws-api-2.2</artifactId>
                 <version>2.9.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>${bouncycastle.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
