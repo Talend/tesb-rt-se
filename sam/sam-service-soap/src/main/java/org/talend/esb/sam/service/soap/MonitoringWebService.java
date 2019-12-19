@@ -108,6 +108,6 @@ public class MonitoringWebService implements MonitoringService {
     }
 
     private static String removeCRLF(String s) {
-        return s.replaceAll("\r\n?", "");
+        return s.replaceAll("\r|\n", "");
     }
 }
