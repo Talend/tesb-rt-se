@@ -208,6 +208,7 @@
                 <exclude>system/org/apache/karaf/features/spring-legacy/${karaf.version}/spring-legacy-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/apache/karaf/config/org.apache.karaf.config.core/${karaf.version}/**</exclude>
+                <exclude>system/org/ops4j/pax/web/pax-web-features/7.2.11/**</exclude>
                 <exclude>README.md</exclude>
                 <exclude>RELEASE-NOTES.md</exclude>
                 <exclude>BUILDING.md</exclude>
@@ -386,6 +387,7 @@
                 <exclude>org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.jms/${decanter.version}/**</exclude>
                 <exclude>org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
                 <exclude>org/apache/karaf/config/org.apache.karaf.config.core/${karaf.version}/**</exclude>
+                <exclude>org/ops4j/pax/web/**/7.2.11/**</exclude>
             </excludes>
         </fileSet>
         <!-- Woraround for xjc-utils version (TESB-21746) -->
