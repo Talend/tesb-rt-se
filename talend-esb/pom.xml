@@ -95,9 +95,11 @@
                         </goals>
                         <configuration>
                             <descriptors>
-                                <descriptor>mvn:org.apache.karaf.features/standard/${karaf.version}/xml/features</descriptor>
+<!--                                <descriptor>mvn:org.apache.karaf.features/standard/${karaf.version}/xml/features</descriptor>-->
+                                <descriptor>file:${basedir}/target/dependencies/standard-${karaf.version}-features.xml</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor>
-                                <descriptor>mvn:org.apache.karaf.features/spring-legacy/${karaf.version}/xml/features</descriptor>
+<!--                                <descriptor>mvn:org.apache.karaf.features/spring-legacy/${karaf.version}/xml/features</descriptor>-->
+                                <descriptor>file:${basedir}/target/dependencies/spring-legacy-${karaf.version}-features.xml</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/enterprise/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/enterprise-legacy/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor>
@@ -1055,6 +1057,16 @@
                                     <replacefilter
                                         token="mvn:org.apache.karaf.config/org.apache.karaf.config.core/${karaf.version}&lt;"
                                         value="mvn:org.apache.karaf.config/org.apache.karaf.config.core/${org.apache.karaf.config.core.tesb.version}&lt;"/>
+                                    <replacefilter token="mvn:org.ops4j.pax.web/pax-web-features/7.2.11/xml/features&lt;"
+                                                   value="mvn:org.ops4j.pax.web/pax-web-features/${pax.web.version}/xml/features&lt;"/>
+                                    <replacefilter>
+                                        <replacetoken>feature name="pax-http-service" description="Pax-Web OSGi HTTP Service" version="7.2.11"</replacetoken>
+                                        <replacevalue>feature name="pax-http-service" description="Pax-Web OSGi HTTP Service" version="${pax.web.version}"</replacevalue>
+                                    </replacefilter>
+                                </replace>
+                                <replace file="target/dependencies/spring-legacy-${karaf.version}-features.xml">
+                                    <replacefilter token="mvn:org.ops4j.pax.web/pax-web-features/7.2.11/xml/features&lt;"
+                                                   value="mvn:org.ops4j.pax.web/pax-web-features/${pax.web.version}/xml/features&lt;"/>
                                 </replace>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
                                     <replacefilter
