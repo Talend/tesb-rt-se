@@ -9,6 +9,7 @@ import org.apache.cxf.common.injection.NoJSR250Annotations;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.endpoint.ServerRegistry;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
+import org.apache.cxf.jaxrs.blueprint.JAXRSServerFactoryBeanDefinitionParser.BPJAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.security.JAASAuthenticationFilter;
 import org.apache.cxf.service.model.EndpointInfo;
 import org.apache.cxf.ws.security.SecurityConstants;
@@ -110,6 +111,11 @@ public class SAMServiceSecurityProvider {
 
             providers.add(samlHandler);
             server.setProviders(providers);
+        }
+
+        // First we have to destroy the cached server that was created automatically by blueprint
+        if (server instanceof BPJAXRSServerFactoryBean) {
+            ((BPJAXRSServerFactoryBean)server).destroy();
         }
 
         server.create();
