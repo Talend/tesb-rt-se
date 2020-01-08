@@ -32,6 +32,7 @@
     <packaging>pom</packaging>
 
     <properties>
+        <pax-web-features.tesb.version>7.2.10.tesb1</pax-web-features.tesb.version>
         <zookeeper.package.version>${zookeeper.version}</zookeeper.package.version>
         <jclouds.version>2.1.2</jclouds.version>
         <pax-url-classpath.version>1.2.8</pax-url-classpath.version>
@@ -227,7 +228,7 @@
                                 <descriptor>mvn:org.apache.karaf.features/enterprise-legacy/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.decanter/apache-karaf-decanter/${decanter.version}/xml/features</descriptor>
-                                <descriptor>mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features</descriptor>
+                                <descriptor>file:${basedir}/target/dependencies/pax-web-features-${pax-web.version}-features.xml</descriptor>
 <!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
@@ -625,6 +626,15 @@
                                     <classifier>org.talend.esb.sam.agent</classifier>
                                     <outputDirectory>target/dependencies/etc</outputDirectory>
                                     <destFileName>org.talend.esb.sam.agent.cfg</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.pax.web</groupId>
+                                    <artifactId>pax-web-features</artifactId>
+                                    <version>${pax-web-features.tesb.version}</version>
+                                    <type>xml</type>
+                                    <classifier>features</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>pax-web-features-${pax-web-jsp.version}-features.xml</destFileName>
                                 </artifactItem>
                                 <!-- workarounds for Camel features descriptor -->
                                 <artifactItem>

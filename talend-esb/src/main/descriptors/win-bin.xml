@@ -219,6 +219,7 @@
                 <exclude>system/org/apache/karaf/features/spring-legacy/${karaf.version}/spring-legacy-${karaf.version}-features.xml</exclude>
                 <!-- Patch jetty version (TESB-25945) -->
                 <exclude>system/org/ops4j/pax/web/pax-web-features/7.2.8/**</exclude>
+                <exclude>org/ops4j/pax/web/pax-web-features/${pax-web-jsp.version}/**</exclude>
                 <!-- patch for org.apache.aries.blueprint.core (TESB-25393) -->
                 <exclude>system/org/apache/aries/blueprint/org.apache.aries.blueprint.core/${blueprint.core.version}/**</exclude>
                 <!-- patch for org.apache.karaf.config.core (TESB-25795) -->
@@ -502,6 +503,13 @@
     </fileSets>
 
     <files>
+        <file>
+            <source>${basedir}/target/dependencies/pax-web-features-${pax-web-jsp.version}-features.xml</source>
+            <outputDirectory>/container/system/org/ops4j/pax/web/pax-web-features/${pax-web-jsp.version}/</outputDirectory>
+            <destName>pax-web-features-${pax-web-jsp.version}-features.xml</destName>
+            <fileMode>0644</fileMode>
+            <lineEnding>dos</lineEnding>
+        </file>
         <!-- workaround for CXF version in Camel features file -->
         <file>
             <source>${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</source>

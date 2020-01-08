@@ -405,6 +405,7 @@
                 <exclude>org/eclipse/jetty/jetty-*/9.4.12.v20180830/**</exclude>
                 <exclude>org/eclipse/jetty/websocket/*/9.4.12.v20180830/**</exclude>
                 <exclude>org/ops4j/pax/web/pax-web-features/7.2.8/**</exclude>
+                <exclude>org/ops4j/pax/web/pax-web-features/${pax-web-jsp.version}/**</exclude>
                 <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
                 <exclude>org/apache/cxf/cxf-core/**</exclude>
                 <exclude>org/apache/cxf/cxf-rt-transports-http/**</exclude>
@@ -502,6 +503,13 @@
     </fileSets>
 
     <files>
+        <file>
+            <source>${basedir}/target/dependencies/pax-web-features-${pax-web-jsp.version}-features.xml</source>
+            <outputDirectory>/container/system/org/ops4j/pax/web/pax-web-features/${pax-web-jsp.version}/</outputDirectory>
+            <destName>pax-web-features-${pax-web-jsp.version}-features.xml</destName>
+            <fileMode>0644</fileMode>
+            <lineEnding>unix</lineEnding>
+        </file>
         <!-- workaround for CXF version in Camel features file -->
         <file>
             <source>${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</source>
