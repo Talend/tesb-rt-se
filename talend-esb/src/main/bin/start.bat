@@ -25,7 +25,9 @@ set PROGNAME=%~nx0%
 set ARGS=%*
 
 rem Sourcing environment settings for karaf similar to tomcats setenv
-SET KARAF_SCRIPT="start.bat"
+if "%KARAF_SCRIPT%" == "" (
+	SET KARAF_SCRIPT="start.bat"
+)
 if exist "%DIRNAME%setenv.bat" (
   call "%DIRNAME%setenv.bat"
 )
@@ -84,8 +86,7 @@ if "%KARAF_TITLE%" == "" (
 )
 
 :EXECUTE
-    rem fixed TESB-5752 removing "start ..." to avoid open a new window
-    "%KARAF_HOME%\bin\trun.bat" server %*
+    start "%KARAF_TITLE%" /MIN "%KARAF_HOME%\bin\trun.bat" server %*
 
 rem # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
