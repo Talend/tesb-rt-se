@@ -25,7 +25,10 @@ set PROGNAME=%~nx0%
 set ARGS=%*
 
 rem Sourcing environment settings for karaf similar to tomcats setenv
-SET KARAF_SCRIPT="karaf.bat"
+
+if "%KARAF_SCRIPT%" == "" (
+	SET KARAF_SCRIPT="trun.bat"
+)
 if exist "%DIRNAME%setenv.bat" (
   call "%DIRNAME%setenv.bat"
 )
@@ -101,13 +104,16 @@ if not "%KARAF_LOG%" == "" (
         goto END
     )
 )
-
 if "%KARAF_LOG%" == "" (
     set "KARAF_LOG=%KARAF_DATA%\log"
 )
+if not exist "%KARAF_LOG%" (
+    call :warn KARAF_LOG doesn't exist: "%KARAF_LOG%"
+    call :warn Creating "%KARAF_LOG%"
+    mkdir "%KARAF_LOG%"
+)
 
 set LOCAL_CLASSPATH=%CLASSPATH%
-
 
 set CLASSPATH=%LOCAL_CLASSPATH%;%KARAF_BASE%\conf
 set DEFAULT_JAVA_DEBUG_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
@@ -121,6 +127,7 @@ if "%LOCAL_CLASSPATH%" == "" goto :KARAF_CLASSPATH_EMPTY
 :KARAF_CLASSPATH_END
 
 set CLASSPATH_INITIAL=%CLASSPATH%
+
 rem Setup Karaf Home
 if exist "%KARAF_HOME%\conf\karaf-rc.cmd" call %KARAF_HOME%\conf\karaf-rc.cmd
 if exist "%HOME%\karaf-rc.cmd" call %HOME%\karaf-rc.cmd
@@ -253,22 +260,15 @@ if %JAVA_VERSION% GTR 8 (
         if not errorlevel 1 set ROOT_INSTANCE_RUNNING=true
     )
 
+
 if not exist "%JAVA_HOME%\bin\server\jvm.dll" (
     if not exist "%JAVA_HOME%\jre\bin\server\jvm.dll" (
         echo WARNING: Running Karaf on a Java HotSpot Client VM because server-mode is not available.
         echo Install Java Developer Kit to fix this.
         echo For more details see http://java.sun.com/products/hotspot/whitepaper.html#client
-
     )
 )
-
-rem Setup default memory settings
-SET KARAF_SCRIPT="trun.bat"
-if exist "%DIRNAME%setmem.bat" (
-  call "%DIRNAME%setmem.bat"
-)
-
-set DEFAULT_JAVA_OPTS=%JAVA_MODE% -Xms%JAVA_MIN_MEM% -Xmx%JAVA_MAX_MEM% -Dderby.system.home="%KARAF_DATA%\derby" -Dderby.storage.fileSyncTransactionLog=true -Dcom.sun.management.jmxremote  -XX:+UnlockDiagnosticVMOptions -XX:+UnsyncloadClass
+set DEFAULT_JAVA_OPTS=-Xms%JAVA_MIN_MEM% -Xmx%JAVA_MAX_MEM% -Dcom.sun.management.jmxremote  -XX:+UnlockDiagnosticVMOptions
 
 rem Check some easily accessible MIN/MAX params for JVM mem usage
 if not "%JAVA_PERM_MEM%" == "" (
@@ -320,11 +320,13 @@ set filename=%~1
 set suffix=%filename:~-4%
 if %suffix% equ .jar set CLASSPATH=%CLASSPATH%;%KARAF_HOME%\lib\jdk9plus\%filename%
 goto :EOF
+
 :CLASSPATH_END
 
 if "%CHECK_ROOT_INSTANCE_RUNNING%" == "" (
     SET CHECK_ROOT_INSTANCE_RUNNING=true
 )
+
 rem Execute the JVM or the load the profiler
 if "%KARAF_PROFILER%" == "" goto :RUN
     rem Execute the profiler if it has been configured
@@ -352,6 +354,10 @@ if "%KARAF_PROFILER%" == "" goto :RUN
 :EXECUTE_STOP
     SET MAIN=org.apache.karaf.main.Stop
     SET CHECK_ROOT_INSTANCE_RUNNING=false
+    rem not needed when stopping
+    SET JAVA_OPTS=
+    SET KARAF_SYSTEM_OPTS=
+    SET KARAF_OPTS=
     shift
     goto :RUN_LOOP
 
@@ -497,6 +503,8 @@ if "%KARAF_PROFILER%" == "" goto :RUN
             goto EXECUTE
         )
     )
+
+
 rem # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 :END

@@ -26,7 +26,9 @@ set TERM=windows
 set ARGS=%*
 
 rem Sourcing environment settings for karaf similar to tomcats setenv
-SET KARAF_SCRIPT="client.bat"
+if "%KARAF_SCRIPT%" == "" (
+    SET KARAF_SCRIPT="client.bat"
+)
 if exist "%DIRNAME%setenv.bat" (
   call "%DIRNAME%setenv.bat"
 )
@@ -104,6 +106,7 @@ if not "%KARAF_LOG%" == "" (
 if "%KARAF_LOG%" == "" (
     set "KARAF_LOG=%KARAF_DATA%\log"
 )
+
 
 rem Support for loading native libraries
 set PATH=%PATH%;%KARAF_BASE%\lib;%KARAF_HOME%\lib
@@ -241,3 +244,4 @@ rem # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 :END
 
 endlocal
+

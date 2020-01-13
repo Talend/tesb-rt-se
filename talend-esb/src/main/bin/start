@@ -16,106 +16,65 @@
 #    limitations under the License.
 #
 
-DIRNAME="`dirname "$0"`"
-PROGNAME="`basename "$0"`"
+realpath() {
+  # Use in priority xpg4 awk or nawk on SunOS as standard awk is outdated
+  AWK=awk
+  if ${solaris}; then
+      if [ -x /usr/xpg4/bin/awk ]; then
+          AWK=/usr/xpg4/bin/awk
+      elif [ -x /usr/bin/nawk ]; then
+          AWK=/usr/bin/nawk
+      fi
+  fi
+
+  READLINK_EXISTS=`command -v readlink &> /dev/null`
+  BINARY_NAME=`basename "${1}"`
+  if [ -z "$READLINK_EXISTS" ]; then
+    OURPWD="`pwd`"
+    cd "`dirname "${1}"`" || exit 2
+    LINK=`ls -l "${BINARY_NAME}" | ${AWK} -F"-> " '{print $2}'`
+    while [ "${LINK}" ]; do
+        echo "link: ${LINK}" >&2
+        cd "`dirname "${LINK}"`" || exit 2
+        LINK=`ls -l "${BINARY_NAME}" | ${AWK} -F"-> " '{print $2}'`
+    done
+    REALPATH="`pwd`/${BINARY_NAME}"
+    cd "${OURPWD}" || exit 2
+    echo "${REALPATH}"
+  else
+    OURPWD="`pwd`"
+    cd "`dirname "${1}"`" || exit 2
+    LINK=`readlink "${BINARY_NAME}"`
+    while [ "${LINK}" ]; do
+        echo "link: ${LINK}" >&2
+        cd "`dirname "${LINK}"`" || exit 2
+        LINK=`readlink "${BINARY_NAME}"`
+    done
+    REALPATH="`pwd`/${BINARY_NAME}"
+    cd "${OURPWD}" || exit 2
+    echo "${REALPATH}"
+  fi
+}
+
+REALNAME=`realpath "$0"`
+DIRNAME=`dirname "${REALNAME}"`
+PROGNAME=`basename "${REALNAME}"`
 
 #
-# Sourcing environment settings for karaf similar to tomcats setenv 
+# Load common functions
 #
-KARAF_SCRIPT="start"
-export KARAF_SCRIPT
+. "${DIRNAME}/inc"
+
+#
+# Sourcing environment settings for karaf similar to tomcats setenv
+#
+if [ "x${KARAF_SCRIPT}" = "x" ]; then
+    KARAF_SCRIPT="${PROGNAME}"
+    export KARAF_SCRIPT
+fi
 if [ -f "${DIRNAME}/setenv" ]; then
   . "${DIRNAME}/setenv"
 fi
-
-warn() {
-    echo "${PROGNAME}: $*"
-}
-
-die() {
-    warn "$*"
-    exit 1
-}
-
-detectOS() {
-    # OS specific support (must be 'true' or 'false').
-    cygwin=false;
-    darwin=false;
-    aix=false;
-    os400=false;
-    case "`uname`" in
-        CYGWIN*)
-            cygwin=true
-            ;;
-        Darwin*)
-            darwin=true
-            ;;
-        AIX*)
-            aix=true
-            ;;
-        OS400*)
-            os400=true
-            ;;
-    esac
-    # For AIX, set an environment variable
-    if ${aix}; then
-         export LDR_CNTRL=MAXDATA=0xB0000000@DSA
-         export IBM_JAVA_HEAPDUMP_TEXT=true
-         echo $LDR_CNTRL
-    fi
-}
-
-locateHome() {
-    if [ -n "${KARAF_HOME}" ]; then
-        warn "Ignoring predefined value for KARAF_HOME"
-    fi
-
-    # In POSIX shells, CDPATH may cause cd to write to stdout
-    (unset CDPATH) >/dev/null 2>&1 && unset CDPATH
-
-    KARAF_HOME="`cd ${DIRNAME}/..; pwd`"
-    if [ ! -d "${KARAF_HOME}" ]; then
-        die "KARAF_HOME is not valid: ${KARAF_HOME}"
-    fi
-}
-
-locateBase() {
-    if [ -n "${KARAF_BASE}" ]; then
-        if [ ! -d "${KARAF_BASE}" ]; then
-            die "KARAF_BASE is not valid: ${KARAF_BASE}"
-        fi
-    else
-        KARAF_BASE=${KARAF_HOME}
-    fi
-}
-
-locateData() {
-    if [ -n "${KARAF_DATA}" ]; then
-        if [ ! -d "${KARAF_DATA}" ]; then
-            die "KARAF_DATA is not valid: ${KARAF_DATA}"
-        fi
-    else
-        KARAF_DATA=${KARAF_BASE}/data
-    fi
-}
-
-locateEtc() {
-    if [ -n "${KARAF_ETC}" ]; then
-        if [ ! -d "${KARAF_ETC}" ]; then
-            die "KARAF_ETC is not valid: ${KARAF_ETC}"
-        fi
-    else
-        KARAF_ETC=${KARAF_BASE}/etc
-    fi
-}
-
-enableRedirect() {
-    if [ -n "${KARAF_REDIRECT}" ]; then
-        warn "Redirecting Karaf output to ${KARAF_REDIRECT}"
-    else
-        KARAF_REDIRECT="/dev/null"
-    fi
-}
 
 init() {
     # Determine if there is special OS handling we must perform
@@ -123,33 +82,19 @@ init() {
 
     # Locate the Karaf home directory
     locateHome
-
-    # Locate the Karaf base directory
-    locateBase
-
-    # Locate the Karaf data directory
-    locateData
-
-    # Locate the Karaf etc directory
-    locateEtc
-
-    # Enable or not the Karaf output redirection
-    enableRedirect
 }
 
 run() {
-    if $cygwin; then
-        KARAF_HOME=`cygpath --path --windows "$KARAF_HOME"`
-        KARAF_BASE=`cygpath --path --windows "$KARAF_BASE"`
-        KARAF_DATA=`cygpath --path --windows "$KARAF_DATA"`
-        KARAF_ETC=`cygpath --path --windows "$KARAF_ETC"`
-        CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
+    convertPaths
+
+    # Enable redirect
+    if [ "x${KARAF_REDIRECT}" != "x" ]; then
+        warn "Redirecting Karaf output to ${KARAF_REDIRECT}"
+    else
+        KARAF_REDIRECT="/dev/null"
     fi
-    # Ensure the log directory exists -- we need to have a place to redirect stdout/stderr
-    if [ ! -d "${KARAF_DATA}/log" ]; then
-        mkdir -p "${KARAF_DATA}/log"
-    fi
-    exec "${KARAF_HOME}"/bin/trun server "$@" >> "${KARAF_REDIRECT}" 2>&1 &
+
+    exec "${KARAF_HOME}/bin/trun" server "$@" >> "${KARAF_REDIRECT}" 2>&1 &
 }
 
 main() {
@@ -158,3 +103,4 @@ main() {
 }
 
 main "$@"
+
