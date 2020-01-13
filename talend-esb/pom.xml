@@ -1063,6 +1063,9 @@
                                         <replacetoken>feature name="pax-http-service" description="Pax-Web OSGi HTTP Service" version="7.2.11"</replacetoken>
                                         <replacevalue>feature name="pax-http-service" description="Pax-Web OSGi HTTP Service" version="${pax.web.version}"</replacevalue>
                                     </replacefilter>
+                                    <replacefilter
+                                        token="9.4.20.v20190813"
+                                        value="${jetty.version}"/>
                                 </replace>
                                 <replace file="target/dependencies/spring-legacy-${karaf.version}-features.xml">
                                     <replacefilter token="mvn:org.ops4j.pax.web/pax-web-features/7.2.11/xml/features&lt;"

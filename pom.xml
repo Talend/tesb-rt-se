@@ -118,7 +118,7 @@
         <jdom.bundle.version>1.1_4</jdom.bundle.version>
         <osgi.core.version>6.0.0</osgi.core.version>
         <osgi.compendium.version>5.0.0</osgi.compendium.version>
-        <jetty.version>9.4.20.v20190813</jetty.version>
+        <jetty.version>9.4.22.v20191022</jetty.version>
         <pax.web.version>7.2.12</pax.web.version>
         <oscache.bundle.version>2.4_5</oscache.bundle.version>
         <cglib.bundle.version>3.2.4_1</cglib.bundle.version>
