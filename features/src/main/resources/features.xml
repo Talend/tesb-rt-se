@@ -251,7 +251,7 @@
   <feature name="talend-job-dependencies" version="${project.version}">
     <feature version='${cxf.version}'>cxf</feature>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/${dom4j.bundle.version}</bundle>
-    <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxen/${jaxen.bundle.version}</bundle>
+    <bundle dependency="true">mvn:jaxen/jaxen/${jaxen.bundle.version}</bundle>
   </feature>
 
   <feature name="talend-job-controller" version="${project.version}">
