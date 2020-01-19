@@ -50,6 +50,7 @@ public class DOM4JMarshallerTest {
         assertTrue(writer.toString().contains("xmlns=\"\""));
 
         // TESB-12665
+        source = DOM4JMarshaller.documentToSource(doc);
         TransformerFactory.newInstance().newTransformer().transform(source, new StreamResult(new StringWriter()));
     }
 }
