@@ -19,6 +19,7 @@
  */
 package org.talend.esb.job.controller.internal.util;
 
+import java.io.StringReader;
 import java.util.logging.Logger;
 
 import javax.xml.XMLConstants;
@@ -26,10 +27,9 @@ import javax.xml.transform.Source;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamSource;
 
 import org.dom4j.DocumentException;
-import org.dom4j.io.DOMWriter;
 
 public final class DOM4JMarshaller {
 
@@ -88,7 +88,7 @@ public final class DOM4JMarshaller {
     }
 
     public static Source documentToSource(org.dom4j.Document document) throws DocumentException {
-        return new DOMSource(new DOMWriter().write(document));
+        return new StreamSource(new StringReader(document.asXML()));
     }
 
 }
