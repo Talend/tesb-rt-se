@@ -47,7 +47,7 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.camel</groupId>
-                <artifactId>camel-jetty</artifactId>
+                <artifactId>camel-jetty9</artifactId>
                 <version>${camel.version}</version>
             </dependency>
             <dependency>
@@ -79,17 +79,6 @@
                 </exclusions>
             </dependency>
 
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-osgi</artifactId>
-                <version>${activemq.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-jaxrs</artifactId>

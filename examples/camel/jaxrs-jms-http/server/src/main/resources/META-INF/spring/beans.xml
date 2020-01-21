@@ -80,7 +80,7 @@
     <bean id="stripPrefix" class="service.StripPrefixProcessor">
     </bean>
 
-    <bean id="jetty" class="org.apache.camel.component.jetty.JettyHttpComponent">
+    <bean id="jetty" class="org.apache.camel.component.jetty9.JettyHttpComponent9">
     </bean>
     
 </beans>
