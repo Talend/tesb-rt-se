@@ -44,7 +44,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
-            <artifactId>camel-jetty</artifactId>
+            <artifactId>camel-jetty9</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
@@ -59,12 +59,6 @@
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-osgi</artifactId>
             <scope>runtime</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 
@@ -102,7 +96,6 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Require-Bundle>org.apache.camel.camel-cxf,org.apache.camel.camel-cxf-transport,org.apache.cxf.bundle,org.apache.camel.camel-cxf,org.springframework.beans,org.apache.activemq.activemq-osgi</Require-Bundle>
                     </instructions>
                 </configuration>
             </plugin>

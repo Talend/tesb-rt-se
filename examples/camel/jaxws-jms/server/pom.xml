@@ -72,8 +72,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Import-Package>*,org.apache.camel.osgi</Import-Package>
-                        <Require-Bundle>org.apache.camel.camel-cxf,org.apache.camel.camel-cxf-transport,org.apache.cxf.bundle,org.springframework.beans,org.apache.activemq.activemq-osgi,org.apache.camel.camel-cxf</Require-Bundle>
+                        <Import-Package>*</Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
