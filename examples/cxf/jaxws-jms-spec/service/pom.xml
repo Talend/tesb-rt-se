@@ -65,12 +65,11 @@
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-osgi</artifactId>
-            <version>${activemq.version}</version>
             <scope>runtime</scope>
             <exclusions>
                 <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

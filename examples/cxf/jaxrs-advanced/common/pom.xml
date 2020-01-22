@@ -18,14 +18,10 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <properties>
-        <slf4j.version>1.6.1</slf4j.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jpa_2.0_spec</artifactId>
+            <artifactId>geronimo-jpa_2.2_spec</artifactId>
             <version>${geronimo.jpa.version}</version>
         </dependency>
         <dependency>

@@ -30,16 +30,10 @@
     <properties>
         <use.service.registry>false</use.service.registry>
 
-        <cxf.version>3.3.4</cxf.version>
         <cxf.xjc.version>3.3.0</cxf.xjc.version>
-        <camel.version>2.24.2</camel.version>
-        <spring.version>5.1.9.RELEASE</spring.version>
-        <karaf.version>4.2.7</karaf.version>
-        <activemq.version>5.15.10</activemq.version>
         <osgi.version>6.0.0</osgi.version>
         <zookeeper.version>3.4.14</zookeeper.version>
         <derby.version>10.14.2.0</derby.version>
-        <jetty.version>9.4.22.v20191022</jetty.version>
 
         <!-- Test dependencies -->
         <junit.version>4.12</junit.version>
