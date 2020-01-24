@@ -115,9 +115,21 @@ public class OidcAccessTokenValidator implements ContainerRequestFilter {
 
 				long currentTimeMs = System.currentTimeMillis();
 				String exp = (tokenDetails.get("exp")==null?"":tokenDetails.get("exp")) + "000";
-				if(Long.valueOf(exp) > currentTimeMs){
-					authFailed = false;
-				} else if(oidcConfiguration.getOidcCacheEnable()){
+				String active = tokenDetails.get("active");
+
+                if(!oidcConfiguration.getOidcCacheEnable()){
+                    if("true".equalsIgnoreCase(active)){
+                        authFailed = false;
+                    }
+                }
+
+                if(oidcConfiguration.getOidcCacheEnable()) {
+                    if (Long.valueOf(exp) > currentTimeMs) {
+                        authFailed = false;
+                    }
+                }
+
+                if(oidcConfiguration.getOidcCacheEnable() && authFailed){
 					tokenCacheMap.remove(token);
 				}
 				/*String active = map.get("active");
