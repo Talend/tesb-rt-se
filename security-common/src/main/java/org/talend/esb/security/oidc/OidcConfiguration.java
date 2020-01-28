@@ -12,10 +12,13 @@ public class OidcConfiguration {
 	public static final String OIDC_SCOPE = "scope";
 	public static final String OIDC_CACHE_ENABLE = "cache.use" ;
 	public static final String OIDC_CACHE_SIZE = "cache.size";
+	public static final String OIDC_OVERLOAD_USER_HEADER = "token.overload.user.header";
 
 	private static final String DEFAULT_OIDC_SCOPE = "openid";
 	private static final String DEFAULT_PUBLIC_CLIENT_ID = "aFSloIZSXHRQtA";
 	private static final int DEFAULT_OIDC_CACHE_SIZE = 100;
+
+
 
 
 
@@ -70,11 +73,11 @@ public class OidcConfiguration {
 	}
 
 	public boolean getOidcCacheEnable(){
-		if ("true".equals(System.getProperty(OIDC_CACHE_ENABLE))) {
+		if ("true".equalsIgnoreCase(System.getProperty(OIDC_CACHE_ENABLE))) {
 			return true;
 		}
 
-		if("true".equals(oidcProperties.get(OIDC_CACHE_ENABLE))){
+		if("true".equalsIgnoreCase(oidcProperties.get(OIDC_CACHE_ENABLE))){
 			return true;
 		}
 			return false;
@@ -94,6 +97,17 @@ public class OidcConfiguration {
 		} catch(Exception e){
 			return DEFAULT_OIDC_CACHE_SIZE;
 		}
+	}
+
+	public boolean getOidcOverloadUserHeader(){
+		if ("true".equalsIgnoreCase(System.getProperty(OIDC_OVERLOAD_USER_HEADER))) {
+			return true;
+		}
+
+		if("true".equalsIgnoreCase(oidcProperties.get(OIDC_OVERLOAD_USER_HEADER))){
+			return true;
+		}
+		return false;
 	}
 
 

@@ -38,6 +38,7 @@
                 <prop key="scope">oidc</prop>
                 <prop key="cache.use">true</prop>
                 <prop key="cache.size">100</prop>
+                <prop key="token.overload.user.header">false</prop>
             </props>
         </property>
     </bean>
@@ -59,6 +60,8 @@
         <property name="scope" value="${scope}"/>
         <property name="useCache" value="${cache.use}"/>
         <property name="cacheSize" value="${cache.size}"/>
+        <property name="tokenOverloadUserHeader" value="${token.overload.user.header}"/>
+
 
 
     </bean>
