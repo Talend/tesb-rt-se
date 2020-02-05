@@ -86,7 +86,8 @@ if "%KARAF_TITLE%" == "" (
 )
 
 :EXECUTE
-    start "%KARAF_TITLE%" /MIN "%KARAF_HOME%\bin\trun.bat" server %*
+    rem fixed TESB-5752 removing "start ..." to avoid open a new window
+    "%KARAF_HOME%\bin\trun.bat" server %*
 
 rem # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
