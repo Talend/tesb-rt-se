@@ -35,7 +35,9 @@
     <properties>
         <!-- used for assembly & dependency type, overwritten by dev-unix-assembly-only & dev-win-assembly-only profiles -->
         <assembly.formats>tar.gz,zip</assembly.formats>
-	</properties>
+        <activemq.tesb.version>5.15.10.tesb1</activemq.tesb.version>
+        <pax-logging.tesb.version>1.11.2.tesb1</pax-logging.tesb.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -552,6 +554,15 @@
                                     <destFileName>standard-${karaf.version}-features.xml</destFileName>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>framework</artifactId>
+                                    <version>${karaf.version}</version>
+                                    <type>xml</type>
+                                    <classifier>features</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>framework-${karaf.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.apache.karaf.diagnostic</groupId>
                                     <artifactId>org.apache.karaf.diagnostic.boot</artifactId>
                                     <version>${karaf.version}</version>
@@ -831,6 +842,48 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-client</artifactId>
+                                    <version>${activemq.tesb.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-broker</artifactId>
+                                    <version>${activemq.tesb.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-karaf</artifactId>
+                                    <version>${activemq.tesb.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-osgi</artifactId>
+                                    <version>${activemq.tesb.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-web-console</artifactId>
+                                    <version>${activemq.tesb.version}</version>
+                                    <type>war</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.pax.logging</groupId>
+                                    <artifactId>pax-logging-log4j2</artifactId>
+                                    <version>${pax-logging.tesb.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -1067,10 +1120,24 @@
                                         token="9.4.20.v20190813"
                                         value="${jetty.version}"/>
                                 </replace>
+                                <replace file="target/dependencies/framework-${karaf.version}-features.xml">
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.ops4j.pax.logging/pax-logging-log4j2/1.11.2&lt;</replacetoken>
+                                        <replacevalue>mvn:org.ops4j.pax.logging/pax-logging-log4j2/${pax-logging.tesb.version}&lt;</replacevalue>
+                                    </replacefilter>
+                                </replace>
                                 <replace file="target/dependencies/spring-legacy-${karaf.version}-features.xml">
                                     <replacefilter token="mvn:org.ops4j.pax.web/pax-web-features/7.2.11/xml/features&lt;"
                                                    value="mvn:org.ops4j.pax.web/pax-web-features/${pax.web.version}/xml/features&lt;"/>
                                 </replace>
+                                 <!-- patch for pax-logging-log4j2-->
+                                 <replaceregexp byline="true"
+                                        match="^(\s*mvn\\:org\.ops4j\.pax\.logging/pax-logging-log4j2/)1.11.2(\s*=.*)$"
+                                        replace="\1${pax-logging.tesb.version}\2">
+                                    <fileset dir="target/dependencies/apache-karaf/apache-karaf-${karaf.version}/etc/">
+                                        <include name="startup.properties"/>
+                                    </fileset>
+                                 </replaceregexp>
                                 <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
                                     <replacefilter
                                         token="apache-cxf/3.2.10/xml/features"
@@ -1204,6 +1271,10 @@
                                         <replacetoken>mvn:org.codehaus.woodstox/stax2-api/4.1</replacetoken>
                                         <replacevalue>mvn:org.codehaus.woodstox/stax2-api/3.1.4</replacevalue>
                                     </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.activemq/activemq-osgi/5.15.10&lt;</replacetoken>
+                                        <replacevalue>mvn:org.apache.activemq/activemq-osgi/${activemq.tesb.version}&lt;</replacevalue>
+                                    </replacefilter>
                                     <!-- Patch the TESB-24618 Upgrade CXF 3.3.1 -->
                                     <replacefilter>
                                         <replacetoken>&lt;bundle start-level="10" dependency="true"&gt;mvn:jakarta.xml.bind/jakarta.xml.bind-api/2.3.2&lt;/bundle&gt;</replacetoken>
@@ -1298,6 +1369,14 @@
                                         value="mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}"/>
                                 </replace>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.activemq/activemq-osgi/5.15.10&lt;</replacetoken>
+                                        <replacevalue>mvn:org.apache.activemq/activemq-osgi/${activemq.tesb.version}&lt;</replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.activemq/activemq-karaf/5.15.10&lt;</replacetoken>
+                                        <replacevalue>mvn:org.apache.activemq/activemq-karaf/${activemq.tesb.version}&lt;</replacevalue>
+                                    </replacefilter>
                                     <!-- patch the jackson version (TESB-27613) -->
                                     <replacefilter
                                         token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.9"
@@ -1308,6 +1387,13 @@
                                     <replacefilter
                                         token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}"/>
+                                </replace>
+                                <replace file="target/dependencies/activemq-karaf-${activemq.version}-features.xml">
+                                    <!-- patch the jackson version (TESB-27613) -->
+                                    <replacefilter>
+                                        <replacetoken>mvn:org.apache.activemq/activemq-web-console/5.15.10/war</replacetoken>
+                                        <replacevalue>mvn:org.apache.activemq/activemq-web-console/${activemq.tesb.version}/war</replacevalue>
+                                    </replacefilter>
                                 </replace>
                                 <!-- patch for decanter bundles (TESB-24788) -->
                                 <replace file="target/dependencies/apache-karaf-decanter-${decanter.version}-features.xml">
