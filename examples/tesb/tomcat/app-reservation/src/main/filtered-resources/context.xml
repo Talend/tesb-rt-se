@@ -46,9 +46,4 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-	<bean id="handlerAdapter"
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"
-		p:synchronizeOnSession="true">
-	</bean>
-
 </beans>
