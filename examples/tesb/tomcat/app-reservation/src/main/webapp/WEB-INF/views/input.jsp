@@ -31,7 +31,7 @@
 </head>
 <body>
 	<div class="container">
-		<form:form action="search" method="POST" commandName="inputData"
+		<form:form action="search" method="POST" modelAttribute="inputData"
 			class="form-datainput" role="form">
 			<h1>Rent-a-Car (Web)</h1>
 			<div class="form-group">
