@@ -24,9 +24,6 @@ jaxrs-jms-http
 jaxws-jms
    Publishing and using a CXF JAX-WS service using SOAP/JMS
 
-Spring-security
-   Securing Camel routes and CXF endpoints using Spring security
-
 Build
 ===============================================================================
 
