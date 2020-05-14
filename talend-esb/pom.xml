@@ -884,6 +884,134 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
+                                <!-- TESB-28029 - remove when we pick up Karaf 4.2.9 -->
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-core</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-expression</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-beans</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-aop</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-context</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-context-support</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-aspects</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-instrument</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-jdbc</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-jms</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-messaging</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-test</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-orm</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-oxm</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-tx</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-web</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-webmvc</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                     <groupId>org.apache.servicemix.bundles</groupId>
+                                     <artifactId>org.apache.servicemix.bundles.spring-websocket</artifactId>
+                                     <version>${spring.version}_1</version>
+                                     <type>jar</type>
+                                     <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <!-- TESB-28029 end -->
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -1367,6 +1495,11 @@
                                     <replacefilter
                                         token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.9"
                                         value="mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}"/>
+                                    <!-- TESB-28029 - remove when we pick up Karaf 4.2.9 -->
+                                    <replacefilter
+                                        token="5.1.9.RELEASE_1"
+                                        value="${spring.version}_1"/>
+                                    <!-- TESB-28029 end -->
                                 </replace>
                                 <replace file="target/dependencies/activemq-karaf-${activemq.version}-features-core.xml">
                                     <replacefilter>
