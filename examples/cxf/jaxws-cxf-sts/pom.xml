@@ -18,10 +18,6 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <properties>
-        <spring.version>5.1.9.RELEASE</spring.version>
-    </properties>
-
     <modules>
         <module>service</module>
         <module>war</module>
