@@ -393,9 +393,6 @@
                 <exclude>org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
                 <exclude>org/apache/karaf/config/org.apache.karaf.config.core/${karaf.version}/**</exclude>
                 <exclude>org/ops4j/pax/web/**/7.2.11/**</exclude>
-                <exclude>org/apache/activemq/activemq-osgi/5.15.10/**</exclude>
-                <exclude>org/apache/activemq/activemq-web-console/5.15.10/**</exclude>
-                <exclude>org/apache/activemq/activemq-karaf/5.15.10/activemq-karaf-5.15.10.jar</exclude>
             </excludes>
         </fileSet>
         <!-- Woraround for xjc-utils version (TESB-21746) -->
@@ -703,31 +700,6 @@
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.config.core-${org.apache.karaf.config.core.tesb.version}.jar</source>
             <outputDirectory>./container/system/org/apache/karaf/config/org.apache.karaf.config.core/${org.apache.karaf.config.core.tesb.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/activemq-client-${activemq.tesb.version}.jar</source>
-            <outputDirectory>./activemq/lib/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/activemq-broker-${activemq.tesb.version}.jar</source>
-            <outputDirectory>./activemq/lib/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/activemq-karaf-${activemq.tesb.version}.jar</source>
-            <outputDirectory>./container/system/org/apache/activemq/activemq-karaf/${activemq.tesb.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/activemq-osgi-${activemq.tesb.version}.jar</source>
-            <outputDirectory>./container/system/org/apache/activemq/activemq-osgi/${activemq.tesb.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/activemq-web-console-${activemq.tesb.version}.war</source>
-            <outputDirectory>./container/system/org/apache/activemq/activemq-web-console/${activemq.tesb.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
