@@ -201,6 +201,8 @@
                 <exclude>etc/org.apache.karaf.management.cfg</exclude>
                 <!-- TESB-24618 upgrade cxf to 3.3.1 -->
                 <exclude>etc/jre.properties</exclude>
+                <!-- fix TESB-29223 -->
+                <exclude>etc/org.apache.karaf.features.xml</exclude>
                 <exclude>lib/endorsed/**</exclude>
                 <!-- Patch jackson version (TESB-24693) -->
                 <exclude>system/org/apache/karaf/features/enterprise/${karaf.version}/enterprise-${karaf.version}-features.xml</exclude>
