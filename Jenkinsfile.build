@@ -1,0 +1,6 @@
+@Library('esb') _
+
+Build(
+        DOWNSTREAM_PROJECT: 'tesb-rt-ee',
+        CRON_MASTER: '0 23 * * *'
+)
