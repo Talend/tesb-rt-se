@@ -234,17 +234,4 @@
         </pluginRepository>
     </pluginRepositories>
 
-    <!--distributionManagement>
-        <repository>
-            <id>contextstore-releases</id>
-            <name>ESB Context Store releases Repository</name>
-            <url>${esb.contextstore.releases.repo.url}</url>
-        </repository>
-        <snapshotRepository>
-            <id>contextstore-snapshots</id>
-            <name>ESB Context Store snapshots Repository</name>
-            <url>${esb.contextstore.snapshots.repo.url}</url>
-        </snapshotRepository>
-    </distributionManagement-->
-
 </project>
