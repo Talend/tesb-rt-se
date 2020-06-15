@@ -3,5 +3,6 @@
 Build(
         DOWNSTREAM_PROJECT: 'tesb-rt-ee',
         CRON_MASTER: '0 23 * * *',
-        ARTIFACTS: '**/target/*.zip,**/target/*.tar.gz'
+        ARTIFACTS: '**/target/*.zip,**/target/*.tar.gz',
+        NEXUS_PUBLIC: true
 )
