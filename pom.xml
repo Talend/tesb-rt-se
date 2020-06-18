@@ -590,6 +590,9 @@
     <profiles>
         <profile>
             <id>packaging</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <modules>
                 <module>talend-esb</module>
             </modules>

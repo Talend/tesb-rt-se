@@ -295,6 +295,9 @@
                     <scanPaths>
                         <scanPath>org.talend.esb.servicelocator</scanPath>
                     </scanPaths>
+                    <excludeArtifacts>
+                        <excludeArtifact>.*</excludeArtifact>
+                    </excludeArtifacts>
                 </configuration>
             </plugin>
             <!--
