@@ -707,6 +707,11 @@
             <outputDirectory>./container/system/org/ops4j/pax/logging/pax-logging-log4j2/${pax-logging.tesb.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
+        <file>
+            <source>${basedir}/target/dependencies/camel-mqtt-${camel.mqtt.version.tesb1}.jar</source>
+            <outputDirectory>./container/system/org/apache/camel/camel-mqtt/${camel.mqtt.version.tesb1}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
     </files>
 
     <dependencySets>
