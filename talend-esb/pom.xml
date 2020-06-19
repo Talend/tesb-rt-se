@@ -36,6 +36,7 @@
         <!-- used for assembly & dependency type, overwritten by dev-unix-assembly-only & dev-win-assembly-only profiles -->
         <assembly.formats>tar.gz,zip</assembly.formats>
         <pax-logging.tesb.version>1.11.2.tesb1</pax-logging.tesb.version>
+        <camel.mqtt.version.tesb1>2.24.2.tesb1</camel.mqtt.version.tesb1>
     </properties>
 
     <dependencies>
@@ -975,6 +976,14 @@
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-mqtt</artifactId>
+                                    <version>${camel.mqtt.version.tesb1}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>camel-mqtt-${camel.mqtt.version.tesb1}.jar</destFileName>
+                                </artifactItem>
                                 <!-- TESB-28029 end -->
                             </artifactItems>
                         </configuration>
@@ -1332,6 +1341,14 @@
                                     <replacefilter
                                         token="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/1.6.1_5"
                                         value="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/${dom4j.bundle.version}"/>
+                                    <replacefilter>
+                                        <replacetoken><![CDATA[<bundle>]]>mvn:org.apache.camel/camel-mqtt/${camel.version}<![CDATA[</bundle>]]></replacetoken>
+                                        <replacevalue><![CDATA[<bundle>]]>mvn:org.apache.camel/camel-mqtt/${camel.mqtt.version.tesb1}<![CDATA[</bundle>]]></replacevalue>
+                                    </replacefilter>
+                                    <replacefilter>
+                                        <replacetoken><![CDATA[name='camel-mqtt' version=']]>${camel.version}<![CDATA[']]></replacetoken>
+                                        <replacevalue><![CDATA[name='camel-mqtt' version=']]>${camel.mqtt.version.tesb1}<![CDATA[']]></replacevalue>
+                                    </replacefilter>
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
