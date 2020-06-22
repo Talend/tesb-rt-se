@@ -708,8 +708,8 @@
             <fileMode>0644</fileMode>
         </file>
         <file>
-            <source>${basedir}/target/dependencies/camel-mqtt-${camel.mqtt.version.tesb1}.jar</source>
-            <outputDirectory>./container/system/org/apache/camel/camel-mqtt/${camel.mqtt.version.tesb1}/</outputDirectory>
+            <source>${basedir}/target/dependencies/camel-mqtt-${camel-mqtt.tesb.version}.jar</source>
+            <outputDirectory>./container/system/org/apache/camel/camel-mqtt/${camel-mqtt.tesb.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
     </files>
