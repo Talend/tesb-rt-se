@@ -1024,6 +1024,13 @@
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>org.apache.cxf</groupId>
+                                    <artifactId>cxf-rt-rs-service-description-swagger</artifactId>
+                                    <version>${cxf-rt-rs-service-description-swagger.tesb.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.apache.camel</groupId>
                                     <artifactId>camel-mqtt</artifactId>
                                     <version>${camel.mqtt.version}</version>
@@ -1477,6 +1484,10 @@
                                     <replacefilter
                                         token="mvn:org.apache.cxf/cxf-rt-transports-http-jetty/3.3.1&lt;"
                                         value="mvn:org.apache.cxf/cxf-rt-transports-http-jetty/3.3.1.tesb1&lt;"/>
+                                    <!-- patch for cxf-rt-rs-service-description-swagger (TESB-29278) -->
+                                    <replacefilter
+                                            token="mvn:org.apache.cxf/cxf-rt-rs-service-description-swagger/3.3.1&lt;"
+                                            value="mvn:org.apache.cxf/cxf-rt-rs-service-description-swagger/${cxf-rt-rs-service-description-swagger.tesb.version}&lt;"/>
                                 </replace>
                                 <replace file="target/dependencies/framework-${karaf.version}-features.xml">
                                     <!-- patch for pax-logging-log4j2 (TESB-20573) -->
