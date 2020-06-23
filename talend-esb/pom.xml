@@ -1012,6 +1012,13 @@
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
                                 <!-- TESB-28029 end -->
+                                <artifactItem>
+                                    <groupId>org.apache.cxf</groupId>
+                                    <artifactId>cxf-rt-rs-service-description-swagger</artifactId>
+                                    <version>${cxf-rt-rs-service-description-swagger.tesb.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -1460,6 +1467,9 @@
                                     <replacefilter
                                         token="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/1.6.1_5"
                                         value="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/${dom4j.bundle.version}"/>
+                                    <replacefilter
+                                            token="mvn:org.apache.cxf/cxf-rt-rs-service-description-swagger/${cxf.version}&lt;"
+                                            value="mvn:org.apache.cxf/cxf-rt-rs-service-description-swagger/${cxf-rt-rs-service-description-swagger.tesb.version}&lt;"/>
                                 </replace>
                                 <!-- patch the cxf-jackson feature (TESB-27214/CXF-8155) -->
                                 <replaceregexp byline="false" flags="gim"

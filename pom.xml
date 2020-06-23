@@ -92,6 +92,7 @@
 
     <properties>
         <org.apache.karaf.config.core.tesb.version>4.2.7.tesb1</org.apache.karaf.config.core.tesb.version>
+        <cxf-rt-rs-service-description-swagger.tesb.version>3.3.4.tesb1</cxf-rt-rs-service-description-swagger.tesb.version>
         <packages.version>${project.version}</packages.version>
         <cxf.version>3.3.4</cxf.version>
         <camel.version>2.24.2</camel.version>

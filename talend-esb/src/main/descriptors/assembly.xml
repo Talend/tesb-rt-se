@@ -399,6 +399,8 @@
                 <exclude>org/apache/activemq/activemq-osgi/5.15.10/**</exclude>
                 <exclude>org/apache/activemq/activemq-web-console/5.15.10/**</exclude>
                 <exclude>org/apache/activemq/activemq-karaf/5.15.10/activemq-karaf-5.15.10.jar</exclude>
+                <!-- patch for cxf-rt-rs-service-description-swagger (TESB-29278) -->
+                <exclude>org/apache/cxf/cxf-rt-rs-service-description-swagger/**</exclude>
             </excludes>
         </fileSet>
         <!-- Woraround for xjc-utils version (TESB-21746) -->
@@ -738,6 +740,13 @@
             <outputDirectory>./container/system/org/ops4j/pax/logging/pax-logging-log4j2/${pax-logging.tesb.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
+        <!-- patch for cxf-rt-rs-service-description-swagger (TESB-29278) -->
+        <file>
+            <source>${basedir}/target/dependencies/cxf-rt-rs-service-description-swagger-${cxf-rt-rs-service-description-swagger.tesb.version}.jar</source>
+            <outputDirectory>./container/system/org/apache/cxf/cxf-rt-rs-service-description-swagger/${cxf-rt-rs-service-description-swagger.tesb.version}/</outputDirectory>
+            <fileMode>0644</fileMode>
+        </file>
+
     </files>
 
     <dependencySets>
