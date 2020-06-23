@@ -783,13 +783,13 @@
         <!-- patch for cxf-rt-transports-http-jetty (TESB-25945) -->
         <file>
             <source>${basedir}/target/dependencies/cxf-rt-transports-http-jetty-${cxf.version}.tesb1.jar</source>
-            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-transports-http-jetty/${cxf-rt-rs-service-description-swagger.tesb.version}/</outputDirectory>
+            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-transports-http-jetty/${cxf.version}.tesb1/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <!-- patch for cxf-rt-rs-service-description-swagger (TESB-29278) -->
         <file>
-            <source>${basedir}/target/dependencies/cxf-rt-rs-service-description-swagger-${cxf.version}.tesb1.jar</source>
-            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-rs-service-description-swagger/${cxf.version}.tesb1/</outputDirectory>
+            <source>${basedir}/target/dependencies/cxf-rt-rs-service-description-swagger-${cxf-rt-rs-service-description-swagger.tesb.version}.jar</source>
+            <outputDirectory>/container/system/org/apache/cxf/cxf-rt-rs-service-description-swagger/${cxf-rt-rs-service-description-swagger.tesb.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
