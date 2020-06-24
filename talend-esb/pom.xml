@@ -215,6 +215,23 @@
                 <artifactId>karaf-maven-plugin</artifactId>
                 <version>${karaf.version}</version>
                 <executions>
+                    <!-- patch CAMEL-13241 -->
+                    <!-- report camel-ical feature resolution in this independant execution as standard apache-camel-2.23.1-features.xml doesn't define the key ${backport-util-concurrent-version} and this string is inside the XML as is (no property resolution) -->
+                    <execution>
+                        <id>camel-ical-feature</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>features-add-to-repository</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor>
+                            </descriptors>
+                            <features>
+                                <feature>camel-ical</feature>
+                            </features>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>add-features-to-repo</id>
                         <phase>process-resources</phase>
@@ -368,7 +385,6 @@
                                 <feature>camel-http4</feature>
                                 <feature>camel-hystrix</feature>
                                 <feature>camel-ibatis</feature>
-                                <feature>camel-ical</feature>
                                 <feature>camel-iec60870</feature>
 <!--                                 <feature>camel-ignite</feature> -->
                                 <feature>camel-infinispan</feature>
