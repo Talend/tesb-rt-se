@@ -606,6 +606,24 @@
                 <module>examples</module>
             </modules>
         </profile>
+        <profile>
+            <id>artifacts-oss.talend.com</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>artifacts-oss.talend.com/public</id>
+                    <name>Talend Open Source Public group</name>
+                    <url>https://artifacts-oss.talend.com/nexus/content/groups/public</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+            </repositories>
+        </profile>
     </profiles>
-
 </project>
