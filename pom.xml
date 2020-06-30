@@ -607,14 +607,14 @@
             </modules>
         </profile>
         <profile>
-            <id>nexus-talend</id>
+            <id>artifacts-oss.talend.com</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <repositories>
                 <repository>
-                    <id>Nexus public</id>
-                    <name>Talend Open Source</name>
+                    <id>artifacts-oss.talend.com/public</id>
+                    <name>Talend Open Source Public group</name>
                     <url>https://artifacts-oss.talend.com/nexus/content/groups/public</url>
                     <snapshots>
                         <enabled>true</enabled>
@@ -623,41 +623,7 @@
                         <enabled>true</enabled>
                     </releases>
                 </repository>
-                <repository>
-                    <id>snapshots</id>
-                    <name>Talend private snapshots</name>
-                    <url>https://artifacts-zl.talend.com/nexus/content/repositories/snapshots</url>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-                    <releases>
-                        <enabled>false</enabled>
-                    </releases>
-                </repository>
-                <repository>
-                    <id>releases</id>
-                    <name>Talend private releases</name>
-                    <url>https://artifacts-zl.talend.com/nexus/content/repositories/releases</url>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                </repository>
-                <repository>
-                    <id>thirdparty-releases</id>
-                    <name>Thirdparty private releases</name>
-                    <url>https://artifacts-zl.talend.com/nexus/content/repositories/thirdparty-releases</url>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                </repository>
             </repositories>
         </profile>
     </profiles>
-
 </project>
