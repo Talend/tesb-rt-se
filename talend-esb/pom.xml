@@ -1336,7 +1336,7 @@
                                     <replacefilter
                                         token="mvn:com.fasterxml.jackson.module/jackson-module-jsonSchema/2.9.9"
                                         value="mvn:com.fasterxml.jackson.module/jackson-module-jsonSchema/${jackson.version}"/>
-                                    <!-- patch the dom4j version in Camel for TESB-27620 -->
+                                    <!-- patch the dom4j version in Camel for TESB-29133-->
                                     <replacefilter
                                         token="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/1.6.1_5"
                                         value="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/${dom4j.bundle.version}"/>
@@ -1431,7 +1431,7 @@
                                     <replacefilter
                                         token="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.9.10"
                                         value="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jsr310/${jackson.version}"/>
-                                    <!-- patch the dom4j version in CXF for TESB-27620 -->
+                                    <!-- patch the dom4j version in CXF for TESB-29133 -->
                                     <replacefilter
                                         token="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/1.6.1_5"
                                         value="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/${dom4j.bundle.version}"/>
