@@ -40,7 +40,7 @@ under the License.
         <!--
         <property name="supportBase64Encoding" value="false"/>
         -->
-        <property name="signaturePropertiesFile" value="serviceKeystore.properties"/>
+        <property name="signatureCryptoProperties" value="serviceKeystore.properties"/>
         <property name="enforceAssertionsSigned" value="false"/>
         <property name="enforceKnownIssuer" value="false"/>
         <property name="callbackHandlerClass" value="oauth2.sso.SSOCallbackHandler"/>

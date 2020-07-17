@@ -69,7 +69,7 @@ http://www.springframework.org/schema/util/spring-util-2.0.xsd">
     </util:list>
 
     <bean id="x509STSProperties" class="org.apache.cxf.sts.StaticSTSProperties">
-        <property name="signaturePropertiesFile" value="stsKeystore.properties" />
+        <property name="signatureCryptoProperties" value="stsKeystore.properties" />
         <property name="signatureUsername" value="mystskey" />
         <property name="callbackHandlerClass" value="sts.PasswordCallbackHandler" />
         <property name="issuer" value="DoubleItSTSIssuer" />
