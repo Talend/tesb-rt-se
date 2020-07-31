@@ -90,22 +90,6 @@
                 <version>${karaf.version}</version>
                 <executions>
                     <execution>
-                        <id>custom-features</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>features-add-to-repository</goal>
-                        </goals>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor>
-                            </descriptors>
-                            <features>
-                                <feature>camel-groovy</feature>
-                                <feature>camel-script-groovy</feature>
-                            </features>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>add-features-to-repo</id>
                         <phase>process-resources</phase>
                         <goals>
@@ -239,6 +223,7 @@
                                 <feature>camel-google-mail</feature>
                                 <feature>camel-google-pubsub</feature>
                                 <feature>camel-grape</feature>
+                                <feature>camel-groovy</feature>
                                 <feature>camel-grpc</feature>
                                 <feature>camel-gson</feature>
                                 <feature>camel-guava-eventbus</feature>
@@ -353,6 +338,7 @@
                                 <feature>camel-schematron</feature>
                                 <feature>camel-script-jruby</feature>
                                 <feature>camel-script-javascript</feature>
+                                <feature>camel-script-groovy</feature>
                                 <feature>camel-script</feature>
                                 <feature>camel-servicenow</feature>
                                 <feature>camel-servlet</feature>
@@ -1363,60 +1349,6 @@
                                         file="target/dependencies/apache-camel-${camel.version}-features.xml"
                                         match="^(\s*&lt;details&gt;camel-jetty9.*\s*)\s*(\s*&lt;feature&gt;jetty&lt;/feature&gt;)$"
                                         replace="\1&lt;feature version='[9,10)'&gt;jetty&lt;/feature&gt;">
-                                </replaceregexp>
-                                <replaceregexp byline="false" flags="gim"
-                                               file="target/dependencies/apache-camel-${camel.version}-features.xml"
-                                               match="^(\s*&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy/([^&lt;]+)&lt;/bundle&gt;)\n\s+(&lt;bundle&gt;mvn:org.apache.camel/camel-groovy/[^&lt;]+&lt;/bundle&gt;)$"
-                                               replace="
-\1${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-ant/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-cli-commons/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-cli-picocli/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-console/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-datetime/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-docgenerator/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-groovydoc/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-groovysh/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-jmx/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-json/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-macro/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-nio/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-servlet/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-sql/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-swing/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-templates/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-test/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-test-junit5/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-testng/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-xml/\2&lt;/bundle&gt;${line.separator}
-\3">
-                                </replaceregexp>
-                                <replaceregexp byline="false" flags="gim"
-                                               file="target/dependencies/apache-camel-${camel.version}-features.xml"
-                                               match="^(\s*&lt;bundle&gt;mvn:org.codehaus.groovy/groovy/([^&lt;]+)&lt;/bundle&gt;)\n\s+(&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-jsr223/[^&lt;]+&lt;/bundle&gt;)$"
-                                               replace="
-\1${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-ant/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-cli-commons/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-cli-picocli/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-console/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-datetime/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-docgenerator/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-groovydoc/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-groovysh/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-jmx/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-json/\2&lt;/bundle&gt;${line.separator}
-\3${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-macro/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-nio/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-servlet/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-sql/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-swing/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-templates/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-test/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-test-junit5/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-testng/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-xml/\2&lt;/bundle&gt;${line.separator}">
                                 </replaceregexp>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- patch for xalan and xerces version -->
