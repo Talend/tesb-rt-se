@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.talend.esb.auxiliary.storage</groupId>
         <artifactId>auxiliary-storage-parent</artifactId>
-        <version>7.4.1-SNAPSHOT</version>
+        <version>7.4.1-M1</version>
     </parent>
 
     <prerequisites>
