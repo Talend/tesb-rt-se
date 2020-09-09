@@ -998,6 +998,20 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
                                 <!-- TESB-28029 end -->
+                                <artifactItem>
+                                    <groupId>org.apache.tika</groupId>
+                                    <artifactId>tika-core</artifactId>
+                                    <version>1.24.1</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.tika</groupId>
+                                    <artifactId>tika-bundle</artifactId>
+                                    <version>1.24.1</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -1357,6 +1371,12 @@
                                     <replacefilter
                                         token="mvn:org.apache.camel/camel-mqtt/${camel.version}&lt;"
                                         value="mvn:org.apache.camel/camel-mqtt/${camel-mqtt.tesb.version}&lt;" />
+                                    <replacefilter
+                                        token="mvn:org.apache.tika/tika-core/1.22"
+                                        value="mvn:org.apache.tika/tika-core/1.24.1" />
+                                    <replacefilter
+                                        token="mvn:org.apache.tika/tika-bundle/1.22"
+                                        value="mvn:org.apache.tika/tika-bundle/1.24.1" />
                                 </replace>
                                 <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
                                 <replaceregexp byline="false" flags="gim"
