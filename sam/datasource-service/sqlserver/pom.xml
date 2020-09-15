@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.talend.esb</groupId>
 		<artifactId>datasource-service</artifactId>
-		<version>7.4.1-SNAPSHOT</version>
+		<version>7.4.1-M2</version>
 	</parent>
 
 	<name>Talend ESB :: SAM :: Datasource :: SQLServer</name>

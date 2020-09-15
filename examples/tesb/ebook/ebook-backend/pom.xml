@@ -19,7 +19,7 @@
         <relativePath>..</relativePath>
         <artifactId>ebook</artifactId>
         <groupId>org.talend.esb.examples.ebook</groupId>
-        <version>7.4.1-SNAPSHOT</version>
+        <version>7.4.1-M2</version>
     </parent>
 
     <artifactId>ebook-backend</artifactId>
