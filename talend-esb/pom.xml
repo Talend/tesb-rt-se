@@ -126,7 +126,7 @@
 <!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
-<!--                                 <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor> -->
+                                <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor>
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
                                 <descriptor>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</descriptor>
                             </descriptors>
@@ -518,7 +518,7 @@
                                 <artifactItem>
                                     <groupId>org.apache.camel.karaf</groupId>
                                     <artifactId>apache-camel</artifactId>
-                                    <version>${camel.version}</version>
+                                    <version>${camel.tesb.version}</version>
                                     <type>xml</type>
                                     <classifier>features</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
@@ -826,29 +826,6 @@
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
-                                <!-- START Override Quartz/C3p0 in Camel - can be removed when we pick up Camel 2.24.3+/2.25.x -->
-                                <artifactItem>
-                                     <groupId>org.quartz-scheduler</groupId>
-                                     <artifactId>quartz</artifactId>
-                                     <version>${quartz.version}</version>
-                                     <type>jar</type>
-                                     <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                     <groupId>org.apache.servicemix.bundles</groupId>
-                                     <artifactId>org.apache.servicemix.bundles.c3p0</artifactId>
-                                     <version>${c3p0.bundle.version}</version>
-                                     <type>jar</type>
-                                     <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                     <groupId>com.zaxxer</groupId>
-                                     <artifactId>HikariCP-java7</artifactId>
-                                     <version>${hikaricp.version}</version>
-                                     <type>jar</type>
-                                     <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
-                                <!-- END Override Quartz/C3p0 in Camel - can be removed when we pick up Camel 2.24.3+/2.25.x -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.config</groupId>
                                     <artifactId>org.apache.karaf.config.core</artifactId>
@@ -998,6 +975,13 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
                                 <!-- TESB-28029 end -->
+								<artifactItem>
+                                    <groupId>org.apache.camel</groupId>
+                                    <artifactId>camel-chronicle</artifactId>
+                                    <version>${camel.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -1259,17 +1243,6 @@
                                     <replacefilter
                                         token="pax-cdi-features/1.0.0.RC1/xml/features"
                                         value="pax-cdi-features/${pax-cdi.version}/xml/features"/>
-                                    <!-- START Update Quartz/C3p0 in Camel - can be removed when we pick up Camel 2.24.3+/2.25.x -->
-                                    <replacefilter
-                                        token="c3p0/0.9.5.3_1"
-                                        value="c3p0/${c3p0.bundle.version}"/>
-                                    <replacefilter
-                                        token="quartz/2.3.0"
-                                        value="quartz/${quartz.version}"/>
-                                    <replacefilter
-                                        token="HikariCP-java6/2.3.13"
-                                        value="HikariCP-java7/${hikaricp.version}"/>
-                                    <!-- END Update Quartz/C3p0 in Camel - can be removed when we pick up Camel 2.24.3+/2.25.x -->
 
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
@@ -1358,12 +1331,6 @@
                                         token="mvn:org.apache.camel/camel-mqtt/${camel.version}&lt;"
                                         value="mvn:org.apache.camel/camel-mqtt/${camel-mqtt.tesb.version}&lt;" />
                                 </replace>
-                                <!-- Patch jetty version range in Camel features (TESB-18114/CAMEL-10433) -->
-                                <replaceregexp byline="false" flags="gim"
-                                        file="target/dependencies/apache-camel-${camel.version}-features.xml"
-                                        match="^(\s*&lt;details&gt;camel-jetty9.*\s*)\s*(\s*&lt;feature&gt;jetty&lt;/feature&gt;)$"
-                                        replace="\1&lt;feature version='[9,10)'&gt;jetty&lt;/feature&gt;">
-                                </replaceregexp>
                                 <replaceregexp byline="false" flags="gim"
                                                file="target/dependencies/apache-camel-${camel.version}-features.xml"
                                                match="^(\s*&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy/([^&lt;]+)&lt;/bundle&gt;)\n\s+(&lt;bundle&gt;mvn:org.apache.camel/camel-groovy/[^&lt;]+&lt;/bundle&gt;)$"
