@@ -23,7 +23,7 @@
    <properties>
       <maven.deploy.skip>false</maven.deploy.skip>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <cxf.version>3.3.4</cxf.version>
+      <cxf.version>3.3.7</cxf.version>
       <spring.version>5.1.14.RELEASE</spring.version>
    </properties>
 
