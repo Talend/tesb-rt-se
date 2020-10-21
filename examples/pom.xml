@@ -56,8 +56,8 @@
         <cxf.version>3.3.4</cxf.version>
         <cxf.xjc.version>3.3.0</cxf.xjc.version>
         <camel.version>2.24.2</camel.version>
-        <spring.version>5.1.14.RELEASE</spring.version>
-        <karaf.version>4.2.7</karaf.version>
+        <spring.version>5.2.9.RELEASE</spring.version>
+        <karaf.version>4.2.10</karaf.version>
         <jettison.version>1.4.0</jettison.version>
         <activemq.version>5.15.13</activemq.version>
         <osgi.version>6.0.0</osgi.version>
