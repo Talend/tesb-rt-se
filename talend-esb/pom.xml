@@ -125,8 +125,8 @@
 <!--                                <descriptor>mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
-<!--                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor> -->
-                                <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor>
+                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.tesb.version}/xml/features</descriptor>
+<!--                                <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor> -->
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
                                 <descriptor>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</descriptor>
                             </descriptors>
