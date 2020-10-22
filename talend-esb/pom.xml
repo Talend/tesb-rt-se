@@ -518,7 +518,7 @@
                                 <artifactItem>
                                     <groupId>org.apache.camel.karaf</groupId>
                                     <artifactId>apache-camel</artifactId>
-                                    <version>${camel.tesb.version}</version>
+                                    <version>${camel.version}</version>
                                     <type>xml</type>
                                     <classifier>features</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
@@ -975,13 +975,6 @@
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
                                 <!-- TESB-28029 end -->
-								<artifactItem>
-                                    <groupId>org.apache.camel</groupId>
-                                    <artifactId>camel-chronicle</artifactId>
-                                    <version>${camel.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
