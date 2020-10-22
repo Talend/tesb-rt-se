@@ -113,6 +113,8 @@
                         </goals>
                         <configuration>
                             <descriptors>
+                                <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
+                                <descriptor>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</descriptor>
 <!--                                <descriptor>mvn:org.apache.karaf.features/standard/${karaf.version}/xml/features</descriptor>-->
                                 <descriptor>file:${basedir}/target/dependencies/standard-${karaf.version}-features.xml</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor>
@@ -127,8 +129,6 @@
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
                                  <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.tesb.version}/xml/features</descriptor>
 <!--                                <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor> -->
-                                <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
-                                <descriptor>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</descriptor>
                             </descriptors>
                             <features>
                                 <!-- Core Features -->
@@ -518,7 +518,7 @@
                                 <artifactItem>
                                     <groupId>org.apache.camel.karaf</groupId>
                                     <artifactId>apache-camel</artifactId>
-                                    <version>${camel.version}</version>
+                                    <version>${camel.tesb.version}</version>
                                     <type>xml</type>
                                     <classifier>features</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
@@ -1229,155 +1229,6 @@
                                         <include name="startup.properties"/>
                                     </fileset>
                                  </replaceregexp>
-                                <replace file="target/dependencies/apache-camel-${camel.version}-features.xml">
-                                    <replacefilter
-                                        token="apache-cxf/3.2.10/xml/features"
-                                        value="apache-cxf/${cxf.version}/xml/features"/>
-                                    <replacefilter
-                                        token="pax-cdi-features/1.0.0.RC1/xml/features"
-                                        value="pax-cdi-features/${pax-cdi.version}/xml/features"/>
-
-                                    <!-- patch for xalan and xerces version -->
-                                    <replacefilter>
-                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_3&lt;/bundle&gt;</replacetoken>
-                                        <replacevalue></replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken>
-                                        <replacevalue></replacevalue>
-                                    </replacefilter>
-                                    <!-- Patch TESB-18685 -->
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.apache.abdera/abdera-parser/1.1.3</replacetoken>
-                                        <replacevalue>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.abdera-parser/1.1.3_2</replacevalue>
-                                    </replacefilter>
-                                    <!-- Patch the TESB-25669 -->
-                                    <replacefilter>
-                                        <replacetoken>&lt;bundle dependency='true'&gt;mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/2.9.0&lt;/bundle&gt;</replacetoken>
-                                        <replacevalue></replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.codehaus.woodstox/woodstox-core-asl/4.4.1</replacetoken>
-                                        <replacevalue>mvn:com.fasterxml.woodstox/woodstox-core/5.0.3</replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.codehaus.woodstox/woodstox-core-asl/4.3.0</replacetoken>
-                                        <replacevalue>mvn:com.fasterxml.woodstox/woodstox-core/5.0.3</replacevalue>
-                                    </replacefilter>
-                                    <!-- patch the jackson version (TESB-27613) -->
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-core/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-databind/2.9.9.3"
-                                        value="mvn:com.fasterxml.jackson.core/jackson-databind/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.core/jackson-annotations/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-cbor/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-cbor/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-csv/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-csv/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-smile/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-smile/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-xml/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-xml/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.datatype/jackson-datatype-guava/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.datatype/jackson-datatype-guava/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jdk8/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jdk8/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jsr310/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.jr/jackson-jr-objects/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.jr/jackson-jr-objects/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.module/jackson-module-afterburner/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.module/jackson-module-afterburner/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.module/jackson-module-jaxb-annotations/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.module/jackson-module-jaxb-annotations/${jackson.version}"/>
-                                    <replacefilter
-                                        token="mvn:com.fasterxml.jackson.module/jackson-module-jsonSchema/2.9.9"
-                                        value="mvn:com.fasterxml.jackson.module/jackson-module-jsonSchema/${jackson.version}"/>
-                                    <!-- patch the dom4j version in Camel for TESB-29133-->
-                                    <replacefilter
-                                        token="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/1.6.1_5"
-                                        value="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/${dom4j.bundle.version}"/>
-                                    <replacefilter
-                                        token="mvn:org.apache.camel/camel-mqtt/${camel.version}&lt;"
-                                        value="mvn:org.apache.camel/camel-mqtt/${camel-mqtt.tesb.version}&lt;" />
-                                </replace>
-                                <replaceregexp byline="false" flags="gim"
-                                               file="target/dependencies/apache-camel-${camel.version}-features.xml"
-                                               match="^(\s*&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy/([^&lt;]+)&lt;/bundle&gt;)\n\s+(&lt;bundle&gt;mvn:org.apache.camel/camel-groovy/[^&lt;]+&lt;/bundle&gt;)$"
-                                               replace="
-\1${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-ant/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-cli-commons/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-cli-picocli/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-console/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-datetime/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-docgenerator/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-groovydoc/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-groovysh/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-jmx/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-json/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-macro/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-nio/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-servlet/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-sql/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-swing/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-templates/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-test/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-test-junit5/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-testng/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle dependency='true'&gt;mvn:org.codehaus.groovy/groovy-xml/\2&lt;/bundle&gt;${line.separator}
-\3">
-                                </replaceregexp>
-                                <replaceregexp byline="false" flags="gim"
-                                               file="target/dependencies/apache-camel-${camel.version}-features.xml"
-                                               match="^(\s*&lt;bundle&gt;mvn:org.codehaus.groovy/groovy/([^&lt;]+)&lt;/bundle&gt;)\n\s+(&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-jsr223/[^&lt;]+&lt;/bundle&gt;)$"
-                                               replace="
-\1${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-ant/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-cli-commons/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-cli-picocli/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-console/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-datetime/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-docgenerator/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-groovydoc/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-groovysh/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-jmx/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-json/\2&lt;/bundle&gt;${line.separator}
-\3${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-macro/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-nio/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-servlet/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-sql/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-swing/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-templates/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-test/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-test-junit5/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-testng/\2&lt;/bundle&gt;${line.separator}
-&lt;bundle&gt;mvn:org.codehaus.groovy/groovy-xml/\2&lt;/bundle&gt;${line.separator}">
-                                </replaceregexp>
                                 <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
                                     <!-- patch for xalan and xerces version -->
                                     <replacefilter>
