@@ -1293,11 +1293,6 @@
                                         <replacetoken>&lt;bundle start-level="30" dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.11.0_1&lt;/bundle&gt;</replacetoken>
                                         <replacevalue></replacevalue>
                                     </replacefilter>
-                                    <!-- Patch used jetty version in CXF (TESB-16331) -->
-                                    <replacefilter>
-                                        <replacetoken>feature version="[7,10)"&gt;jetty&lt;</replacetoken>
-                                        <replacevalue>feature version="[9,10)"&gt;jetty&lt;</replacevalue>
-                                    </replacefilter>
                                     <!-- Patch the TESB-23159 -->
                                     <replacefilter>
                                         <replacetoken>mvn:com.fasterxml.woodstox/woodstox-core/5.1.0</replacetoken>
@@ -1366,20 +1361,9 @@
                                         value="mvn:com.fasterxml.jackson.datatype/jackson-datatype-jsr310/${jackson.version}"/>
                                     <!-- patch the dom4j version in CXF for TESB-29133 -->
                                     <replacefilter
-                                        token="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/1.6.1_5"
+                                        token="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/2.1.1_1"
                                         value="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/${dom4j.bundle.version}"/>
                                 </replace>
-                                <!-- patch the cxf-jackson feature (TESB-27214/CXF-8155) -->
-                                <replaceregexp byline="false" flags="gim"
-                                        file="target/dependencies/apache-cxf-${cxf.version}-features.xml"
-                                        match="^(\s*&lt;bundle&gt;wrap:mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base.*\s*)\s*(\s*&lt;/bundle&gt;)$"
-                                        replace="&lt;bundle start-level=&quot;35&quot;&gt;mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/${jackson.version}&lt;/bundle&gt;">
-                                </replaceregexp>
-                                <replaceregexp byline="false" flags="gim"
-                                        file="target/dependencies/apache-cxf-${cxf.version}-features.xml"
-                                        match="^(\s*&lt;bundle&gt;wrap:mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider.*\s*)\s*(\s*&lt;/bundle&gt;)$"
-                                        replace="&lt;bundle start-level=&quot;35&quot;&gt;mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/${jackson.version}&lt;/bundle&gt;">
-                                </replaceregexp>
                                 <replace file="target/dependencies/enterprise-${karaf.version}-features.xml">
                                     <!-- patch the jackson version (TESB-27613) -->
                                     <replacefilter

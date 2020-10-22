@@ -14,7 +14,7 @@
 	<description>Custom policy for compression processing</description>
 	
 	<properties>
-		<commons-codec.version>1.14</commons-codec.version>	
+		<commons-codec.version>1.14</commons-codec.version>
 	</properties>	
 
 	<dependencies>

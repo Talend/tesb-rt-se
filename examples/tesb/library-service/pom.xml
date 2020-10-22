@@ -30,7 +30,7 @@
     <properties>
         <use.service.registry>false</use.service.registry>
 
-        <cxf.xjc.version>3.3.0</cxf.xjc.version>
+        <cxf.xjc.version>3.3.1</cxf.xjc.version>
         <osgi.version>6.0.0</osgi.version>
         <zookeeper.version>3.4.14</zookeeper.version>
         <derby.version>10.14.2.0</derby.version>
