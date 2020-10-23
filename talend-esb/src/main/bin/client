@@ -78,7 +78,7 @@ fi
 
 setupClassPath() {
     # Add the jars in the lib dir
-    CLASSPATH="${KARAF_HOME}/system/org/apache/karaf/org.apache.karaf.client/4.2.10/org.apache.karaf.client-4.2.9.jar"
+    CLASSPATH="${KARAF_HOME}/system/org/apache/karaf/org.apache.karaf.client/4.2.10/org.apache.karaf.client-4.2.10.jar"
     CLASSPATH="${CLASSPATH}:${KARAF_HOME}/system/org/apache/sshd/sshd-core/1.7.0/sshd-core-1.7.0.jar"
     CLASSPATH="${CLASSPATH}:${KARAF_HOME}/system/org/fusesource/jansi/jansi/1.18/jansi-1.18.jar"
     CLASSPATH="${CLASSPATH}:${KARAF_HOME}/system/org/jline/jline/3.14.1/jline-3.14.1.jar"

@@ -863,7 +863,7 @@
                                     <type>jar</type>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
-								<artifactItem>
+                                <artifactItem>
                                     <groupId>org.apache.camel</groupId>
                                     <artifactId>camel-mqtt</artifactId>
                                     <version>${camel-mqtt.tesb.version}</version>
