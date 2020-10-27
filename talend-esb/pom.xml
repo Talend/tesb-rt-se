@@ -36,7 +36,7 @@
         <!-- used for assembly & dependency type, overwritten by dev-unix-assembly-only & dev-win-assembly-only profiles -->
         <assembly.formats>tar.gz,zip</assembly.formats>
         <pax-logging.tesb.version>1.11.2.tesb1</pax-logging.tesb.version>
-        <camel-mqtt.tesb.version>2.24.2.tesb1</camel-mqtt.tesb.version>
+        <camel-mqtt.tesb.version>2.25.2.tesb1</camel-mqtt.tesb.version>
     </properties>
 
     <dependencies>
