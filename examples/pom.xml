@@ -250,6 +250,16 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
+        <repository>
+            <id>talend_open</id>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <url>https://artifacts-oss.talend.com/nexus/content/repositories/TalendOpenSourceRelease/</url>
+        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
