@@ -91,7 +91,6 @@
     </developers>
 
     <properties>
-        <org.apache.karaf.config.core.tesb.version>4.2.7.tesb1</org.apache.karaf.config.core.tesb.version>
         <packages.version>${project.version}</packages.version>
         <cxf.version>3.3.7</cxf.version>
         <camel.version>2.25.2</camel.version>
