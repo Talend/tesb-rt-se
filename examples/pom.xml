@@ -55,7 +55,7 @@
         <bouncycastle.version>1.65</bouncycastle.version>
         <cxf.version>3.3.7</cxf.version>
         <cxf.xjc.version>3.3.1</cxf.xjc.version>
-        <camel.version>2.24.2</camel.version>
+        <camel.version>2.25.2</camel.version>
         <spring.version>5.2.9.RELEASE</spring.version>
         <karaf.version>4.2.10</karaf.version>
         <jettison.version>1.4.0</jettison.version>
