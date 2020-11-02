@@ -356,13 +356,8 @@
                 <exclude>ojdbc/**</exclude>
                 <exclude>com/ibm/db2/**</exclude>
                 <exclude>com/microsoft/sqlserver/**</exclude>
-                <!-- workaround for CXF/Zookeeper version in Camel features file -->
-                <exclude>org/apache/camel/karaf/apache-camel/${camel.version}/apache-camel-${camel.version}-features.xml</exclude>
-                <exclude>org/apache/zookeeper/zookeeper/3.4.8/**</exclude>
                 <!-- workaround for CXF features descriptor -->
                 <exclude>org/apache/cxf/karaf/apache-cxf/**</exclude>
-                <!-- workaround for wrong version of transitive CXF Features -->
-                <exclude>org/apache/cxf/**/3.2.7/**</exclude>
                 <!-- patch for xalan and xerces version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
@@ -380,9 +375,6 @@
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.9.8/**</exclude>
                 <exclude>com/fasterxml/jackson/*/*/2.9.*/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xstream/1.4.8_1/**</exclude>
-                <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
-                <exclude>org/apache/cxf/cxf-core/**</exclude>
-                <exclude>org/apache/cxf/cxf-rt-transports-http/**</exclude>
                 <!-- patch for decanter bundles (TESB-24788) -->
                 <exclude>org/apache/karaf/decanter/apache-karaf-decanter/${decanter.version}/apache-karaf-decanter-${decanter.version}-features.xml</exclude>
                 <exclude>org/apache/karaf/decanter/appender/org.apache.karaf.decanter.appender.jms/${decanter.version}/**</exclude>
@@ -547,17 +539,6 @@
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
-        <!-- patch for cxf-core, cxf-rt-transports-http (TESB-23159, TESB-23464) -->
-        <file>
-            <source>${basedir}/target/dependencies/cxf-core-${cxf.version}.jar</source>
-            <outputDirectory>./container/system/org/apache/cxf/cxf-core/${cxf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/cxf-rt-transports-http-${cxf.version}.jar</source>
-            <outputDirectory>./container/system/org/apache/cxf/cxf-rt-transports-http/${cxf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
         <!-- patch for decanter bundles (TESB-24788) -->
         <file>
             <source>${basedir}/target/dependencies/apache-karaf-decanter-${decanter.version}-features.xml</source>
@@ -583,102 +564,6 @@
         <file>
             <source>${basedir}/target/dependencies/org.apache.karaf.decanter.collector.jms-${decanter.version}.tesb1.cfg</source>
             <outputDirectory>./container/system/org/apache/karaf/decanter/collector/org.apache.karaf.decanter.collector.jms/${decanter.version}.tesb1/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- patch for Jackson version (TESB-27154) -->
-        <file>
-            <source>${basedir}/target/dependencies/jackson-core-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/core/jackson-core/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-databind-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/core/jackson-databind/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-annotations-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/core/jackson-annotations/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-dataformat-cbor-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-dataformat-csv-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-csv/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-dataformat-smile-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-dataformat-xml-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-xml/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-dataformat-yaml-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-datatype-guava-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/datatype/jackson-datatype-guava/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-datatype-jdk8-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-datatype-jsr310-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-jaxrs-base-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/jaxrs/jackson-jaxrs-base/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-jaxrs-json-provider-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/jaxrs/jackson-jaxrs-json-provider/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-jr-objects-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/jr/jackson-jr-objects/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-module-afterburner-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/module/jackson-module-afterburner/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-module-jaxb-annotations-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-module-jsonSchema-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/module/jackson-module-jsonSchema/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-module-paranamer-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/module/jackson-module-paranamer/${jackson.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/jackson-module-scala_2.11-${jackson.version}.jar</source>
-            <outputDirectory>./container/system/com/fasterxml/jackson/module/jackson-module-scala_2.11/${jackson.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
         <file>
