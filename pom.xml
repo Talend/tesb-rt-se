@@ -93,6 +93,7 @@
     <properties>
         <packages.version>${project.version}</packages.version>
         <cxf.version>3.3.7</cxf.version>
+        <cxf.tesb.version>3.3.7.tesb1</cxf.tesb.version>
         <camel.version>2.25.2</camel.version>
         <camel.tesb.version>2.25.2.tesb1</camel.tesb.version>
         <activemq.version>5.15.13</activemq.version>

@@ -125,7 +125,7 @@
                                 <descriptor>mvn:org.apache.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.decanter/apache-karaf-decanter/${decanter.version}/xml/features</descriptor>
 <!--                                <descriptor>mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features</descriptor> -->
-<!--                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</descriptor> -->
+                                <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.tesb.version}/xml/features</descriptor>
 <!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.tesb.version}/xml/features</descriptor>
 <!--                                <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor> -->
@@ -527,7 +527,7 @@
                                 <artifactItem>
                                     <groupId>org.apache.cxf.karaf</groupId>
                                     <artifactId>apache-cxf</artifactId>
-                                    <version>${cxf.version}</version>
+                                    <version>${cxf.tesb.version}</version>
                                     <type>xml</type>
                                     <classifier>features</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
@@ -927,50 +927,6 @@
                                         <include name="startup.properties"/>
                                     </fileset>
                                  </replaceregexp>
-                                <replace file="target/dependencies/apache-cxf-${cxf.version}-features.xml">
-                                    <!-- Patch the TESB-24618 Upgrade CXF 3.3.1 -->
-                                    <replacefilter>
-                                        <replacetoken>&lt;bundle start-level="10" dependency="true"&gt;mvn:jakarta.xml.bind/jakarta.xml.bind-api/2.3.2&lt;/bundle&gt;</replacetoken>
-                                        <replacevalue></replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>&lt;bundle start-level="20"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxb-runtime/2.3.1_1&lt;/bundle&gt;</replacetoken>
-                                        <replacevalue></replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>&lt;bundle start-level="20"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxb-xjc/2.3.1_1&lt;/bundle&gt;</replacetoken>
-                                        <replacevalue></replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>&lt;bundle start-level="20"&gt;mvn:com.sun.istack/istack-commons-runtime/3.0.7&lt;/bundle&gt;</replacetoken>
-                                        <replacevalue></replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>&lt;bundle start-level="30"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/2.7.2_3&lt;/bundle&gt;</replacetoken>
-                                        <replacevalue></replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>&lt;bundle start-level="30" dependency="true"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/2.12.0_1&lt;/bundle&gt;</replacetoken>
-                                        <replacevalue></replacevalue>
-                                    </replacefilter>
-                                    <!-- Patch the TESB-25669 -->
-                                    <replacefilter>
-                                        <replacetoken>&lt;bundle start-level="10" dependency="true"&gt;mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.saaj-api-1.3/2.9.0&lt;/bundle&gt;</replacetoken>
-                                        <replacevalue></replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>&lt;bundle start-level="25"&gt;mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.saaj-impl/1.3.23_2&lt;/bundle&gt;</replacetoken>
-                                        <replacevalue></replacevalue>
-                                    </replacefilter>
-                                    <replacefilter>
-                                        <replacetoken>&lt;bundle start-level="25"&gt;mvn:org.jvnet.staxex/stax-ex/1.7.6&lt;/bundle&gt;</replacetoken>
-                                        <replacevalue></replacevalue>
-                                    </replacefilter>
-                                    <!-- patch the dom4j version for TESB-29133, will be removed after CXF 3.3.8 -->
-                                    <replacefilter
-                                        token="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/2.1.1_1"
-                                        value="mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/${dom4j.bundle.version}"/>
-                                </replace>
                                 <!-- patch for decanter bundles (TESB-24788) -->
                                 <replace file="target/dependencies/apache-karaf-decanter-${decanter.version}-features.xml">
                                     <replacefilter
