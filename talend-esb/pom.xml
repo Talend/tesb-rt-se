@@ -35,7 +35,7 @@
     <properties>
         <!-- used for assembly & dependency type, overwritten by dev-unix-assembly-only & dev-win-assembly-only profiles -->
         <assembly.formats>tar.gz,zip</assembly.formats>
-        <pax-logging.tesb.version>1.11.2.tesb1</pax-logging.tesb.version>
+        <pax-logging.tesb.version>1.11.7.tesb1</pax-logging.tesb.version>
         <camel-mqtt.tesb.version>2.25.2.tesb1</camel-mqtt.tesb.version>
     </properties>
 
@@ -915,13 +915,13 @@
                             <target>
                                 <replace file="target/dependencies/framework-${karaf.version}-features.xml">
                                     <replacefilter>
-                                        <replacetoken>mvn:org.ops4j.pax.logging/pax-logging-log4j2/1.11.2&lt;</replacetoken>
+                                        <replacetoken>mvn:org.ops4j.pax.logging/pax-logging-log4j2/1.11.7&lt;</replacetoken>
                                         <replacevalue>mvn:org.ops4j.pax.logging/pax-logging-log4j2/${pax-logging.tesb.version}&lt;</replacevalue>
                                     </replacefilter>
                                 </replace>
                                  <!-- patch for pax-logging-log4j2-->
                                  <replaceregexp byline="true"
-                                        match="^(\s*mvn\\:org\.ops4j\.pax\.logging/pax-logging-log4j2/)1.11.2(\s*=.*)$"
+                                        match="^(\s*mvn\\:org\.ops4j\.pax\.logging/pax-logging-log4j2/)1.11.7(\s*=.*)$"
                                         replace="\1${pax-logging.tesb.version}\2">
                                     <fileset dir="target/dependencies/apache-karaf/apache-karaf-${karaf.version}/etc/">
                                         <include name="startup.properties"/>

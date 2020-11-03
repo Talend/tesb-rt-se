@@ -210,7 +210,7 @@
                 <exclude>system/org/apache/karaf/features/spring-legacy/${karaf.version}/spring-legacy-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/ops4j/pax/web/pax-web-features/7.2.11/**</exclude>
-                <exclude>system/org/ops4j/pax/logging/pax-logging-log4j2/1.11.2/**</exclude>
+                <exclude>system/org/ops4j/pax/logging/pax-logging-log4j2/1.11.7/**</exclude>
                 <exclude>README.md</exclude>
                 <exclude>RELEASE-NOTES.md</exclude>
                 <exclude>BUILDING.md</exclude>
