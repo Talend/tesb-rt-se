@@ -578,7 +578,7 @@
                                 <artifactItem>
                                     <groupId>org.apache.karaf.features</groupId>
                                     <artifactId>framework</artifactId>
-                                    <version>${karaf.version}</version>
+                                    <version>${karaf.tesb.version}</version>
                                     <type>xml</type>
                                     <classifier>features</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
@@ -871,31 +871,6 @@
                                     </fileset>
                                     <flattenmapper />
                                 </copy>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>patch-features-files</id>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <target>
-                                <replace file="target/dependencies/framework-${karaf.version}-features.xml">
-                                    <replacefilter>
-                                        <replacetoken>mvn:org.ops4j.pax.logging/pax-logging-log4j2/1.11.7&lt;</replacetoken>
-                                        <replacevalue>mvn:org.ops4j.pax.logging/pax-logging-log4j2/${pax-logging.tesb.version}&lt;</replacevalue>
-                                    </replacefilter>
-                                </replace>
-                                 <!-- patch for pax-logging-log4j2-->
-                                 <replaceregexp byline="true"
-                                        match="^(\s*mvn\\:org\.ops4j\.pax\.logging/pax-logging-log4j2/)1.11.7(\s*=.*)$"
-                                        replace="\1${pax-logging.tesb.version}\2">
-                                    <fileset dir="target/dependencies/apache-karaf/apache-karaf-${karaf.version}/etc/">
-                                        <include name="startup.properties"/>
-                                    </fileset>
-                                 </replaceregexp>
                             </target>
                         </configuration>
                         <goals>
