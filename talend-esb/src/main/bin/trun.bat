@@ -42,10 +42,10 @@ if not "%KARAF_TITLE%" == "" (
 
 rem Check/Set up some easily accessible MIN/MAX params for JVM mem usage
 if "%JAVA_MIN_MEM%" == "" (
-    set JAVA_MIN_MEM=128M
+    set JAVA_MIN_MEM=256M
 )
 if "%JAVA_MAX_MEM%" == "" (
-    set JAVA_MAX_MEM=512M
+    set JAVA_MAX_MEM=1024M
 )
 
 goto BEGIN
