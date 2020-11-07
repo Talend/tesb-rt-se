@@ -116,17 +116,17 @@
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
                                 <descriptor>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/framework/${karaf.tesb.version}/xml/features</descriptor>
-                                <descriptor>file:${basedir}/target/dependencies/standard-${karaf.version}-features.xml</descriptor>
+                                <descriptor>mvn:org.apache.karaf.features/standard/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor>
-<!--                                <descriptor>mvn:org.apache.karaf.features/spring-legacy/${karaf.version}/xml/features</descriptor>-->
-                                <descriptor>file:${basedir}/target/dependencies/spring-legacy-${karaf.version}-features.xml</descriptor>
+                                <descriptor>mvn:org.apache.karaf.features/spring-legacy/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/enterprise/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/enterprise-legacy/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.decanter/apache-karaf-decanter/${decanter.tesb.version}/xml/features</descriptor>
 <!--                                <descriptor>mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features</descriptor> -->
                                 <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.tesb.version}/xml/features</descriptor>
-<!--                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor> -->
+                                <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features-core</descriptor>
                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.tesb.version}/xml/features</descriptor>
 <!--                                <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor> -->
                             </descriptors>
@@ -565,16 +565,7 @@
                                      <type>jar</type>
                                      <outputDirectory>target/dependencies</outputDirectory>
                                 </artifactItem>
-                                <!-- Workaround for Karaf libraries in features -->
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.features</groupId>
-                                    <artifactId>standard</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <type>xml</type>
-                                    <classifier>features</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>standard-${karaf.version}-features.xml</destFileName>
-                                </artifactItem>
+                                <!-- Workaround for Karaf features descriptor -->
                                 <artifactItem>
                                     <groupId>org.apache.karaf.features</groupId>
                                     <artifactId>framework</artifactId>
@@ -583,68 +574,6 @@
                                     <classifier>features</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>framework-${karaf.version}-features.xml</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.diagnostic</groupId>
-                                    <artifactId>org.apache.karaf.diagnostic.boot</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>org.apache.karaf.diagnostic.boot-${karaf.version}.jar</destFileName>
-                                </artifactItem>
-                               <artifactItem>
-                                    <groupId>org.apache.karaf.jaas</groupId>
-                                    <artifactId>org.apache.karaf.jaas.boot</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>org.apache.karaf.jaas.boot-${karaf.version}.jar</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.activemq</groupId>
-                                    <artifactId>activemq-karaf</artifactId>
-                                    <version>${activemq.version}</version>
-                                    <type>xml</type>
-                                    <classifier>features</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>activemq-karaf-${activemq.version}-features.xml</destFileName>
-                                </artifactItem>
-                                <!-- Patch jackson version (TESB-24693) -->
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.features</groupId>
-                                    <artifactId>enterprise</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <classifier>features</classifier>
-                                    <type>xml</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>enterprise-${karaf.version}-features.xml</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.features</groupId>
-                                    <artifactId>spring</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <classifier>features</classifier>
-                                    <type>xml</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>spring-${karaf.version}-features.xml</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.karaf.features</groupId>
-                                    <artifactId>spring-legacy</artifactId>
-                                    <version>${karaf.version}</version>
-                                    <classifier>features</classifier>
-                                    <type>xml</type>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>spring-legacy-${karaf.version}-features.xml</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.apache.activemq</groupId>
-                                    <artifactId>activemq-karaf</artifactId>
-                                    <version>${activemq.version}</version>
-                                    <type>xml</type>
-                                    <classifier>features-core</classifier>
-                                    <outputDirectory>target/dependencies</outputDirectory>
-                                    <destFileName>activemq-karaf-${activemq.version}-features-core.xml</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.ops4j.pax.logging</groupId>

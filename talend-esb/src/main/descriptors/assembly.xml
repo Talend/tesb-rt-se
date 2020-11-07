@@ -205,10 +205,6 @@
                 <!-- fix TESB-29223 -->
                 <exclude>etc/org.apache.karaf.features.xml</exclude>
                 <exclude>lib/endorsed/**</exclude>
-                <!-- Patch jackson version (TESB-24693) -->
-                <exclude>system/org/apache/karaf/features/enterprise/${karaf.version}/enterprise-${karaf.version}-features.xml</exclude>
-                <exclude>system/org/apache/karaf/features/spring/${karaf.version}/spring-${karaf.version}-features.xml</exclude>
-                <exclude>system/org/apache/karaf/features/spring-legacy/${karaf.version}/spring-legacy-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/ops4j/pax/web/pax-web-features/7.2.11/**</exclude>
                 <exclude>system/org/ops4j/pax/logging/pax-logging-log4j2/1.11.7/**</exclude>
@@ -362,14 +358,7 @@
                 <!-- patch for xalan and xerces version -->
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xalan/**</exclude>
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xerces/**</exclude>
-                <!-- patch for activemq-camel (TESB-24591) -->
-                <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features.xml</exclude>
-                <!-- Patch jackson version (TESB-24693) -->
-                <exclude>org/apache/karaf/features/enterprise/${karaf.version}/enterprise-${karaf.version}-features.xml</exclude>
-                <exclude>org/apache/karaf/features/spring/${karaf.version}/spring-${karaf.version}-features.xml</exclude>
-                <exclude>org/apache/karaf/features/spring-legacy/${karaf.version}/spring-legacy-${karaf.version}-features.xml</exclude>
                 <!-- Patch jackson-databind version (TESB-21628) -->
-                <exclude>org/apache/activemq/activemq-karaf/${activemq.version}/activemq-karaf-${activemq.version}-features-core.xml</exclude>
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.4.4/**</exclude>
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.6.1/**</exclude>
                 <exclude>com/fasterxml/jackson/core/jackson-databind/2.6.7/**</exclude>
@@ -379,14 +368,6 @@
                 <exclude>org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
                 <exclude>org/ops4j/pax/web/**/7.2.11/**</exclude>
             </excludes>
-        </fileSet>
-        <!-- Woraround for xjc-utils version (TESB-21746) -->
-        <fileSet>
-            <directory>target/features-repo</directory>
-            <outputDirectory>./container/system</outputDirectory>
-            <includes>
-                <include>org/apache/cxf/xjc-utils/cxf-xjc-runtime/3.2.1/**</include>
-            </includes>
         </fileSet>
 
         <!-- Copy Add-ons -->
@@ -480,6 +461,7 @@
         <file>
             <source>${basedir}/target/dependencies/apache-karaf-decanter-${decanter.version}-features.xml</source>
             <outputDirectory>./container/system/org/apache/karaf/decanter/apache-karaf-decanter/${decanter.version}/</outputDirectory>
+            <destName>apache-karaf-decanter-${decanter.version}-features.xml</destName>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
@@ -501,52 +483,11 @@
             <outputDirectory>./container/system/org/ops4j/pax/url/pax-url-classpath/${pax-url-classpath.version}/</outputDirectory>
             <fileMode>0644</fileMode>
         </file>
-        <!-- Workaround for Karaf libraries in features -->
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.diagnostic.boot-${karaf.version}.jar</source>
-            <outputDirectory>./container/system/org/apache/karaf/diagnostic/org.apache.karaf.diagnostic.boot/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/org.apache.karaf.jaas.boot-${karaf.version}.jar</source>
-            <outputDirectory>./container/system/org/apache/karaf/jaas/org.apache.karaf.jaas.boot/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-        </file>
-        <!-- patch for activemq-camel (TESB-24591) -->
-        <file>
-            <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features.xml</source>
-            <outputDirectory>./container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-            <lineEnding>unix</lineEnding>
-        </file>
-        <!-- Patch jackson version (TESB-24693) -->
-        <file>
-            <source>${basedir}/target/dependencies/enterprise-${karaf.version}-features.xml</source>
-            <outputDirectory>./container/system/org/apache/karaf/features/enterprise/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-            <lineEnding>unix</lineEnding>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/spring-${karaf.version}-features.xml</source>
-            <outputDirectory>./container/system/org/apache/karaf/features/spring/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-            <lineEnding>unix</lineEnding>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/spring-legacy-${karaf.version}-features.xml</source>
-            <outputDirectory>./container/system/org/apache/karaf/features/spring-legacy/${karaf.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-            <lineEnding>unix</lineEnding>
-        </file>
-        <file>
-            <source>${basedir}/target/dependencies/activemq-karaf-${activemq.version}-features-core.xml</source>
-            <outputDirectory>./container/system/org/apache/activemq/activemq-karaf/${activemq.version}/</outputDirectory>
-            <fileMode>0644</fileMode>
-            <lineEnding>unix</lineEnding>
-        </file>
+        <!-- Workaround for Karaf features descriptor -->
         <file>
             <source>${basedir}/target/dependencies/framework-${karaf.version}-features.xml</source>
             <outputDirectory>./container/system/org/apache/karaf/features/framework/${karaf.version}/</outputDirectory>
+            <destName>framework-${karaf.version}-features.xml</destName>
             <fileMode>0644</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
