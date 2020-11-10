@@ -224,6 +224,7 @@
             <outputDirectory>./container/bin</outputDirectory>
             <includes>
                 <include>setenv.bat</include>
+                <include>client.bat</include>
             </includes>
             <lineEnding>dos</lineEnding>
             <fileMode>0644</fileMode>
@@ -246,6 +247,7 @@
             <outputDirectory>./container/bin</outputDirectory>
             <includes>
                 <include>setenv</include>
+                <include>client</include>
             </includes>
             <lineEnding>unix</lineEnding>
             <fileMode>0755</fileMode>
