@@ -467,6 +467,8 @@
                                 <feature>tesb-policy-transformation</feature>
                                 <feature>request-callback</feature>
                                 <feature>transport-jms</feature>
+                                <!-- Talend Camel enhancements -->
+                                <feature>camel-core-talend</feature>
                                 <!-- Aux features -->
                                 <feature>jackrabbit-aux-bundles</feature>
                                 <feature>tesb-aux-common</feature>

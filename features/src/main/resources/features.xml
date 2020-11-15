@@ -349,4 +349,9 @@
     <bundle>mvn:org.hibersap/hibersap-jco/${hibersap.version}</bundle>
   </feature>
 
+  <feature name='camel-core-talend' version='${project.version}'>
+    <feature version="${camel.version}">camel-core</feature>
+    <bundle>mvn:org.talend.camel/camel-core-talend/${project.version}</bundle>
+  </feature>
+
 </features>
