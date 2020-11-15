@@ -177,6 +177,7 @@
         <module>request-callback</module>
         <module>transport-jms</module>
         <module>talend-sapjco3-connector</module>
+        <module>camel-core-talend</module>
     </modules>
 
     <dependencyManagement>
