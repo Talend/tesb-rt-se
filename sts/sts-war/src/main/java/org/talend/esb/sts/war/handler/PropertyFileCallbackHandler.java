@@ -70,8 +70,8 @@ public class PropertyFileCallbackHandler implements Validator{
             throw new WSSecurityException(WSSecurityException.ErrorCode.FAILED_AUTHENTICATION);
         }
 
-        try {
-            InputStream stream = PropertyFileCallbackHandler.class.getClassLoader().getResourceAsStream("user.properties");
+        try (InputStream stream = PropertyFileCallbackHandler.class
+                .getClassLoader().getResourceAsStream("user.properties")) {
             Properties properties = new Properties();
             properties.load(stream);
             String propertyPwd = (String)properties.get(user);
