@@ -204,7 +204,6 @@
                 <exclude>etc/jre.properties</exclude>
                 <!-- fix TESB-29223 -->
                 <exclude>etc/org.apache.karaf.features.xml</exclude>
-                <exclude>lib/endorsed/**</exclude>
                 <exclude>system/org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/ops4j/pax/web/pax-web-features/7.2.11/**</exclude>
                 <exclude>system/org/ops4j/pax/logging/pax-logging-log4j2/1.11.7/**</exclude>
