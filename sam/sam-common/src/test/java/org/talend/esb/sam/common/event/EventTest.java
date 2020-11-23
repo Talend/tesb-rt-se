@@ -22,10 +22,10 @@ public class EventTest {
         event.setContentCut(true);
         Assert.assertTrue(event.isContentCut());
 
-        Originator originator = new Originator("process_id", "127.0.0.0.1", "localhost", "custom_id", "principal");
+        Originator originator = new Originator("process_id", "127.0.0.1", "localhost", "custom_id", "principal");
         event.setOriginator(originator);
         Assert.assertEquals(originator, event.getOriginator());
-
-        Assert.assertTrue(event.toString().endsWith("process_id,127.0.0.0.1,localhost,custom_id,principal,<null>,true,<null>,{}"));
+        System.out.println(event.toString());
+        Assert.assertTrue(event.toString().startsWith("<null>,{},<null>,true,<null>,custom_id,localhost,127.0.0.1,principal,process_id"));
     }
 }

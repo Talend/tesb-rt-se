@@ -42,10 +42,10 @@ if not "%KARAF_TITLE%" == "" (
 
 rem Check/Set up some easily accessible MIN/MAX params for JVM mem usage
 if "%JAVA_MIN_MEM%" == "" (
-    set JAVA_MIN_MEM=128M
+    set JAVA_MIN_MEM=256M
 )
 if "%JAVA_MAX_MEM%" == "" (
-    set JAVA_MAX_MEM=512M
+    set JAVA_MAX_MEM=1024M
 )
 
 goto BEGIN
@@ -440,8 +440,8 @@ if "%KARAF_PROFILER%" == "" goto :RUN
             "%JAVA%" %JAVA_OPTS% %OPTS% ^
                 --add-reads=java.xml=java.logging ^
                 --add-exports=java.base/org.apache.karaf.specs.locator=java.xml,ALL-UNNAMED ^
-                --patch-module java.base=lib/endorsed/org.apache.karaf.specs.locator-4.2.7.jar ^
-                --patch-module java.xml=lib/endorsed/org.apache.karaf.specs.java.xml-4.2.7.jar ^
+                --patch-module java.base=lib/endorsed/org.apache.karaf.specs.locator-4.2.10.jar ^
+                --patch-module java.xml=lib/endorsed/org.apache.karaf.specs.java.xml-4.2.10.jar ^
                 --add-opens java.base/java.security=ALL-UNNAMED ^
                 --add-opens java.base/java.net=ALL-UNNAMED ^
                 --add-opens java.base/java.lang=ALL-UNNAMED ^
