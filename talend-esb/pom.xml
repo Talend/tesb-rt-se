@@ -1698,42 +1698,5 @@
             </properties>
         </profile>
     </profiles>
-
-    <repositories>
-        <repository>
-            <id>springsource.release</id>
-            <name>Springsource release repository</name>
-            <url>https://repository.springsource.com/maven/bundles/release</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>ops4j.sonatype.snapshots</id>
-            <name>OPS4J snapshot repository</name>
-            <url>https://oss.sonatype.org/content/repositories/ops4j-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <!-- OSSRH snapshots -->
-        <repository>
-            <id>ossrh.sonatype.snapshots.deploy</id>
-            <name>OSSRH snapshot repository</name>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>
 

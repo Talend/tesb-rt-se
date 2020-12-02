@@ -93,6 +93,9 @@
                     <scanPaths>
                         <scanPath>org.talend.esb.locator.service.rest</scanPath>
                     </scanPaths>
+                    <excludeArtifacts>
+                        <excludeArtifact>.*</excludeArtifact>
+                    </excludeArtifacts>
                 </configuration>
             </plugin>
         </plugins>
