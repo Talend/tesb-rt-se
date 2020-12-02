@@ -19,73 +19,143 @@
 package org.talend.esb.security.oidc;
 
 import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.Collections;
 import java.util.Map;
 
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
+import javax.ws.rs.core.Response;
+
+import org.apache.commons.collections4.map.LRUMap;
+import org.apache.cxf.common.util.Base64Utility;
+import org.apache.cxf.jaxrs.client.WebClient;
+import org.apache.cxf.jaxrs.provider.json.JSONProvider;
 
 @PreMatching
 @Priority(Priorities.AUTHENTICATION)
 public class OidcAccessTokenValidator implements ContainerRequestFilter {
 
-	private OidcConfiguration oidcConfiguration = OidcClientUtils.getOidcConfiguration();
-	
-	public OidcAccessTokenValidator() {
-	}
-	
-	public OidcAccessTokenValidator(OidcConfiguration oidcConfiguration) {
-		this.oidcConfiguration = oidcConfiguration;
-	}
-	
-	@Override
-	public void filter(
-			javax.ws.rs.container.ContainerRequestContext requestContext)
-			throws java.io.IOException {
-		boolean authFailed = true;
-		String authzHeader = requestContext.getHeaders().getFirst(
-				"Authorization");
-		if (authzHeader != null && authzHeader.startsWith("Bearer ")) {
-			String accessToken = authzHeader.substring("Bearer ".length());
-			if (accessToken != null && !accessToken.isEmpty()) {
-				String validationEndpoint = oidcConfiguration.getValidationEndpoint();
+    private OidcConfiguration oidcConfiguration = OidcClientUtils.getOidcConfiguration();
+        private Map<String,Map<String, String>> tokenCacheMap;
+    
+    public OidcAccessTokenValidator() {
+    }
+    
+    public OidcAccessTokenValidator(OidcConfiguration oidcConfiguration) {
+        this.oidcConfiguration = oidcConfiguration;
+    }
+    
+    @Override
+    public void filter(
+            javax.ws.rs.container.ContainerRequestContext requestContext)
+            throws java.io.IOException {
+        if (oidcConfiguration.getOidcCacheEnable() && tokenCacheMap == null) {
+            tokenCacheMap =  (Map<String, Map<String, String>>) Collections.synchronizedMap(
+                new LRUMap<String, Map<String, String>>(oidcConfiguration.getOidcCacheSize()));
+        }
 
-				if(validationEndpoint==null){
-					throw new RuntimeException("Location of Oidc validation endpoint is not set");
-				}
-				org.apache.cxf.jaxrs.client.WebClient oidcWebClient = org.apache.cxf.jaxrs.client.WebClient
-						.create(validationEndpoint,
-								java.util.Collections
-										.singletonList(new org.apache.cxf.jaxrs.provider.json.JSONProvider<String>()))
-						.type("application/x-www-form-urlencoded");
-				javax.ws.rs.core.Response response = oidcWebClient
-						.post("token="
-								+ java.net.URLEncoder.encode(accessToken,
-										"UTF-8")
-								+ "&token_type_hint=access_token");
+        boolean authFailed = true;
+        String username = "";
+        String authzHeader = requestContext.getHeaders().getFirst(
+                "Authorization");
+        if (authzHeader != null && authzHeader.startsWith("Bearer ")) {
+            String accessToken = authzHeader.substring("Bearer ".length());
+            if (accessToken != null && !accessToken.isEmpty()) {
+                String validationEndpoint = oidcConfiguration.getValidationEndpoint();
+                String clientSecret = oidcConfiguration.getClientSecret();
+                String publicClientId = oidcConfiguration.getPublicClientId();
 
-				try {
-					Map<String, String> map = org.talend.esb.security.oidc.OidcClientUtils
-							.parseJson((InputStream) response.getEntity());
+                if (validationEndpoint == null) {
+                    throw new RuntimeException("Location of Oidc validation endpoint is not set");
+                }
 
-					String active = map.get("active");
-					if (active != null && active.equalsIgnoreCase("true")) {
-						authFailed = false;
-					}
-				} catch (Exception e) {
-                    throw new RuntimeException(e);
-				}
-			}
-		}
+                Map<String,String> tokenDetails = null;
 
-		if (authFailed) {
-			javax.ws.rs.core.Response.ResponseBuilder builder = javax.ws.rs.core.Response
-					.status(javax.ws.rs.core.Response.Status.UNAUTHORIZED);
-			builder.header(javax.ws.rs.core.HttpHeaders.WWW_AUTHENTICATE,
-					"Bearer");
-			requestContext.abortWith(builder.build());
-		}
-	}
+                if(oidcConfiguration.getOidcCacheEnable()) {
+                    tokenDetails = tokenCacheMap.get(accessToken);
+                    // Check if the stored token is valid. If not, we have to request the IDP
+                    // (the token may be refreshed on the server side)
+                    if (tokenDetails != null) {
+                        String exp = (tokenDetails.get("exp") == null ? "" : tokenDetails.get("exp")) + "000";
+                        if (System.currentTimeMillis() > Long.valueOf(exp) ) {
+                            tokenDetails = null;
+                        }
+                    }
+                }
+
+                if(tokenDetails == null) {
+                    // No tokenDetails --> Request validationEndpoint for retrieving status
+                    // and expiration date (exp) of the accessToken
+                    WebClient oidcWebClient = WebClient.create(
+                    		validationEndpoint,Collections.singletonList(new JSONProvider<String>()))
+                            .type("application/x-www-form-urlencoded");
+                    if(clientSecret !=null){
+                        String AuthorizationBase64 = Base64Utility.encode((publicClientId + ":" + clientSecret).getBytes());
+                        oidcWebClient.header("Authorization","Basic " + AuthorizationBase64);
+                    }
+
+                    String tokenInfoPost = "token="
+                            + URLEncoder.encode(accessToken, "UTF-8")
+                            + "&token_type_hint=access_token";
+                    Response response = null;
+
+                    response = oidcWebClient
+                            .post(tokenInfoPost);
+
+                    try {
+                        tokenDetails = OidcClientUtils.parseJson((InputStream) response.getEntity());
+
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    if (oidcConfiguration.getOidcCacheEnable()) {
+                        tokenCacheMap.put(accessToken, tokenDetails);
+                    }
+
+                }
+
+                long currentTimeMs = System.currentTimeMillis();
+                String exp = (tokenDetails.get("exp")==null?"":tokenDetails.get("exp")) + "000";
+                String active = tokenDetails.get("active");
+                username = tokenDetails.get("username");
+
+                if (!oidcConfiguration.getOidcCacheEnable()) {
+                    if ("true".equalsIgnoreCase(active)) {
+                        authFailed = false;
+                    }
+                }
+
+                if (oidcConfiguration.getOidcCacheEnable()) {
+                    if (Long.valueOf(exp) > currentTimeMs) {
+                        authFailed = false;
+                    }
+                }
+
+                if (oidcConfiguration.getOidcCacheEnable() && authFailed) {
+                    tokenCacheMap.remove(accessToken);
+                }
+
+                /* String active = map.get("active");
+                if (active != null && active.equalsIgnoreCase("true")) {
+                    authFailed = false;
+                } */
+            }
+        }
+
+        if (!authFailed && oidcConfiguration.getOidcOverloadUserHeader()) {
+            requestContext.getHeaders().putSingle("user",username);
+        }
+
+        if (authFailed) {
+            javax.ws.rs.core.Response.ResponseBuilder builder = javax.ws.rs.core.Response
+                    .status(javax.ws.rs.core.Response.Status.UNAUTHORIZED);
+            builder.header(javax.ws.rs.core.HttpHeaders.WWW_AUTHENTICATE,
+                    "Bearer");
+            requestContext.abortWith(builder.build());
+        }
+    }
 
 }

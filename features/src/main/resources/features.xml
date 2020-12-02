@@ -235,6 +235,7 @@
     <feature>cxf-rs-security-xml</feature>
     <feature>jasypt-encryption</feature>
     <bundle dependency='true'>mvn:org.bouncycastle/bcprov-jdk15on/${bouncycastle.version}</bundle>
+    <bundle dependency='true'>mvn:org.apache.commons/commons-collections4/${commons-collections4.version}</bundle>
     <bundle start-level='50'>mvn:org.talend.esb/security-common/${project.version}</bundle>
   </feature>
 

@@ -27,6 +27,8 @@ import java.util.Map;
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.jaxrs.AbstractJAXRSFactoryBean;
 import org.apache.cxf.jaxrs.client.WebClient;
+import org.apache.cxf.jaxrs.provider.json.JSONProvider;
+
 import javax.ws.rs.core.Response;
 
 public class OidcClientUtils {
@@ -56,7 +58,19 @@ public class OidcClientUtils {
 	public static String getPublicClientID() {
 		return oidcConfiguration.getPublicClientId();
 	}
-	
+
+	public static String getClientSecret() {
+		return oidcConfiguration.getClientSecret();
+	}
+
+	public static boolean getOidcCacheEnable() {
+		return oidcConfiguration.getOidcCacheEnable();
+	}
+
+	public static int getOidcCacheSize() {
+		return oidcConfiguration.getOidcCacheSize();
+	}
+
 	public static OidcConfiguration getOidcConfiguration() {
 		return oidcConfiguration;
 	}
@@ -167,8 +181,7 @@ public class OidcClientUtils {
 		@SuppressWarnings("rawtypes")
 		WebClient webClient = WebClient
 				.create(tokenEndpoint,
-						java.util.Collections
-								.singletonList(new org.apache.cxf.jaxrs.provider.json.JSONProvider()))
+						java.util.Collections.singletonList(new JSONProvider()))
 				.type("application/x-www-form-urlencoded");
 		Response response = webClient.post("grant_type=password&scope=" + scope
 				+ "&username=" + oidcUsername + "&password=" + oidcPassword
