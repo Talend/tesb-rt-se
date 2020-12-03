@@ -21,6 +21,7 @@ package org.talend.esb.job.controller.internal;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.StringReader;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +29,7 @@ import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
 import javax.xml.ws.handler.MessageContext;
 
 import org.apache.cxf.headers.Header;
@@ -41,7 +43,6 @@ import org.talend.esb.job.controller.ESBEndpointConstants;
 import org.talend.esb.job.controller.GenericOperation;
 import org.talend.esb.job.controller.GenericServiceProvider;
 import org.talend.esb.job.controller.JobLauncher;
-import org.talend.esb.job.controller.internal.util.DOM4JMarshaller;
 import org.talend.esb.policy.correlation.feature.CorrelationIDFeature;
 
 import routines.system.api.ESBProviderCallback;
@@ -140,8 +141,10 @@ public class GenericServiceProviderImpl implements GenericServiceProvider,
     	Source source = null;
         if (result instanceof org.dom4j.Document) {
         	try {
-			    source = DOM4JMarshaller.documentToSource((org.dom4j.Document) result);
-			} catch (org.dom4j.DocumentException e) {
+                String xmlString = ((org.dom4j.Document) result).asXML();
+                source = new StreamSource(new StringReader(xmlString));
+
+            } catch (Exception e) {
 				throw new RuntimeException(e);
 			}
         } else if (result instanceof RuntimeException) {
