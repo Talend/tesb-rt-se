@@ -2,7 +2,7 @@
 
 Build(
         DOWNSTREAM_PROJECT: 'tesb-rt-ee',
-        CRON_MAINTENANCE: '0 10 * * 0 %SCA_SCAN=true;STATIC_SCAN=true',
+        CRON_SCAN_MAINTENANCE: '0 10 * * 0',
         NEXUS_PUBLIC: true,
         SCAN_EXCLUDES: '**/*-sources.jar,**/ds-service-*.jar,**/examples.jar,**/examples/**'
 )
