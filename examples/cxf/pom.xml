@@ -19,9 +19,11 @@
     </parent>
 
     <properties>
+        <!-- as current version is a release and not snapshot, we avoid deployment -->
+        <maven.deploy.skip>true</maven.deploy.skip>
         <http.port>8080</http.port>
         <geronimo.jpa.version>1.0</geronimo.jpa.version>
-        <hsqldb.version>2.2.9</hsqldb.version> 
+        <hsqldb.version>2.2.9</hsqldb.version>
         <openjpa.version>3.1.0</openjpa.version>
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <servicemix.bundle.serp.version>1.13.1_4</servicemix.bundle.serp.version>
