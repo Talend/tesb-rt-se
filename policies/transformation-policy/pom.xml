@@ -5,7 +5,7 @@
     <parent>
         <artifactId>esb-policies</artifactId>
         <groupId>org.talend.esb.policies</groupId>
-        <version>7.4.1-SNAPSHOT</version>
+        <version>7.4.1-M6</version>
     </parent>
 
     <artifactId>transformation-policy</artifactId>

@@ -12,7 +12,7 @@
 	<parent>
 		<artifactId>esb-parent</artifactId>
 		<groupId>org.talend.esb</groupId>
-		<version>7.4.1-SNAPSHOT</version>
+		<version>7.4.1-M6</version>
 	</parent>
 	
 	<modules>
