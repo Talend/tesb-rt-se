@@ -115,8 +115,8 @@
                             <descriptors>
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
                                 <descriptor>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</descriptor>
-                                <descriptor>mvn:org.apache.karaf.features/framework/${karaf.tesb.version}/xml/features</descriptor>
-                                <descriptor>mvn:org.apache.karaf.features/standard/${karaf.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.karaf.features/framework/${framework.features.tesb.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.karaf.features/standard/${standard.features.tesb.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/spring-legacy/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/enterprise/${karaf.version}/xml/features</descriptor>
