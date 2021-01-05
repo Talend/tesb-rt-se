@@ -58,7 +58,7 @@
         <endpoint.prefix>http://localhost:8040/services</endpoint.prefix>
         <sts.endpoint.prefix>${endpoint.prefix}</sts.endpoint.prefix>
 
-        <bouncycastle.version>1.65</bouncycastle.version>
+        <bouncycastle.version>1.68</bouncycastle.version>
         <cxf.version>3.3.4</cxf.version>
         <cxf.xjc.version>3.3.0</cxf.xjc.version>
         <camel.version>2.24.2</camel.version>
