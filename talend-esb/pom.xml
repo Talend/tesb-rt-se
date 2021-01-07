@@ -112,26 +112,32 @@
                             <goal>features-add-to-repository</goal>
                         </goals>
                         <configuration>
+                            <!--
+                            order of descriptors is important, as latest declared features are taking precedence
+                            because of resolveDefinedRepositoriesRecursively, we can have features resolved from a repository dependency before accessing the repository itself
+                            therefore tesb overriding features XML should be declared AFTER pristine Karaf features XML
+                            -->
                             <descriptors>
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
                                 <descriptor>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/framework/${framework.features.tesb.version}/xml/features</descriptor>
-                                <descriptor>mvn:org.apache.karaf.features/standard/${standard.features.tesb.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/spring/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/spring-legacy/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/enterprise/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.karaf.features/enterprise-legacy/${karaf.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.jclouds.karaf/jclouds-karaf/${jclouds.version}/xml/features</descriptor>
-                                <descriptor>mvn:org.apache.karaf.decanter/apache-karaf-decanter/${decanter.tesb.version}/xml/features</descriptor>
 <!--                                <descriptor>mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features</descriptor> -->
-                                <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.tesb.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features-core</descriptor>
+                                <descriptor>mvn:org.apache.karaf.decanter/apache-karaf-decanter/${decanter.tesb.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.tesb.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.tesb.version}/xml/features</descriptor>
 <!--                                <descriptor>file:${basedir}/target/dependencies/apache-camel-${camel.version}-features.xml</descriptor> -->
+                                <descriptor>mvn:org.apache.karaf.features/standard/${standard.features.tesb.version}/xml/features</descriptor>
                             </descriptors>
                             <features>
                                 <!-- Core Features -->
+                                <feature>ssh</feature>
                                 <feature>spring-aspects/5.1.9.RELEASE_1</feature>
                                 <feature>spring-instrument/5.1.9.RELEASE_1</feature>
                                 <feature>spring-messaging/5.1.9.RELEASE_1</feature>
@@ -576,6 +582,15 @@
                                     <classifier>features</classifier>
                                     <outputDirectory>target/dependencies</outputDirectory>
                                     <destFileName>framework-${karaf.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.karaf.features</groupId>
+                                    <artifactId>standard</artifactId>
+                                    <version>${standard.features.tesb.version}</version>
+                                    <type>xml</type>
+                                    <classifier>features</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>standard-${karaf.version}-features.xml</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.ops4j.pax.logging</groupId>
