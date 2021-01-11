@@ -33,6 +33,9 @@
     <description>Packages TESB_SE final product</description>
 
     <properties>
+        <!-- used for version.txt -->
+        <build.number>local</build.number>
+        <tag_label />
         <!-- used for assembly & dependency type, overwritten by dev-unix-assembly-only & dev-win-assembly-only profiles -->
         <assembly.formats>tar.gz,zip</assembly.formats>
         <pax-logging.tesb.version>1.11.7.tesb1</pax-logging.tesb.version>
@@ -875,6 +878,17 @@
 
     <!-- specific profiles for building only tar.gz or zip distributions -->
     <profiles>
+        <profile>
+            <id>tag-label</id>
+            <activation>
+                <property>
+                    <name>tag</name>
+                </property>
+            </activation>
+            <properties>
+                <tag_label>_${tag}</tag_label>
+            </properties>
+        </profile>
         <profile>
             <id>dev-unix-assembly-only</id>
             <properties>
