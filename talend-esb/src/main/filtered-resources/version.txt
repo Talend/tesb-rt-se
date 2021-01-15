@@ -1,0 +1,1 @@
+${project.version}_SE_${build.number}${tag_label}

@@ -329,6 +329,15 @@
             <lineEnding>unix</lineEnding>
             <fileMode>0644</fileMode>
         </fileSet>
+        <fileSet>
+            <directory>target/classes</directory>
+            <outputDirectory>./container</outputDirectory>
+            <includes>
+                <include>version.txt</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0644</fileMode>
+        </fileSet>
 
         <!-- Copy config files to container/etc -->
         <fileSet>

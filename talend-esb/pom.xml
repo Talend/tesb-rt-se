@@ -33,6 +33,9 @@
     <description>Packages TESB_SE final product</description>
 
     <properties>
+        <!-- used for version.txt -->
+        <build.number>local</build.number>
+        <tag_label />
         <!-- used for assembly & dependency type, overwritten by dev-unix-assembly-only & dev-win-assembly-only profiles -->
         <assembly.formats>tar.gz,zip</assembly.formats>
         <activemq.tesb.version>5.15.10.tesb1</activemq.tesb.version>
