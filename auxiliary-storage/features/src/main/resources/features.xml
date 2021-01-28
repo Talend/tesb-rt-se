@@ -18,13 +18,13 @@
   limitations under the License.
   #L%
   -->
-<features name="tesb-aux-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+<features name="tesb-aux-${original.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
 
   <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
   <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
 
 
-   <feature name='jackrabbit-aux-bundles' version='${pom.version}'>
+   <feature name='jackrabbit-aux-bundles' version='${original.version}'>
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
         <bundle dependency='true'>mvn:javax.jcr/jcr/${jcr-version}</bundle>
         <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-api/${jackrabbit.version}</bundle>
@@ -39,71 +39,71 @@
 
   <!-- Common -->
 
-  <feature name='tesb-aux-common' version='${project.version}'>
+  <feature name='tesb-aux-common' version='${original.version}'>
     <!--External dependency -->
     <feature version='${cxf.version}'>cxf-rs-security-xml</feature>
 
-    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-common/${project.version}</bundle>
-     <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-rest-security/${project.version}</bundle>
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-common/${original.version}</bundle>
+     <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-rest-security/${original.version}</bundle>
   </feature>
 
   <!-- Client Side -->
 
-  <feature name='tesb-aux-client-rest' version='${project.version}'>
-    <configfile finalname="/etc/org.talend.esb.auxiliary.storage.client.rest.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-client-rest/${project.version}/cfg/org.talend.esb.auxiliary.storage.client.rest</configfile>
+  <feature name='tesb-aux-client-rest' version='${original.version}'>
+    <configfile finalname="/etc/org.talend.esb.auxiliary.storage.client.rest.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-client-rest/${original.version}/cfg/org.talend.esb.auxiliary.storage.client.rest</configfile>
     <!-- Common dependency -->
-    <feature version="${project.version}">tesb-aux-common</feature>
+    <feature version="${original.version}">tesb-aux-common</feature>
     <feature version="[4.3,6)">spring</feature>
     <!--Provided bundles  -->
-    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-client-common/${project.version}</bundle>
-    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-client-rest/${project.version}</bundle>
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-client-common/${original.version}</bundle>
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-client-rest/${original.version}</bundle>
   </feature>
 
   <!-- Server Side -->
 
-  <feature name='tesb-aux-persistence' version='${project.version}'>
+  <feature name='tesb-aux-persistence' version='${original.version}'>
 
     <!-- Common dependency -->
-    <feature version="${project.version}">tesb-aux-common</feature>
+    <feature version="${original.version}">tesb-aux-common</feature>
 
     <!--External dependencies -->
     <bundle dependency='true'>mvn:commons-io/commons-io/${commons-io.version}</bundle>
 
     <feature>jackrabbit-aux-bundles</feature>
 
-    <configfile finalname="/etc/org.talend.esb.auxiliary.repo.xml">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence-jcr/${project.version}/xml/org.talend.esb.auxiliary.repo</configfile>
+    <configfile finalname="/etc/org.talend.esb.auxiliary.repo.xml">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence-jcr/${original.version}/xml/org.talend.esb.auxiliary.repo</configfile>
     <!--Provided bundles  -->
-    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence/${project.version}</bundle>
-    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence-file/${project.version}</bundle>
-    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence-jcr/${project.version}</bundle>
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence/${original.version}</bundle>
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence-file/${original.version}</bundle>
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-persistence-jcr/${original.version}</bundle>
 
   </feature>
 
-  <feature name='tesb-aux-service-rest' version='${project.version}'>
-    <configfile finalname="/etc/org.talend.esb.auxiliary.storage.service.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-service-rest/${project.version}/cfg/org.talend.esb.auxiliary.storage.service</configfile>
+  <feature name='tesb-aux-service-rest' version='${original.version}'>
+    <configfile finalname="/etc/org.talend.esb.auxiliary.storage.service.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-service-rest/${original.version}/cfg/org.talend.esb.auxiliary.storage.service</configfile>
     <!-- Common dependency -->
-    <feature version="${project.version}">tesb-aux-common</feature>
+    <feature version="${original.version}">tesb-aux-common</feature>
     <feature version="[4.3,6)">spring</feature>
     <!--Provided bundles  -->
-    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-service-rest/${project.version}</bundle>
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-service-rest/${original.version}</bundle>
   </feature>
 
-  <feature name='tesb-aux-server' version='${project.version}'>
-    <configfile finalname="/etc/org.talend.esb.auxiliary.storage.server.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-server/${project.version}/cfg/org.talend.esb.auxiliary.storage.server</configfile>
+  <feature name='tesb-aux-server' version='${original.version}'>
+    <configfile finalname="/etc/org.talend.esb.auxiliary.storage.server.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-server/${original.version}/cfg/org.talend.esb.auxiliary.storage.server</configfile>
     <!-- Common dependency -->
-    <feature version="${project.version}">tesb-aux-common</feature>
-    <feature version="${project.version}">tesb-aux-persistence</feature>
+    <feature version="${original.version}">tesb-aux-common</feature>
+    <feature version="${original.version}">tesb-aux-persistence</feature>
 
     <!--Provided bundles  -->
-    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-server/${project.version}</bundle>
+    <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-server/${original.version}</bundle>
   </feature>
 
   <!-- Main feature -->
-  <feature name='tesb-aux' version='${project.version}'>
-    <feature version="${project.version}">tesb-aux-common</feature>
-    <feature version="${project.version}">tesb-aux-client-rest</feature>
-    <feature version="${project.version}">tesb-aux-service-rest</feature>
-    <feature version="${project.version}">tesb-aux-persistence</feature>
-    <feature version="${project.version}">tesb-aux-server</feature>
+  <feature name='tesb-aux' version='${original.version}'>
+    <feature version="${original.version}">tesb-aux-common</feature>
+    <feature version="${original.version}">tesb-aux-client-rest</feature>
+    <feature version="${original.version}">tesb-aux-service-rest</feature>
+    <feature version="${original.version}">tesb-aux-persistence</feature>
+    <feature version="${original.version}">tesb-aux-server</feature>
   </feature>
 </features>

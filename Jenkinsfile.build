@@ -4,5 +4,6 @@ Build(
         DOWNSTREAM_PROJECT: 'tesb-rt-ee',
         CRON_SCAN_MAINTENANCE: '0 10 * * 0',
         NEXUS_PUBLIC: true,
-        SCAN_EXCLUDES: '**/*-sources.jar,**/ds-service-*.jar,**/examples.jar,**/examples/**'
+        SCAN_EXCLUDES: '**/*-sources.jar,**/ds-service-*.jar,**/examples.jar,**/examples/**',
+        PATCH_MVN_MODULES: 'org.talend.esb:features,org.talend.esb.auxiliary.storage:auxiliary-storage-features'
 )

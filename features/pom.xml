@@ -17,12 +17,17 @@
     <artifactId>features</artifactId>
     <packaging>pom</packaging>
     <name>Talend ESB :. Features</name>
-    
+    <version>${revision}</version>
+
      <parent>
         <groupId>org.talend.esb</groupId>
         <artifactId>esb-parent</artifactId>
         <version>7.3.2-SNAPSHOT</version>
     </parent>
+
+    <properties>
+        <revision>${features.version}</revision>
+    </properties>
 
     <build>
         <resources>

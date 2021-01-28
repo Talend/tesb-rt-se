@@ -91,6 +91,15 @@
     </developers>
 
     <properties>
+        <!-- properties used for standard build, overriden using the specific patch profile
+        patch profile declares proper "release" patched versions
+        used in proper updated PATCH_MVN_MODULES in Jenkinsfile.build, this allows jenkins deploy specific artifacts, ie.:
+        mvn clean deploy -Pdev -pl :event-logging-sender-jms,:event-logging-features
+        -->
+        <original.version>${project.parent.version}</original.version>
+        <features.version>${project.parent.version}</features.version>
+        <auxiliary-storage-features.version>${project.parent.version}</auxiliary-storage-features.version>
+
         <org.apache.karaf.config.core.tesb.version>4.2.7.tesb1</org.apache.karaf.config.core.tesb.version>
         <cxf-rt-rs-service-description-swagger.tesb.version>3.3.4.tesb1</cxf-rt-rs-service-description-swagger.tesb.version>
         <packages.version>${project.version}</packages.version>
@@ -579,6 +588,14 @@
             <modules>
                 <module>examples</module>
             </modules>
+        </profile>
+        <profile>
+            <id>patch</id>
+            <properties>
+                <original.version>7.3.1</original.version>
+                <features.version>7.3.1.20210122</features.version>
+                <auxiliary-storage-features.version>7.3.1.20210122</auxiliary-storage-features.version>
+            </properties>
         </profile>
     </profiles>
 
