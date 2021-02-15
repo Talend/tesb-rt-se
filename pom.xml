@@ -99,6 +99,8 @@
         <original.version>${project.parent.version}</original.version>
         <features.version>${project.parent.version}</features.version>
         <auxiliary-storage-features.version>${project.parent.version}</auxiliary-storage-features.version>
+        <sts-config.version>${project.parent.version}</sts-config.version>
+        <job-controller.version>${project.parent.version}</job-controller.version>
 
         <org.apache.karaf.config.core.tesb.version>4.2.7.tesb1</org.apache.karaf.config.core.tesb.version>
         <cxf-rt-rs-service-description-swagger.tesb.version>3.3.4.tesb1</cxf-rt-rs-service-description-swagger.tesb.version>
@@ -595,6 +597,8 @@
                 <original.version>7.3.1</original.version>
                 <features.version>7.3.1.20210122</features.version>
                 <auxiliary-storage-features.version>7.3.1.20210122</auxiliary-storage-features.version>
+                <sts-config.version>7.3.1.20210224</sts-config.version>
+                <job-controller.version>7.3.1.20210224</job-controller.version>
             </properties>
         </profile>
     </profiles>

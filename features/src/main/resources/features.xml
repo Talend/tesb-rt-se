@@ -255,20 +255,20 @@
   </feature>
 
   <feature name="talend-job-controller" version="${original.version}">
-    <configfile finalname="/etc/org.talend.esb.job.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}/cfg/org.talend.esb.job</configfile>
-    <configfile finalname="/etc/org.talend.esb.job.token.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}/policy/org.talend.esb.job.token</configfile>
-    <configfile finalname="/etc/org.talend.esb.job.saml.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}/policy/org.talend.esb.job.saml</configfile>
-    <configfile finalname="/etc/org.talend.esb.job.saml.authz.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}/policy/org.talend.esb.job.saml.authz</configfile>
-    <configfile finalname="/etc/org.talend.esb.job.saml.crypto.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}/policy/org.talend.esb.job.saml.crypto</configfile>
-    <configfile finalname="/etc/org.talend.esb.job.saml.authz.crypto.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}/policy/org.talend.esb.job.saml.authz.crypto</configfile>
-    <configfile finalname="/etc/org.talend.esb.job.service.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}/cfg/org.talend.esb.job.service</configfile>
-    <configfile finalname="/etc/org.talend.esb.job.client.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}/cfg/org.talend.esb.job.client</configfile>
-    <configfile finalname="/etc/org.talend.esb.job.client.sts.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}/cfg/org.talend.esb.job.client.sts</configfile>
-    <configfile finalname="/etc/org.talend.esb.job.oidc.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}/cfg/org.talend.esb.job.oidc</configfile>
-    <configfile finalname="/etc/keystores/clientKeystore.properties">mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}/properties/clientKeystore</configfile>
-    <configfile finalname="/etc/keystores/clientstore.jks">mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}/jks/clientstore</configfile>
-    <configfile finalname="/etc/keystores/serviceKeystore.properties">mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}/properties/serviceKeystore</configfile>
-    <configfile finalname="/etc/keystores/servicestore.jks">mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}/jks/servicestore</configfile>
+    <configfile finalname="/etc/org.talend.esb.job.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/cfg/org.talend.esb.job</configfile>
+    <configfile finalname="/etc/org.talend.esb.job.token.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/policy/org.talend.esb.job.token</configfile>
+    <configfile finalname="/etc/org.talend.esb.job.saml.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/policy/org.talend.esb.job.saml</configfile>
+    <configfile finalname="/etc/org.talend.esb.job.saml.authz.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/policy/org.talend.esb.job.saml.authz</configfile>
+    <configfile finalname="/etc/org.talend.esb.job.saml.crypto.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/policy/org.talend.esb.job.saml.crypto</configfile>
+    <configfile finalname="/etc/org.talend.esb.job.saml.authz.crypto.policy">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/policy/org.talend.esb.job.saml.authz.crypto</configfile>
+    <configfile finalname="/etc/org.talend.esb.job.service.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/cfg/org.talend.esb.job.service</configfile>
+    <configfile finalname="/etc/org.talend.esb.job.client.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/cfg/org.talend.esb.job.client</configfile>
+    <configfile finalname="/etc/org.talend.esb.job.client.sts.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/cfg/org.talend.esb.job.client.sts</configfile>
+    <configfile finalname="/etc/org.talend.esb.job.oidc.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/cfg/org.talend.esb.job.oidc</configfile>
+    <configfile finalname="/etc/keystores/clientKeystore.properties">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/properties/clientKeystore</configfile>
+    <configfile finalname="/etc/keystores/clientstore.jks">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/jks/clientstore</configfile>
+    <configfile finalname="/etc/keystores/serviceKeystore.properties">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/properties/serviceKeystore</configfile>
+    <configfile finalname="/etc/keystores/servicestore.jks">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/jks/servicestore</configfile>
     <feature version='${original.version}'>talend-job-api</feature>
     <feature version='${original.version}'>tesb-locator-client</feature>
     <feature version='${original.version}'>tesb-sam-agent</feature>
@@ -279,14 +279,14 @@
     <feature version='${original.version}'>tesb-policy-transformation</feature>
     <feature version='${original.version}'>tesb-policy-validation</feature>
     <feature version='${original.version}'>tesb-security-common</feature>
-    <bundle>mvn:org.talend.esb.job/org.talend.esb.job.controller/${original.version}</bundle>
+    <bundle>mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}</bundle>
   </feature>
 
   <feature name="tesb-sts" version="${original.version}">
-    <configfile finalname="/etc/keystores/stsKeystore.properties">mvn:org.talend.esb.sts/org.talend.esb.sts.config/${original.version}/properties/stsKeystore</configfile>
-    <configfile finalname="/etc/keystores/stsstore.jks">mvn:org.talend.esb.sts/org.talend.esb.sts.config/${original.version}/jks/stsstore</configfile>
+    <configfile finalname="/etc/keystores/stsKeystore.properties">mvn:org.talend.esb.sts/org.talend.esb.sts.config/${sts-config.version}/properties/stsKeystore</configfile>
+    <configfile finalname="/etc/keystores/stsstore.jks">mvn:org.talend.esb.sts/org.talend.esb.sts.config/${sts-config.version}/jks/stsstore</configfile>
     <feature version="${cxf.version}">cxf-sts</feature>
-    <bundle>mvn:org.talend.esb.sts/org.talend.esb.sts.config/${original.version}</bundle>
+    <bundle>mvn:org.talend.esb.sts/org.talend.esb.sts.config/${sts-config.version}</bundle>
   </feature>
 
   <feature name="camel-talendjob" version="${original.version}">

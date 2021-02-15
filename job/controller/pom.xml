@@ -13,36 +13,41 @@
     <artifactId>org.talend.esb.job.controller</artifactId>
     <packaging>bundle</packaging>
     <name>Talend ESB :: Job :: Controller</name>
+    <version>${revision}</version>
+
+    <properties>
+        <revision>${job-controller.version}</revision>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.talend.esb.job</groupId>
             <artifactId>org.talend.esb.job.api</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>locator</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>sam-agent</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.talend.esb.policies</groupId>
             <artifactId>correlationid-policy</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>security-common</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
             <scope>provided</scope>
         </dependency>
 
