@@ -5,5 +5,5 @@ Build(
         CRON_SCAN_MAINTENANCE: '0 10 * * 0',
         NEXUS_PUBLIC: true,
         SCAN_EXCLUDES: '**/*-sources.jar,**/ds-service-*.jar,**/examples.jar,**/examples/**',
-        PATCH_MVN_MODULES: 'org.talend.esb:features,org.talend.esb.auxiliary.storage:auxiliary-storage-features'
+        PATCH_MVN_MODULES: 'org.talend.esb:features,org.talend.esb.auxiliary.storage:auxiliary-storage-features,org.talend.esb.job:org.talend.esb.job.controller,org.talend.esb.sts:org.talend.esb.sts.config'
 )
