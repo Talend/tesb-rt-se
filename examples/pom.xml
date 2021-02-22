@@ -66,6 +66,7 @@
         <karaf.version>4.2.10</karaf.version>
         <jettison.version>1.4.0</jettison.version>
         <activemq.version>5.15.13</activemq.version>
+        <xstream.version>1.4.15</xstream.version>
         <osgi.version>6.0.0</osgi.version>
         <osgi.compendium.version>5.0.0</osgi.compendium.version>
         <eclipse.osgi.version>3.12.100</eclipse.osgi.version>
@@ -137,12 +138,6 @@
                 <groupId>org.cryptacular</groupId>
                 <artifactId>cryptacular</artifactId>
                 <version>1.2.4</version>
-            </dependency>
-            <!-- Override the Xstream for a CVE issue TESB-32102 -->
-            <dependency>
-                <groupId>com.thoughtworks.xstream</groupId>
-                <artifactId>xstream</artifactId>
-                <version>1.4.15</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

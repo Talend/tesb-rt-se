@@ -69,6 +69,13 @@
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-osgi</artifactId>
         </dependency>
+        <!-- Override the Xstream for a CVE issue TESB-32102 -->
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>${xstream.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-core</artifactId>

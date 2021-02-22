@@ -72,6 +72,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- Override the Xstream for a CVE issue TESB-32102 -->
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>${xstream.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
