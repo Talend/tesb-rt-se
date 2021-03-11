@@ -92,6 +92,7 @@
 
     <properties>
         <packages.version>${project.version}</packages.version>
+        <commons-codec.version>1.14</commons-codec.version>
         <cxf.version>3.3.7</cxf.version>
         <cxf.tesb.version>3.3.7.tesb1</cxf.tesb.version>
         <camel.version>2.25.2</camel.version>

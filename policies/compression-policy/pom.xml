@@ -13,10 +13,6 @@
 	<name>Talend ESB :: Policies :: Compression</name>
 	<description>Custom policy for compression processing</description>
 	
-	<properties>
-		<commons-codec.version>1.14</commons-codec.version>
-	</properties>	
-
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
