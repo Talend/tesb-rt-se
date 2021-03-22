@@ -92,6 +92,7 @@
 
     <properties>
         <packages.version>${project.version}</packages.version>
+        <karaf.version>4.2.11</karaf.version>
         <commons-codec.version>1.14</commons-codec.version>
         <cxf.version>3.3.7</cxf.version>
         <cxf.tesb.version>3.3.7.tesb2</cxf.tesb.version>
@@ -100,7 +101,6 @@
         <activemq.version>5.15.13</activemq.version>
         <activemq.features.tesb.version>5.15.13.tesb1</activemq.features.tesb.version>
         <spring.version>5.2.9.RELEASE</spring.version>
-        <karaf.version>4.2.10</karaf.version>
         <standard.features.tesb.version>4.2.10.tesb2</standard.features.tesb.version>
         <framework.features.tesb.version>4.2.10.tesb1</framework.features.tesb.version>
         <pax-web.version>7.2.19</pax-web.version>
@@ -156,8 +156,8 @@
 
         <cxf.build-utils.version>3.4.3</cxf.build-utils.version>
         <cxf.xjc-utils.version>3.3.0</cxf.xjc-utils.version>
-        <cxf.resources.base.path/>
-        <cxf.checkstyle.extension/>
+        <cxf.resources.base.path />
+        <cxf.checkstyle.extension />
 
         <bundle.plugin.version>2.4.0</bundle.plugin.version>
 
