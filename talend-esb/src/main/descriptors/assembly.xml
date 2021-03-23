@@ -401,6 +401,7 @@
                 <include>data/**</include>
                 <include>deploy/**</include>
                 <include>lib/**</include>
+                <include>etc/**</include>
                 <include>system/README</include>
                 <include>system/**/*.jar</include>
             </includes>
