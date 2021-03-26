@@ -34,28 +34,32 @@
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
 			<version>${camel.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.sun</groupId>
-					<artifactId>tools</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-osgi</artifactId>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-xpath</artifactId>
+			<version>${camel.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-activemq</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.apache.activemq</groupId>-->
+<!--			<artifactId>activemq-osgi</artifactId>-->
+<!--		</dependency>-->
 		<!-- Override the Xstream for a CVE issue TESB-32102 -->
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
 			<version>${xstream.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-camel</artifactId>
-			<version>${activemq.version}</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.apache.activemq</groupId>-->
+<!--			<artifactId>activemq-camel</artifactId>-->
+<!--			<version>${activemq.version}</version>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>jakarta.xml.bind</groupId>
@@ -77,8 +81,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
 		</dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -86,7 +88,7 @@
             <version>${slf4j.version}</version>
             <scope>test</scope>
         </dependency>
-		
+
 	</dependencies>
 
 	<build>

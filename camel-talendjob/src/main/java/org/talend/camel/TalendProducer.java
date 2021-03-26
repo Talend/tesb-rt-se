@@ -30,8 +30,8 @@ import java.util.Map;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.RuntimeCamelException;
-import org.apache.camel.impl.DefaultProducer;
-import org.apache.camel.util.ObjectHelper;
+import org.apache.camel.support.DefaultProducer;
+import org.apache.camel.support.ObjectHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -149,7 +149,7 @@ public class TalendProducer extends DefaultProducer {
         if (propagateHeader && exchange != null) {
             getParamsFromHeaders(exchange, args);
         }
-        getParamsFromProperties(getEndpoint().getCamelContext().getProperties(), args);
+        getParamsFromProperties(getEndpoint().getCamelContext().getGlobalOptions(), args);
         getParamsFromProperties(talendEndpoint.getEndpointProperties(), args);
         return args.toArray(new String[args.size()]);
     }

@@ -52,20 +52,20 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.talend.esb.auxiliary.storage</groupId> 
-            <artifactId>auxiliary-storage-client-rest</artifactId> 
-            <version>${project.version}</version> 
+            <groupId>org.talend.esb.auxiliary.storage</groupId>
+            <artifactId>auxiliary-storage-client-rest</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.talend.esb.auxiliary.storage</groupId> 
-            <artifactId>auxiliary-storage-client-common</artifactId> 
-            <version>${project.version}</version> 
+            <groupId>org.talend.esb.auxiliary.storage</groupId>
+            <artifactId>auxiliary-storage-client-common</artifactId>
+            <version>${project.version}</version>
             </dependency>
         <dependency>
-            <groupId>org.talend.esb.auxiliary.storage</groupId> 
-            <artifactId>auxiliary-storage-rest-security</artifactId> 
-            <version>${project.version}</version> 
-        </dependency>        
+            <groupId>org.talend.esb.auxiliary.storage</groupId>
+            <artifactId>auxiliary-storage-rest-security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.talend.esb.examples.library-service</groupId>
@@ -93,7 +93,7 @@
         <dependency>
             <groupId>org.apache.cxf.xjc-utils</groupId>
             <artifactId>cxf-xjc-runtime</artifactId>
-            <version>${cxf.xjc.version}</version>
+            <version>${cxf.xjc-utils.version}</version>
         </dependency>
 
         <!-- Third parties -->
@@ -129,8 +129,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
         </dependency>
 
     </dependencies>

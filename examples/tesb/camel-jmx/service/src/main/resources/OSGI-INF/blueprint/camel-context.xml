@@ -28,7 +28,7 @@
 
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/blueprint">
         <!-- Default JMX connector url: "service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi/camel" -->
-        <jmxAgent id="agent" createConnector="true"/>
+        <jmxAgent id="agent"/>
 
         <route>
             <from uri="timer://inbox?period=5000"/>
@@ -41,7 +41,9 @@
             <split>
                 <xpath>/stocks/stock</xpath>
                 <throttle timePeriodMillis="1000">
-                    <constant>3</constant>
+                    <correlationExpression>
+                        <constant>3</constant>
+                    </correlationExpression>
                     <to uri="activemq:queue:stock"/>
                 </throttle>
             </split>

@@ -25,8 +25,8 @@ import java.util.Map;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Endpoint;
-import org.apache.camel.impl.DefaultComponent;
-import org.apache.camel.util.IntrospectionSupport;
+import org.apache.camel.support.DefaultComponent;
+import org.apache.camel.util.PropertiesHelper;
 
 /**
  * <p>
@@ -47,17 +47,17 @@ public class TalendComponent extends DefaultComponent {
         throws Exception {
         final TalendEndpoint endpoint = new TalendEndpoint(uri, remaining, this);
         endpoint.setStickyJob(isTrue(parameters.remove("sticky")));
-        setProperties(endpoint, parameters);
         // extract the properties.xxx and set them as properties
         Map<String, Object> properties =
-                IntrospectionSupport.extractProperties(parameters, "endpointProperties.");
+                PropertiesHelper.extractProperties(parameters, "endpointProperties.");
         if (properties != null) {
-            Map<String, String> endpointProperties = new HashMap<String, String>(properties.size());
+            Map<String, String> endpointProperties = new HashMap<>(properties.size());
             for (Map.Entry<String, Object> entry : properties.entrySet()) {
                 endpointProperties.put(entry.getKey(), entry.getValue().toString());
             }
             endpoint.setEndpointProperties(endpointProperties);
         }
+        setProperties(endpoint, parameters);
         return endpoint;
     }
 

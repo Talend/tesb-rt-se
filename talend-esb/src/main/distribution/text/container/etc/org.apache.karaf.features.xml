@@ -31,6 +31,7 @@
     <!-- fix the TESB-29223 -->
     <blacklistedFeatures>
         <feature>jetty</feature>
+        <feature>activemq-camel</feature>
     </blacklistedFeatures>
 
 </featuresProcessing>

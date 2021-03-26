@@ -58,7 +58,7 @@ public class TalendComponentParamTest extends CamelTestSupport {
     @Test
     public void testJobParamFromContext() throws Exception {
         resultEndpoint.expectedBodiesReceived("--context_param property=context");
-        context.getProperties().put("property", "context");
+        context.getGlobalOptions().put("property", "context");
         sendBody("direct:test", "propagateHeader=false");
         resultEndpoint.assertIsSatisfied();
     }

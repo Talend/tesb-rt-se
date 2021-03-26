@@ -31,7 +31,7 @@
 
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
         <!-- Default JMX connector url: "service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi/camel" -->
-        <jmxAgent id="agent" createConnector="true"/>
+        <jmxAgent id="agent"/>
 
         <route>
             <from uri="timer://inbox?period=5000"/>
@@ -45,8 +45,8 @@
                 <xpath>/stocks/stock</xpath>
                 <throttle timePeriodMillis="1000">
                     <constant>3</constant>
-                    <to uri="activemq:queue:stock"/>
                 </throttle>
+                <to uri="activemq:queue:stock"/>
             </split>
         </route>
 

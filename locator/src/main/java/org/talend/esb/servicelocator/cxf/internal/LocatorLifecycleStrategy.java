@@ -11,7 +11,7 @@ import org.apache.camel.component.cxf.CxfEndpoint;
 import org.apache.camel.component.cxf.jaxrs.CxfRsEndpoint;
 import org.apache.camel.spi.LifecycleStrategy;
 import org.apache.camel.support.LifecycleStrategySupport;
-import org.apache.camel.util.CamelContextHelper;
+import org.apache.camel.support.CamelContextHelper;
 import org.apache.cxf.Bus;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;

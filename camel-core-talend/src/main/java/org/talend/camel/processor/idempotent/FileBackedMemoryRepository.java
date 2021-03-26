@@ -28,15 +28,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.camel.RuntimeCamelException;
 import org.apache.camel.api.management.ManagedAttribute;
 import org.apache.camel.api.management.ManagedOperation;
 import org.apache.camel.api.management.ManagedResource;
 import org.apache.camel.spi.IdempotentRepository;
-import org.apache.camel.support.ServiceSupport;
+import org.apache.camel.support.service.ServiceSupport;
 import org.apache.camel.util.FileUtil;
 import org.apache.camel.util.IOHelper;
-import org.apache.camel.util.LRUCache;
-import org.apache.camel.util.LRUCacheFactory;
+import org.apache.camel.support.LRUCache;
+import org.apache.camel.support.LRUCacheFactory;
 import org.apache.camel.util.ObjectHelper;
 import org.apache.camel.util.Scanner;
 import org.slf4j.Logger;
@@ -53,10 +54,10 @@ import org.slf4j.LoggerFactory;
  * If the file store grows bigger than the maximum capacity, then the {@link #getDropOldestFileStore()} (is default 1000)
  * number of entries from the file store is dropped to reduce the file store and make room for newer entries.
  *
- * @version 
+ * @version
  */
 @ManagedResource(description = "File backed memory repository")
-public class FileBackedMemoryRepository extends ServiceSupport implements IdempotentRepository<String> {
+public class FileBackedMemoryRepository extends ServiceSupport implements IdempotentRepository {
 
     private static final class MiniCache {
 
@@ -66,16 +67,16 @@ public class FileBackedMemoryRepository extends ServiceSupport implements Idempo
 
         MiniCache(int maxSize) {
             super();
-            this.set = new HashSet<String>(maxSize);
-            this.list = new LinkedList<String>();
+            this.set = new HashSet<>(maxSize);
+            this.list = new LinkedList<>();
             this.maxSize = maxSize;
         }
 
         MiniCache(Map<?,?> map) {
             super();
             int mx = map instanceof LRUCache ? ((LRUCache<?,?>) map).getMaxCacheSize() : 1000;
-            this.set = new HashSet<String>(mx);
-            this.list = new LinkedList<String>();
+            this.set = new HashSet<>(mx);
+            this.list = new LinkedList<>();
             this.maxSize = mx;
         }
 
@@ -117,7 +118,7 @@ public class FileBackedMemoryRepository extends ServiceSupport implements Idempo
         }
 
         Map<String, Object> toMap() {
-            Map<String, Object> result = new HashMap<String, Object>(list.size());
+            Map<String, Object> result = new HashMap<>(list.size());
             for (String element : list) {
                 result.put(element, element);
             }
@@ -144,37 +145,35 @@ public class FileBackedMemoryRepository extends ServiceSupport implements Idempo
     }
 
     /**
-     * Creates a new file based repository using a {@link org.apache.camel.util.LRUCache}
+     * Creates a new file based repository using a {@link org.apache.camel.support.LRUCache}
      * as 1st level cache with a default of 1000 entries in the cache.
      *
      * @param fileStore  the file store
      */
-    public static IdempotentRepository<String> fileIdempotentRepository(File fileStore) {
+    public static IdempotentRepository fileIdempotentRepository(File fileStore) {
         return fileIdempotentRepository(fileStore, 1000);
     }
 
     /**
-     * Creates a new file based repository using a {@link org.apache.camel.util.LRUCache}
+     * Creates a new file based repository using a {@link org.apache.camel.support.LRUCache}
      * as 1st level cache.
      *
      * @param fileStore  the file store
      * @param cacheSize  the cache size
      */
-    @SuppressWarnings("unchecked")
-    public static IdempotentRepository<String> fileIdempotentRepository(File fileStore, int cacheSize) {
+    public static IdempotentRepository fileIdempotentRepository(File fileStore, int cacheSize) {
         return fileIdempotentRepository(fileStore, LRUCacheFactory.newLRUCache(cacheSize));
     }
 
     /**
-     * Creates a new file based repository using a {@link org.apache.camel.util.LRUCache}
+     * Creates a new file based repository using a {@link org.apache.camel.support.LRUCache}
      * as 1st level cache.
      *
      * @param fileStore  the file store
      * @param cacheSize  the cache size
      * @param maxFileStoreSize  the max size in bytes for the filestore file
      */
-    @SuppressWarnings("unchecked")
-    public static IdempotentRepository<String> fileIdempotentRepository(File fileStore, int cacheSize, long maxFileStoreSize) {
+    public static IdempotentRepository fileIdempotentRepository(File fileStore, int cacheSize, long maxFileStoreSize) {
         FileBackedMemoryRepository repository = new FileBackedMemoryRepository(fileStore, LRUCacheFactory.newLRUCache(cacheSize));
         repository.setMaxFileStoreSize(maxFileStoreSize);
         return repository;
@@ -190,7 +189,7 @@ public class FileBackedMemoryRepository extends ServiceSupport implements Idempo
      * @param store  the file store
      * @param cache  the cache to use as 1st level cache
      */
-    public static IdempotentRepository<String> fileIdempotentRepository(File store, Map<String, Object> cache) {
+    public static IdempotentRepository fileIdempotentRepository(File store, Map<String, Object> cache) {
         return new FileBackedMemoryRepository(store, cache);
     }
 
@@ -370,7 +369,7 @@ public class FileBackedMemoryRepository extends ServiceSupport implements Idempo
                 }
             }
         } catch (IOException e) {
-            throw ObjectHelper.wrapRuntimeCamelException(e);
+            throw RuntimeCamelException.wrapRuntimeCamelException(e);
         }
         */
         return false;
@@ -404,7 +403,7 @@ public class FileBackedMemoryRepository extends ServiceSupport implements Idempo
             fos.write(key.getBytes());
             fos.write(STORE_DELIMITER.getBytes());
         } catch (IOException e) {
-            throw ObjectHelper.wrapRuntimeCamelException(e);
+            throw RuntimeCamelException.wrapRuntimeCamelException(e);
         } finally {
             IOHelper.close(fos, "Appending to file idempotent repository", LOG);
         }
@@ -417,9 +416,7 @@ public class FileBackedMemoryRepository extends ServiceSupport implements Idempo
         List<String> lines = new ArrayList<>();
 
         boolean found = false;
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(fileStore, null, STORE_DELIMITER);
+        try (Scanner scanner = new Scanner(fileStore, null, STORE_DELIMITER)) {
             while (scanner.hasNext()) {
                 String line = scanner.next();
                 if (key.equals(line)) {
@@ -429,11 +426,7 @@ public class FileBackedMemoryRepository extends ServiceSupport implements Idempo
                 }
             }
         } catch (IOException e) {
-            throw ObjectHelper.wrapRuntimeCamelException(e);
-        } finally {
-            if (scanner != null) {
-                scanner.close();
-            }
+            throw RuntimeCamelException.wrapRuntimeCamelException(e);
         }
 
         if (found) {
@@ -447,7 +440,7 @@ public class FileBackedMemoryRepository extends ServiceSupport implements Idempo
                     fos.write(STORE_DELIMITER.getBytes());
                 }
             } catch (IOException e) {
-                throw ObjectHelper.wrapRuntimeCamelException(e);
+                throw RuntimeCamelException.wrapRuntimeCamelException(e);
             } finally {
                 IOHelper.close(fos, "Rewriting file idempotent repository", LOG);
             }
@@ -462,7 +455,7 @@ public class FileBackedMemoryRepository extends ServiceSupport implements Idempo
             FileUtil.deleteFile(fileStore);
             FileUtil.createNewFile(fileStore);
         } catch (IOException e) {
-            throw ObjectHelper.wrapRuntimeCamelException(e);
+            throw RuntimeCamelException.wrapRuntimeCamelException(e);
         }
     }
 
@@ -479,10 +472,8 @@ public class FileBackedMemoryRepository extends ServiceSupport implements Idempo
         // we need to re-load the entire file and remove the key and then re-write the file
         List<String> lines = new ArrayList<>();
 
-        Scanner scanner = null;
         int count = 0;
-        try {
-            scanner = new Scanner(fileStore, null, STORE_DELIMITER);
+        try (Scanner scanner = new Scanner(fileStore, null, STORE_DELIMITER)) {
             while (scanner.hasNext()) {
                 String line = scanner.next();
                 count++;
@@ -491,11 +482,7 @@ public class FileBackedMemoryRepository extends ServiceSupport implements Idempo
                 }
             }
         } catch (IOException e) {
-            throw ObjectHelper.wrapRuntimeCamelException(e);
-        } finally {
-            if (scanner != null) {
-                scanner.close();
-            }
+            throw RuntimeCamelException.wrapRuntimeCamelException(e);
         }
 
         if (!lines.isEmpty()) {
@@ -509,7 +496,7 @@ public class FileBackedMemoryRepository extends ServiceSupport implements Idempo
                     fos.write(STORE_DELIMITER.getBytes());
                 }
             } catch (IOException e) {
-                throw ObjectHelper.wrapRuntimeCamelException(e);
+                throw RuntimeCamelException.wrapRuntimeCamelException(e);
             } finally {
                 IOHelper.close(fos, "Rewriting file idempotent repository", LOG);
             }
@@ -553,7 +540,7 @@ public class FileBackedMemoryRepository extends ServiceSupport implements Idempo
                 cache.add(line);
             }
         } catch (IOException e) {
-            throw ObjectHelper.wrapRuntimeCamelException(e);
+            throw RuntimeCamelException.wrapRuntimeCamelException(e);
         }
 
         LOG.debug("Loaded {} to the 1st level cache from idempotent filestore: {}", cache.size(), fileStore);

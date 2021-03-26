@@ -92,32 +92,32 @@
 
     <properties>
         <packages.version>${project.version}</packages.version>
-        <karaf.version>4.2.10</karaf.version>
-        <standard.features.tesb.version>4.2.10.tesb2</standard.features.tesb.version>
-        <framework.features.tesb.version>4.2.10.tesb1</framework.features.tesb.version>
+        <karaf.version>4.2.11</karaf.version>
+        <standard.features.tesb.version>${karaf.version}</standard.features.tesb.version>
+        <framework.features.tesb.version>${karaf.version}</framework.features.tesb.version>
         <enterprise.features.tesb.version>${karaf.version}</enterprise.features.tesb.version>
         <enterprise-legacy.features.tesb.version>${karaf.version}</enterprise-legacy.features.tesb.version>
         <spring.features.tesb.version>${karaf.version}</spring.features.tesb.version>
         <spring-legacy.features.tesb.version>${karaf.version}</spring-legacy.features.tesb.version>
-        <camel.version>2.25.2</camel.version>
-        <camel.features.tesb.version>2.25.2.tesb4</camel.features.tesb.version>
-        <cxf.version>3.3.7</cxf.version>
-        <cxf.features.tesb.version>3.3.7.tesb2</cxf.features.tesb.version>
+        <camel.version>3.8.0</camel.version>
+        <camel.features.tesb.version>${camel.version}</camel.features.tesb.version>
+        <cxf.version>3.4.3</cxf.version>
+        <cxf.features.tesb.version>${cxf.version}</cxf.features.tesb.version>
         <spring.version>5.2.9.RELEASE</spring.version>
-        <pax-web.version>7.2.19</pax-web.version>
-        <pax-web.features.tesb.version>7.2.19.tesb1</pax-web.features.tesb.version>
-        <activemq.version>5.15.13</activemq.version>
-        <activemq.features.tesb.version>5.15.13.tesb1</activemq.features.tesb.version>
-        <decanter.version>2.5.0</decanter.version>
-        <decanter.features.tesb.version>2.5.0.tesb2</decanter.features.tesb.version>
+        <pax-web.version>7.2.23</pax-web.version>
+        <pax-web.features.tesb.version>${pax-web.version}</pax-web.features.tesb.version>
+        <activemq.version>5.16.1</activemq.version>
+        <activemq.features.tesb.version>${activemq.version}</activemq.features.tesb.version>
+        <decanter.version>2.7.0</decanter.version>
+        <decanter.features.tesb.version>${decanter.version}</decanter.features.tesb.version>
         <jclouds.version>2.1.2</jclouds.version>
         <jclouds.features.tesb.version>${jclouds.version}</jclouds.features.tesb.version>
         <zookeeper.version>3.4.14</zookeeper.version>
         <hapi-fhir.features.tesb.version>3.5.0</hapi-fhir.features.tesb.version>
-        <hibernate-validator-osgi-karaf-features.features.tesb.version>6.1.5.Final</hibernate-validator-osgi-karaf-features.features.tesb.version>
+        <hibernate-validator-osgi-karaf-features.features.tesb.version>7.0.1.Final</hibernate-validator-osgi-karaf-features.features.tesb.version>
         <pax-jdbc-features.features.tesb.version>1.4.4</pax-jdbc-features.features.tesb.version>
-        <pax-jms-features.features.tesb.version>1.0.7</pax-jms-features.features.tesb.version>
-        <pax-transx-features.tesb.version>0.4.4</pax-transx-features.tesb.version>
+        <pax-jms-features.features.tesb.version>1.1.0</pax-jms-features.features.tesb.version>
+        <pax-transx-features.tesb.version>0.5.0</pax-transx-features.tesb.version>
         <jpa-features.features.tesb.version>2.7.2</jpa-features.features.tesb.version>
         <openjpa-features.features.tesb.version>3.1.1</openjpa-features.features.tesb.version>
 
@@ -131,6 +131,7 @@
         <jaxen.bundle.version>1.2.0</jaxen.bundle.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
         <commons-pool.version>1.6</commons-pool.version>
+        <pax-jdbc.version>1.3.4</pax-jdbc.version>
         <!-- check compatible version -->
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <commons-dbcp.bundle.version>1.4_3</commons-dbcp.bundle.version>
@@ -141,7 +142,6 @@
         <osgi.core.version>6.0.0</osgi.core.version>
         <osgi.compendium.version>5.0.0</osgi.compendium.version>
         <jetty.version>9.4.35.v20201120</jetty.version>
-        <pax.web.version>7.2.19</pax.web.version>
         <oscache.bundle.version>2.4_5</oscache.bundle.version>
         <cglib.bundle.version>3.2.9_1</cglib.bundle.version>
         <ibatis-sqlmap.bundle.version>2.3.4.726_4</ibatis-sqlmap.bundle.version>
@@ -156,6 +156,9 @@
         <quartz.version>2.3.2</quartz.version>
         <c3p0.bundle.version>0.9.5.4_1</c3p0.bundle.version>
         <hikaricp.version>2.4.13</hikaricp.version>
+        <xstream.version>1.4.15</xstream.version>
+        <eclipse.osgi.version>3.12.100</eclipse.osgi.version>
+        <aries.version>1.0.0</aries.version>
 
         <pax-url-classpath.version>2.6.2</pax-url-classpath.version>
         <wss4j.version>2.2.5</wss4j.version>

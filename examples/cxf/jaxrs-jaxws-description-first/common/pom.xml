@@ -26,7 +26,7 @@
         <dependency>
             <groupId>org.apache.cxf.xjc-utils</groupId>
             <artifactId>cxf-xjc-runtime</artifactId>
-            <version>${cxf.xjc.version}</version>
+            <version>${cxf.xjc-utils.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>jakarta.activation</groupId>
@@ -44,7 +44,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Export-Package>data.model,org.example.customers</Export-Package> 
+                        <Export-Package>data.model,org.example.customers</Export-Package>
                     </instructions>
                 </configuration>
             </plugin>

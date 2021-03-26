@@ -40,23 +40,17 @@
         </fileSet>
 
         <!-- Expanded Camel Runtime -->
-        <fileSet>
-            <directory>target/dependencies/camel/apache-camel-${camel.version}</directory>
-            <outputDirectory>./</outputDirectory>
-            <excludes>
-                <exclude>README</exclude>
-                <exclude>README.txt</exclude>
-                <exclude>LICENSE.txt</exclude>
-                <exclude>NOTICE.txt</exclude>
-                <exclude>**/examples/**</exclude>
-                <exclude>doc/**</exclude>
-                <exclude>lib/commons-collections-3.2.1.jar</exclude>
-            </excludes>
-        </fileSet>
-        <fileSet>
-            <directory>target/dependencies/camel/apache-camel-${camel.version}/examples</directory>
-            <outputDirectory>./examples/apache/camel</outputDirectory>
-        </fileSet>
+<!--        <fileSet>-->
+<!--            <directory>target/dependencies/camel/apache-camel-${camel.version}</directory>-->
+<!--            <outputDirectory>./</outputDirectory>-->
+<!--            <includes>-->
+<!--                <include>lib/**</include>-->
+<!--            </includes>-->
+<!--        </fileSet>-->
+<!--        <fileSet>-->
+<!--            <directory>target/dependencies/camel/apache-camel-${camel.version}/examples</directory>-->
+<!--            <outputDirectory>./examples/apache/camel</outputDirectory>-->
+<!--        </fileSet>-->
 
         <!-- Expanded CXF Runtime -->
         <fileSet>
