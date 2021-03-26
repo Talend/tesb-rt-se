@@ -14,7 +14,6 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.talend.esb.examples.locator</groupId>
     <artifactId>locator-demo-client</artifactId>
     <name>Locator Demo Client</name>
     <packaging>bundle</packaging>
@@ -23,6 +22,7 @@
         <groupId>org.talend.esb.examples.locator</groupId>
         <artifactId>locator-demo</artifactId>
         <version>7.4.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
 
     <dependencies>
@@ -50,12 +50,10 @@
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>locator</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>org.talend.esb.examples.locator</groupId>
             <artifactId>locator-demo-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

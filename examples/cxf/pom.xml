@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.cxf-examples</groupId>
     <artifactId>talend-cxf-examples</artifactId>
-    <version>1.0</version>
+    <version>7.4.1-SNAPSHOT</version>
     <name>Talend CXF Examples</name>
     <packaging>pom</packaging>
 

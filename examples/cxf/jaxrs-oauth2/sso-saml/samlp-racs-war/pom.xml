@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
         <artifactId>jaxrs-oauth2-example</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
 
@@ -53,7 +53,7 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${jetty.version}</version>
                 <configuration>
-                    <webApp> 
+                    <webApp>
                         <contextPath>/${project.build.finalName}</contextPath>
                     </webApp>
                     <connectors>

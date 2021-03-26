@@ -6,13 +6,12 @@
     <groupId>org.talend.cxf-examples.jaxrs-jms-http</groupId>
     <artifactId>jaxrs-jms-http</artifactId>
     <name>JAX-RS JMS HTTP Demo</name>
-    <version>1.0</version>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.talend.cxf-examples</groupId>
         <artifactId>talend-cxf-examples</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -29,6 +28,27 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxrs-jms-http</groupId>
+                <artifactId>jaxrs-jms-http-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxrs-jms-http</groupId>
+                <artifactId>jaxrs-jms-http-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxrs-jms-http</groupId>
+                <artifactId>jaxrs-jms-http-war</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxrs-jms-http</groupId>
+                <artifactId>jaxrs-jms-http-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- logging -->
             <dependency>
                 <groupId>org.slf4j</groupId>

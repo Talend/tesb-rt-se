@@ -10,7 +10,7 @@
  http://www.apache.org/licenses/LICENSE-2.0
 
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -23,11 +23,27 @@
         <groupId>org.talend.esb.examples.locator.service</groupId>
         <artifactId>locator-service-parent</artifactId>
         <version>7.4.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
 
     <modules>
         <module>client</module>
         <module>webclient</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.talend.esb.examples.locator-rest</groupId>
+                <artifactId>locator-rest-demo-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.locator-rest</groupId>
+                <artifactId>locator-rest-demo-webclient</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

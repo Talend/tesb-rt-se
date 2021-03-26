@@ -9,13 +9,12 @@
     <groupId>org.talend.cxf-examples.jaxws-ws-secpol</groupId>
     <artifactId>jaxws-ws-secpol</artifactId>
     <name>WS-Security Policy Example</name>
-    <version>1.0</version>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.talend.cxf-examples</groupId>
         <artifactId>talend-cxf-examples</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -24,6 +23,26 @@
         <module>service</module>
         <module>client</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxws-ws-secpol</groupId>
+                <artifactId>ws-secpol-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxws-ws-secpol</groupId>
+                <artifactId>ws-secpol-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxws-ws-secpol</groupId>
+                <artifactId>ws-secpol-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <defaultGoal>install</defaultGoal>

@@ -7,14 +7,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.camel-examples.claimcheck</groupId>
     <artifactId>claimcheck-war</artifactId>
-    <version>1.0</version>
     <packaging>war</packaging>
     <name>Talend Camel Examples :: claimcheck :: war</name>
 
     <parent>
         <groupId>org.talend.camel-examples.claimcheck</groupId>
         <artifactId>claimcheck</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
     </parent>
 
     <build>
@@ -40,9 +39,8 @@
         <dependency>
             <groupId>org.talend.camel-examples.claimcheck</groupId>
             <artifactId>claimcheck-server</artifactId>
-            <version>${project.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>

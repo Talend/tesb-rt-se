@@ -7,6 +7,7 @@
         <groupId>org.talend.cxf-examples.dev-guide-java-first</groupId>
         <artifactId>dev-guide-java-first</artifactId>
         <version>7.4.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
     <artifactId>dev-guide-java-first-client</artifactId>
     <name>-- SOAP Client</name>
@@ -16,7 +17,7 @@
         <dependency>
             <groupId>org.talend.cxf-examples.dev-guide-java-first</groupId>
             <artifactId>dev-guide-java-first-service</artifactId>
-            <!-- Classifier below used with Maven Assembly Plugin to specify 
+            <!-- Classifier below used with Maven Assembly Plugin to specify
                 subset of above artifact needed. -->
             <classifier>jaxws</classifier>
             <version>7.4.1-SNAPSHOT</version>

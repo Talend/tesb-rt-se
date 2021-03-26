@@ -23,7 +23,7 @@
         <artifactId>talend-esb-examples</artifactId>
         <version>7.4.1-SNAPSHOT</version>
     </parent>
-  
+
     <modules>
         <module>sam-example-client</module>
         <module>sam-example-service</module>
@@ -31,5 +31,40 @@
         <module>sam-example-osgi</module>
         <module>sam-server-jetty</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.talend.esb</groupId>
+                <artifactId>sam-agent</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples</groupId>
+                <artifactId>sam-example-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples</groupId>
+                <artifactId>sam-example-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples</groupId>
+                <artifactId>sam-example-service2</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples</groupId>
+                <artifactId>sam-example-osgi</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples</groupId>
+                <artifactId>sam-example-jetty</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.talend.camel-examples</groupId>
         <artifactId>talend-camel-examples</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 

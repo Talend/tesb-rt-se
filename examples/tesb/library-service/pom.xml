@@ -15,7 +15,6 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.talend.esb.examples</groupId>
     <artifactId>library-service</artifactId>
     <version>7.4.1-SNAPSHOT</version>
     <name>Talend ESB Runtime Examples :: Library-Service</name>
@@ -46,6 +45,76 @@
         <module>war</module>
         <module>features</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.talend.esb.registry</groupId>
+                <artifactId>registry-wsdl-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.registry</groupId>
+                <artifactId>registry-policy-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb</groupId>
+                <artifactId>transport-jms</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.mep</groupId>
+                <artifactId>request-callback</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb</groupId>
+                <artifactId>sam-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb</groupId>
+                <artifactId>sam-agent</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.policies</groupId>
+                <artifactId>samenabling-policy</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.auxiliary.storage</groupId>
+                <artifactId>auxiliary-storage-client-rest</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.auxiliary.storage</groupId>
+                <artifactId>auxiliary-storage-client-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.auxiliary.storage</groupId>
+                <artifactId>auxiliary-storage-rest-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.library-service</groupId>
+                <artifactId>library-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.library-service</groupId>
+                <artifactId>library-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.library-service</groupId>
+                <artifactId>library-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
      <profiles>
         <profile>

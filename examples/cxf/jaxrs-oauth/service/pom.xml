@@ -6,7 +6,6 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
     <artifactId>jaxrs-oauth-service</artifactId>
     <name>OAuth JAX-RS Example REST Service</name>
     <packaging>bundle</packaging>
@@ -14,7 +13,7 @@
     <parent>
         <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
         <artifactId>jaxrs-oauth-example</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -22,7 +21,6 @@
         <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
             <artifactId>jaxrs-oauth-common</artifactId>
-            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -53,7 +51,7 @@
             </plugin>
         </plugins>
     </build>
- 
+
 
     <profiles>
         <profile>
@@ -87,7 +85,7 @@
             </build>
         </profile>
     </profiles>
-   
+
 
 </project>
 

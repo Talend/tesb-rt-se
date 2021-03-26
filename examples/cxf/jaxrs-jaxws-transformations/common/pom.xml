@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.talend.cxf-examples.jaxrs-jaxws-transformations</groupId>
         <artifactId>jaxrs-jaxws-transformations-example</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 

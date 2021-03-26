@@ -8,14 +8,13 @@
 
     <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
     <artifactId>jaxrs-oauth2-example</artifactId>
-    <version>1.0</version>
     <name>JAX-RS OAuth2 Example</name>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.talend.cxf-examples</groupId>
         <artifactId>talend-cxf-examples</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -44,6 +43,36 @@
         <module>sso-saml/reservations-war</module>
         <module>sso-saml/samlp-racs-war</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
+                <artifactId>jaxrs-oauth2-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
+                <artifactId>jaxrs-oauth2-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
+                <artifactId>jaxrs-oauth2-service-war</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
+                <artifactId>jaxrs-oauth2-service-war-bundle</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxrs-oauth-example</groupId>
+                <artifactId>jaxrs-oauth2-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <defaultGoal>install</defaultGoal>

@@ -1,6 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                         http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -8,6 +8,7 @@
         <groupId>org.talend.cxf-examples.dev-guide-java-first</groupId>
         <artifactId>dev-guide-java-first</artifactId>
         <version>7.4.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
     <artifactId>dev-guide-java-first-service</artifactId>
     <name>-- Web Service Provider</name>
@@ -17,16 +18,14 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Below plugin provides a separate JAR for the JAX-WS artifacts 
-                (i.e., the objects created by running java2ws), as this JAR will also be 
-                used by the SOAP client. 
+            <!-- Below plugin provides a separate JAR for the JAX-WS artifacts
+                (i.e., the objects created by running java2ws), as this JAR will also be
+                used by the SOAP client.
                 More info: http://maven.apache.org/plugins/maven-assembly-plugin/ -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>

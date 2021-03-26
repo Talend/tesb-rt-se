@@ -13,7 +13,8 @@
     <parent>
         <groupId>org.talend.cxf-examples.jaxws-cxf-sts</groupId>
         <artifactId>jaxws-cxf-sts</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
 
     <build>

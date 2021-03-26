@@ -9,14 +9,13 @@
 
     <groupId>org.talend.camel-examples.jaxws-jms</groupId>
     <artifactId>jaxws-jms</artifactId>
-    <version>1.0</version>
     <packaging>pom</packaging>
     <name>Talend Camel Examples :: jaxws-jms</name>
 
     <parent>
         <groupId>org.talend.camel-examples</groupId>
         <artifactId>talend-camel-examples</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -28,6 +27,21 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.talend.camel-examples.jaxws-jms</groupId>
+                <artifactId>jaxws-jms-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.camel-examples.jaxws-jms</groupId>
+                <artifactId>jaxws-jms-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.camel-examples.jaxws-jms</groupId>
+                <artifactId>jaxws-jms-war</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.camel</groupId>
                 <artifactId>camel-core</artifactId>
@@ -107,11 +121,6 @@
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
                 <version>${log4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
             </dependency>
         </dependencies>
     </dependencyManagement>

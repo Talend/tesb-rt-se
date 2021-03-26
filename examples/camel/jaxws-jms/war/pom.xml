@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.talend.camel-examples.jaxws-jms</groupId>
         <artifactId>jaxws-jms</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>jaxws-jms-war</artifactId>
@@ -21,7 +21,6 @@
         <dependency>
             <groupId>org.talend.camel-examples.jaxws-jms</groupId>
             <artifactId>jaxws-jms-server</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>

@@ -46,7 +46,6 @@
         <dependency>
             <groupId>org.talend.esb.examples.locator.service</groupId>
             <artifactId>locator-soap-example-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

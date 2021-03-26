@@ -31,13 +31,12 @@
         <dependency>
             <groupId>org.talend.esb.examples.rent-a-car</groupId>
             <artifactId>reservationservice-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-security</artifactId>
             <version>${cxf.version}</version>
-        </dependency>		
+        </dependency>
     </dependencies>
 
     <build>

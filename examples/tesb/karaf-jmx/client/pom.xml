@@ -28,7 +28,6 @@
         <dependency>
             <groupId>org.talend.esb.examples</groupId>
             <artifactId>karaf-jmx-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

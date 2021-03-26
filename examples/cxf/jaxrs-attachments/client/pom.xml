@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.talend.cxf-examples.jaxrs-attachments-example</groupId>
         <artifactId>jaxrs-attachments</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -32,7 +32,6 @@
         <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-attachments-example</groupId>
             <artifactId>jaxrs-attachments-common</artifactId>
-            <version>1.0</version>
         </dependency>
     </dependencies>
 

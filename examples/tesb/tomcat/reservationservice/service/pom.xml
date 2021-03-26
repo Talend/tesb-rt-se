@@ -29,7 +29,6 @@
         <dependency>
             <groupId>org.talend.esb.examples.tomcat</groupId>
             <artifactId>reservationservice-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

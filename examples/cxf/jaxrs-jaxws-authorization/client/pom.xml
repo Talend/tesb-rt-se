@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.talend.cxf-examples.jaxrs-jaxws-authorization</groupId>
         <artifactId>jaxrs-jaxws-authorization-example</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -28,7 +28,6 @@
         <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-jaxws-authorization</groupId>
             <artifactId>jaxrs-jaxws-authorization-common</artifactId>
-            <version>1.0</version>
         </dependency>
     </dependencies>
 

@@ -6,7 +6,6 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.talend.cxf-examples.jaxrs-attachments-example</groupId>
     <artifactId>jaxrs-attachments-service</artifactId>
     <name>JAX-RS Attachments Example: Service</name>
     <packaging>bundle</packaging>
@@ -14,7 +13,7 @@
     <parent>
         <groupId>org.talend.cxf-examples.jaxrs-attachments-example</groupId>
         <artifactId>jaxrs-attachments</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -22,7 +21,6 @@
         <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-attachments-example</groupId>
             <artifactId>jaxrs-attachments-common</artifactId>
-            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>wsdl4j</groupId>
@@ -48,7 +46,7 @@
             </plugin>
         </plugins>
     </build>
- 
+
 
     <profiles>
         <profile>
@@ -82,7 +80,7 @@
             </build>
         </profile>
     </profiles>
-   
+
 
 </project>
 

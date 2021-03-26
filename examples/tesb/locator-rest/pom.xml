@@ -31,4 +31,34 @@
 		<module>features</module>
     </modules>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.talend.esb</groupId>
+                <artifactId>locator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.locator-rest</groupId>
+                <artifactId>locator-rest-demo-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.locator-rest</groupId>
+                <artifactId>locator-rest-demo-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.locator-rest</groupId>
+                <artifactId>locator-rest-demo-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.locator-rest</groupId>
+                <artifactId>locator-rest-demo-features</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 </project>

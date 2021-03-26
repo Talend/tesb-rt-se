@@ -5,7 +5,6 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.talend.cxf-examples.jaxrs-intro-example</groupId>
     <artifactId>jaxrs-intro-service-war</artifactId>
     <name>JAX-RS Intro Example War</name>
     <packaging>war</packaging>
@@ -13,7 +12,7 @@
     <parent>
         <groupId>org.talend.cxf-examples.jaxrs-intro-example</groupId>
         <artifactId>jaxrs-intro-example</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -36,7 +35,6 @@
         <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-intro-example</groupId>
             <artifactId>jaxrs-intro-service-bundle</artifactId>
-            <version>1.0</version>
         </dependency>
     </dependencies>
 

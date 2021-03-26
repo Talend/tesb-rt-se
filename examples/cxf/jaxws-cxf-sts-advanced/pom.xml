@@ -7,14 +7,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.talend.cxf-examples.jaxws-cxf-sts-advanced</groupId>
     <artifactId>jaxws-cxf-sts-advanced</artifactId>
-    <version>1.0</version>
     <name>WS Trust (CXF STS advanced) Parent POM</name>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.talend.cxf-examples</groupId>
         <artifactId>talend-cxf-examples</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -25,6 +24,36 @@
         <module>sts</module>
         <module>sts-war</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxws-cxf-sts-advanced</groupId>
+                <artifactId>jaxws-cxf-sts-advanced-wsp</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxws-cxf-sts-advanced</groupId>
+                <artifactId>jaxws-cxf-sts-advanced-wspwar</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxws-cxf-sts-advanced</groupId>
+                <artifactId>jaxws-cxf-sts-advanced-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxws-cxf-sts-advanced</groupId>
+                <artifactId>jaxws-cxf-sts-advanced-sts</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxws-cxf-sts-advanced</groupId>
+                <artifactId>jaxws-cxf-sts-advanced-stswar</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

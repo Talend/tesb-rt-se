@@ -23,6 +23,7 @@
 		<groupId>org.talend.esb.examples.tomcat</groupId>
 		<artifactId>tomcat-examples-parent</artifactId>
 		<version>7.4.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
 	</parent>
 
 	<dependencies>
@@ -31,43 +32,43 @@
 			<artifactId>crmservice-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.talend.esb.examples.tomcat</groupId>
 			<artifactId>crmservice-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.talend.esb.examples.tomcat</groupId>
 			<artifactId>reservationservice-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.talend.esb.examples.tomcat</groupId>
 			<artifactId>reservationservice-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.hibernate.validator</groupId>
 		    <artifactId>hibernate-validator</artifactId>
@@ -91,14 +92,14 @@
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
 			<artifactId>geronimo-servlet_3.0_spec</artifactId>
 			<version>1.0</version>
 			<scope>provided</scope>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>javax.servlet.jsp.jstl</groupId>
 			<artifactId>jstl-api</artifactId>
@@ -133,19 +134,16 @@
 				<dependency>
 					<groupId>org.talend.esb</groupId>
 					<artifactId>sam-common</artifactId>
-					<version>${project.version}</version>
 				</dependency>
-		
+
 				<dependency>
 					<groupId>org.talend.esb</groupId>
 					<artifactId>sam-agent</artifactId>
-					<version>${project.version}</version>
 				</dependency>
-		
+
 				<dependency>
 					<groupId>org.talend.esb</groupId>
 					<artifactId>locator</artifactId>
-					<version>${project.version}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -155,30 +153,26 @@
 				<dependency>
 		            <groupId>org.talend.esb.registry</groupId>
 		            <artifactId>registry-wsdl-client</artifactId>
-		            <version>${project.version}</version>
 		        </dependency>
-		        
+
 		        <dependency>
 		            <groupId>org.talend.esb.registry</groupId>
 		            <artifactId>registry-policy-client</artifactId>
-		            <version>${project.version}</version>
 		        </dependency>
-		        
+
 		        <dependency>
 					<groupId>org.talend.esb</groupId>
 					<artifactId>sam-common</artifactId>
-					<version>${project.version}</version>
 				</dependency>
-		
+
 				<dependency>
 					<groupId>org.talend.esb</groupId>
 					<artifactId>sam-agent</artifactId>
-					<version>${project.version}</version>
 				</dependency>
 			</dependencies>
 		</profile>
 	</profiles>
-	
+
 	<build>
 		<finalName>app-reservation</finalName>
 		<plugins>

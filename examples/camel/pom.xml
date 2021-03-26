@@ -9,7 +9,6 @@
 
     <groupId>org.talend.camel-examples</groupId>
     <artifactId>talend-camel-examples</artifactId>
-    <version>1.0</version>
     <name>Talend Camel Examples</name>
     <packaging>pom</packaging>
 

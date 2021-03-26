@@ -39,7 +39,6 @@
 		<dependency>
 			<groupId>org.talend.esb.locator.service</groupId>
 			<artifactId>locator-service-common</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 

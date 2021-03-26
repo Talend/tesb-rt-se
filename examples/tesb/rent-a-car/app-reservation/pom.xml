@@ -23,6 +23,7 @@
         <groupId>org.talend.esb.examples</groupId>
         <artifactId>rent-a-car</artifactId>
         <version>7.4.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
 
     <dependencies>

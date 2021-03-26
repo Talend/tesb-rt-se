@@ -23,6 +23,7 @@
         <groupId>org.talend.esb.examples.locator-rest</groupId>
         <artifactId>locator-rest-demo</artifactId>
         <version>7.4.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
 
     <build>
@@ -35,7 +36,7 @@
                 </includes>
             </resource>
         </resources>
-    
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

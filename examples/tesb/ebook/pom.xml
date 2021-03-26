@@ -24,6 +24,47 @@
         <module>ebook-itests</module>
     </modules>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.talend.esb.examples.ebook</groupId>
+                <artifactId>ebook-backend</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.ebook</groupId>
+                <artifactId>ebook-connectionfactory</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.ebook</groupId>
+                <artifactId>ebook-importer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.ebook</groupId>
+                <artifactId>ebook-features</artifactId>
+                <version>${project.version}</version>
+                <type>xml</type>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.ebook</groupId>
+                <artifactId>ebook-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.ebook</groupId>
+                <artifactId>ebook-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.ebook</groupId>
+                <artifactId>ebook-itests</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.ops4j.pax.cdi</groupId>

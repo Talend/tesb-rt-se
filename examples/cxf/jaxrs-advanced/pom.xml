@@ -8,14 +8,13 @@
 
     <groupId>org.talend.cxf-examples.jaxrs-advanced-example</groupId>
     <artifactId>jaxrs-advanced-example</artifactId>
-    <version>1.0</version>
     <name>JAX-RS Advanced Example</name>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.talend.cxf-examples</groupId>
         <artifactId>talend-cxf-examples</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -38,6 +37,31 @@
         <module>war</module>
         <module>client</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxrs-advanced-example</groupId>
+                <artifactId>jaxrs-advanced-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxrs-advanced-example</groupId>
+                <artifactId>jaxrs-advanced-service-bundle</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxrs-advanced-example</groupId>
+                <artifactId>jaxrs-advanced-service-war</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf-examples.jaxrs-advanced-example</groupId>
+                <artifactId>jaxrs-advanced-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <defaultGoal>install</defaultGoal>

@@ -23,6 +23,7 @@
         <groupId>org.talend.esb.examples</groupId>
         <artifactId>talend-esb-examples</artifactId>
         <version>7.4.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
 
     <modules>
@@ -30,4 +31,13 @@
         <module>soap-service</module>
     </modules>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.talend.esb.locator.service</groupId>
+                <artifactId>locator-service-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

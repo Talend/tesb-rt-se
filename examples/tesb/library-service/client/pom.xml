@@ -29,33 +29,27 @@
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>transport-jms</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.talend.esb.mep</groupId>
             <artifactId>request-callback</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>sam-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>sam-agent</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.talend.esb.policies</groupId>
             <artifactId>samenabling-policy</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.talend.esb.examples.library-service</groupId>
             <artifactId>library-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
 
@@ -205,12 +199,10 @@
                 <dependency>
                     <groupId>org.talend.esb.registry</groupId>
                     <artifactId>registry-wsdl-client</artifactId>
-                    <version>${project.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.talend.esb.registry</groupId>
                     <artifactId>registry-policy-client</artifactId>
-                    <version>${project.version}</version>
                 </dependency>
             </dependencies>
             <build>

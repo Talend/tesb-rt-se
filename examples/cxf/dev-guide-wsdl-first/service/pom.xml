@@ -10,22 +10,21 @@
         <groupId>org.talend.cxf-examples.dev-guide-wsdl-first</groupId>
         <artifactId>dev-guide-wsdl-first</artifactId>
         <version>7.4.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Below plugin provides a separate JAR for the JAX-WS artifacts 
-                (i.e., the objects created by running wsdl2java or wsimport), as this JAR 
-                will also be used by the SOAP client. 
+            <!-- Below plugin provides a separate JAR for the JAX-WS artifacts
+                (i.e., the objects created by running wsdl2java or wsimport), as this JAR
+                will also be used by the SOAP client.
                 More info: http://maven.apache.org/plugins/maven-assembly-plugin/ -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>

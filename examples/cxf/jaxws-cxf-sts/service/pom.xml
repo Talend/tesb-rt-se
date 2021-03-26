@@ -8,7 +8,8 @@
     <parent>
         <groupId>org.talend.cxf-examples.jaxws-cxf-sts</groupId>
         <artifactId>jaxws-cxf-sts</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
     <artifactId>jaxws-cxf-sts-wsp</artifactId>
     <name>CXF WSP for CXF STS example</name>
@@ -16,8 +17,8 @@
 
     <build>
         <plugins>
-            <!-- Below plugin provides a separate JAR for the JAX-WS artifacts 
-                (i.e., the objects created by running wsdl2java or wsimport), as this JAR 
+            <!-- Below plugin provides a separate JAR for the JAX-WS artifacts
+                (i.e., the objects created by running wsdl2java or wsimport), as this JAR
                 will also be used by the SOAP client. More info: http://maven.apache.org/plugins/maven-assembly-plugin/ -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>

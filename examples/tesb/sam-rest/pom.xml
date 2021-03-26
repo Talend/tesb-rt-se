@@ -22,6 +22,7 @@
         <groupId>org.talend.esb.examples</groupId>
         <artifactId>talend-esb-examples</artifactId>
         <version>7.4.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
 
     <modules>
@@ -30,5 +31,35 @@
         <module>service</module>
 		<module>features</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.talend.esb</groupId>
+                <artifactId>sam-agent</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.sam-rest</groupId>
+                <artifactId>sam-rest-demo-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.sam-rest</groupId>
+                <artifactId>sam-rest-demo-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.sam-rest</groupId>
+                <artifactId>sam-rest-demo-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.sam-rest</groupId>
+                <artifactId>sam-rest-demo-features</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

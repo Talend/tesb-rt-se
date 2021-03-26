@@ -24,11 +24,31 @@
         <artifactId>talend-esb-examples</artifactId>
         <version>7.4.1-SNAPSHOT</version>
     </parent>
-	
+
 	<modules>
 		<module>service</module>
 		<module>features</module>
 		<module>war</module>
 	</modules>
-	
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.talend.esb.examples</groupId>
+                <artifactId>camel-jmx-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples</groupId>
+                <artifactId>camel-jmx-features</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples</groupId>
+                <artifactId>camel-jmx-war</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 </project>

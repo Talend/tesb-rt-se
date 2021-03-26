@@ -7,7 +7,6 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.talend.cxf-examples.jaxrs-jaxws-transformations</groupId>
     <artifactId>jaxrs-jaxws-transformations-client</artifactId>
     <name>JAX-RS JAX-WS Transformations Client</name>
     <packaging>jar</packaging>
@@ -15,7 +14,7 @@
     <parent>
         <groupId>org.talend.cxf-examples.jaxrs-jaxws-transformations</groupId>
         <artifactId>jaxrs-jaxws-transformations-example</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -38,7 +37,6 @@
         <dependency>
             <groupId>org.talend.cxf-examples.jaxrs-jaxws-transformations</groupId>
             <artifactId>jaxrs-jaxws-transformations-common</artifactId>
-            <version>1.0</version>
         </dependency>
     </dependencies>
 

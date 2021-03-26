@@ -24,6 +24,7 @@
 		<groupId>org.talend.esb.examples</groupId>
 		<artifactId>talend-esb-examples</artifactId>
 		<version>7.4.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
 	</parent>
 
 	<dependencies>
@@ -39,28 +40,48 @@
         <module>reservationservice</module>
         <module>app-reservation</module>
     </modules>
-	
+
 	<properties>
 		<tomcat.username>tomcat</tomcat.username>
 		<tomcat.password>tomcat</tomcat.password>
-		
+
 		<tomcat.host>localhost</tomcat.host>
 		<tomcat.http.port>8080</tomcat.http.port>
 		<tomcat.https.port>8443</tomcat.https.port>
 		<tomcat.port>${tomcat.http.port}</tomcat.port>
-		
+
 		<tomcat.url>http://${tomcat.host}:${tomcat.port}/manager/text</tomcat.url>
-		
+
 		<tesb.runtime.host>localhost</tesb.runtime.host>
 		<tesb.runtime.port>8040</tesb.runtime.port>
-		
+
 		<sam.endpoint>http://${tesb.runtime.host}:${tesb.runtime.port}/services/MonitoringServiceSOAP</sam.endpoint>
-		
+
 		<locator.port>2181</locator.port>
 		<locator.endpoint>${tesb.runtime.host}:${locator.port}</locator.endpoint>
-		
+
 		<log.level>INFO</log.level>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.talend.esb</groupId>
+				<artifactId>sam-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.talend.esb</groupId>
+				<artifactId>sam-agent</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.talend.esb</groupId>
+				<artifactId>locator</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<profiles>
 		<profile>

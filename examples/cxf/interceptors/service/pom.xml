@@ -6,13 +6,12 @@
     <groupId>org.talend.cxf-examples.interceptors</groupId>
     <artifactId>interceptors-server</artifactId>
     <name>Interceptors Example - Service Artifacts</name>
-    <version>1.0</version>
     <packaging>bundle</packaging>
 
     <parent>
         <groupId>org.talend.cxf-examples.interceptors</groupId>
         <artifactId>interceptors</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
     </parent>
     <build>
         <plugins>
@@ -44,7 +43,6 @@
         <dependency>
             <groupId>org.talend.cxf-examples.interceptors</groupId>
             <artifactId>interceptors-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>

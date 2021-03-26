@@ -15,7 +15,6 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.talend.esb.examples</groupId>
     <artifactId>rent-a-car</artifactId>
     <version>7.4.1-SNAPSHOT</version>
     <name>Talend ESB Runtime Examples :: Rent-a-Car</name>

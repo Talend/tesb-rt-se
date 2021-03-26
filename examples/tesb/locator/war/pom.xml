@@ -22,13 +22,13 @@
         <groupId>org.talend.esb.examples.locator</groupId>
         <artifactId>locator-demo</artifactId>
         <version>7.4.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>locator</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -58,12 +58,10 @@
         <dependency>
             <groupId>org.talend.esb.examples.locator</groupId>
             <artifactId>locator-demo-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
            <groupId>org.talend.esb.examples.locator</groupId>
            <artifactId>locator-demo-service</artifactId>
-           <version>${project.version}</version>
         </dependency>
     </dependencies>
 

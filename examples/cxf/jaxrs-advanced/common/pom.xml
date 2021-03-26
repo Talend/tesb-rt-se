@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.talend.cxf-examples.jaxrs-advanced-example</groupId>
         <artifactId>jaxrs-advanced-example</artifactId>
-        <version>1.0</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -28,12 +28,12 @@
           <groupId>org.apache.cxf</groupId>
           <artifactId>cxf-rt-frontend-jaxrs</artifactId>
           <version>${cxf.version}</version>
-        </dependency> 
+        </dependency>
         <dependency>
           <groupId>org.apache.cxf</groupId>
           <artifactId>cxf-rt-rs-extension-search</artifactId>
           <version>${cxf.version}</version>
-        </dependency>  
+        </dependency>
         <dependency>
   	       <groupId>org.apache.openjpa</groupId>
  	       <artifactId>openjpa</artifactId>
@@ -65,7 +65,7 @@
             <plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-compiler-plugin</artifactId>
-			 
+
 			    <executions>
 			        <execution>
 			            <id>generate-entity-metamodel</id>
