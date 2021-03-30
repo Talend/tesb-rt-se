@@ -5,9 +5,9 @@
 	<parent>
 		<artifactId>esb-policies</artifactId>
 		<groupId>org.talend.esb.policies</groupId>
-		<version>7.4.1-SNAPSHOT</version>
+		<version>7.4.2-SNAPSHOT</version>
 	</parent>
-	
+
 	<artifactId>samenabling-policy</artifactId>
 	<packaging>bundle</packaging>
 	<name>Talend ESB :: Policies :: SAM Enabling</name>
@@ -35,7 +35,7 @@
             <artifactId>sam-agent</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
+
         <!-- TESTS -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -77,7 +77,7 @@
 			<artifactId>cxf-xjc-runtime</artifactId>
 			<version>${cxf.xjc-utils.version}</version>
 			<!--scope>test</scope -->
-		</dependency>       
+		</dependency>
 	</dependencies>
 
 	<build>

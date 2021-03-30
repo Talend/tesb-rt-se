@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.talend.esb.examples.locator-rest</groupId>
         <artifactId>locator-rest-demo</artifactId>
-        <version>7.4.1-SNAPSHOT</version>
+        <version>7.4.2-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -38,7 +38,7 @@
             <version>${spring.version}</version>
         </dependency>
 	</dependencies>
-	
+
     <build>
         <plugins>
             <plugin>

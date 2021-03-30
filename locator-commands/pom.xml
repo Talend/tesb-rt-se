@@ -18,15 +18,15 @@
 	<name>Talend ESB :: Locator :: Commands</name>
 	<description>Service Locator Commands</description>
 	<packaging>bundle</packaging>
-	<version>7.4.1-SNAPSHOT</version>
+	<version>7.4.2-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.talend.esb</groupId>
 		<artifactId>esb-parent</artifactId>
-		<version>7.4.1-SNAPSHOT</version>
+		<version>7.4.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
 	</parent>
-    
+
     <prerequisites>
         <maven>2.2.1</maven>
     </prerequisites>

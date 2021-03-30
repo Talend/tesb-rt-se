@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.talend.camel-examples.jaxrs-jms-http</groupId>
         <artifactId>jaxrs-jms-http</artifactId>
-        <version>7.4.1-SNAPSHOT</version>
+        <version>7.4.2-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 

@@ -12,9 +12,9 @@
 	<parent>
 		<artifactId>esb-parent</artifactId>
 		<groupId>org.talend.esb</groupId>
-		<version>7.4.1-SNAPSHOT</version>
+		<version>7.4.2-SNAPSHOT</version>
 	</parent>
-	
+
 	<modules>
 		<module>compression-policy</module>
 		<module>correlationid-policy</module>

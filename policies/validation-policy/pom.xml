@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>esb-policies</artifactId>
 		<groupId>org.talend.esb.policies</groupId>
-		<version>7.4.1-SNAPSHOT</version>
+		<version>7.4.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>validation-policy</artifactId>
@@ -30,7 +30,7 @@
             <artifactId>cxf-xjc-runtime</artifactId>
             <version>${cxf.xjc-utils.version}</version>
         </dependency>
-		
+
 		<!-- Tests -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -40,20 +40,20 @@
 		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
-			<scope>test</scope> 
+			<scope>test</scope>
 		 </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
             <version>${cxf.version}</version>
             <scope>test</scope>
-        </dependency>		 
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
             <scope>test</scope>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
@@ -83,9 +83,9 @@
             <artifactId>cxf-rt-transports-local</artifactId>
             <version>${cxf.version}</version>
             <scope>test</scope>
-        </dependency>		
+        </dependency>
 	</dependencies>
-	
+
 	<build>
         <plugins>
             <plugin>
@@ -102,7 +102,7 @@
 			     <groupId>org.apache.cxf</groupId>
 			     <artifactId>cxf-codegen-plugin</artifactId>
 			     <executions>
-			         <execution>                      
+			         <execution>
 			             <id>generate-test-sources</id>
 			             <phase>generate-test-sources</phase>
 			             <configuration>
@@ -121,7 +121,7 @@
 			             </goals>
 			         </execution>
 			     </executions>
-			 </plugin> 
+			 </plugin>
         </plugins>
         <pluginManagement>
             <plugins>

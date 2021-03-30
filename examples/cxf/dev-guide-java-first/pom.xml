@@ -5,14 +5,14 @@
     <parent>
         <groupId>org.talend.cxf-examples</groupId>
         <artifactId>talend-cxf-examples</artifactId>
-        <version>7.4.1-SNAPSHOT</version>
+        <version>7.4.2-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
    <modelVersion>4.0.0</modelVersion>
    <groupId>org.talend.cxf-examples.dev-guide-java-first</groupId>
    <artifactId>dev-guide-java-first</artifactId>
-   <version>7.4.1-SNAPSHOT</version>
+   <version>7.4.2-SNAPSHOT</version>
    <name>Dev Guide Tutorial: Java-First Web Service</name>
    <packaging>pom</packaging>
 
