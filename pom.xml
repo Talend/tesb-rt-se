@@ -141,7 +141,7 @@
         <jdom.bundle.version>1.1_4</jdom.bundle.version>
         <osgi.core.version>6.0.0</osgi.core.version>
         <osgi.compendium.version>5.0.0</osgi.compendium.version>
-        <jetty.version>9.4.35.v20201120</jetty.version>
+        <jetty.version>9.4.39.v20210325</jetty.version>
         <oscache.bundle.version>2.4_5</oscache.bundle.version>
         <cglib.bundle.version>3.2.9_1</cglib.bundle.version>
         <ibatis-sqlmap.bundle.version>2.3.4.726_4</ibatis-sqlmap.bundle.version>
