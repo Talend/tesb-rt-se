@@ -40,6 +40,12 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.talend.esb</groupId>
+                <artifactId>sam-server-war</artifactId>
+                <version>${project.version}</version>
+                <type>war</type>
+            </dependency>
+            <dependency>
                 <groupId>org.talend.esb.examples</groupId>
                 <artifactId>sam-example-client</artifactId>
                 <version>${project.version}</version>

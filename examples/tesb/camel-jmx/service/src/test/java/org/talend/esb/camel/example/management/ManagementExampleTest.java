@@ -20,6 +20,7 @@
 
 package org.talend.esb.camel.example.management;
 
+import java.util.Map;
 import java.util.Set;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -34,14 +35,31 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class ManagementExampleTest extends CamelSpringTestSupport {
 
+    @Override
+    protected boolean useJmx() {
+        return true;
+    }
+
+    @Override
+    public boolean isUseAdviceWith() {
+        return true;
+    }
+
+    @Override
     protected AbstractXmlApplicationContext createApplicationContext() {
-        return new ClassPathXmlApplicationContext("META-INF/spring/camel-context.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("META-INF/spring/camel-context.xml");
+//        Map<String, Object> systemProperties = context.getEnvironment().getSystemProperties();
+//        systemProperties.put("com.sun.management.jmxremote.port", 9913);
+//        systemProperties.put("com.sun.management.jmxremote.authenticate", false);
+//        systemProperties.put("com.sun.management.jmxremote.ssl", false);
+//        systemProperties.put("java.rmi.server.hostname", "localhost");
+        return context;
     }
 
     @Test
     public void testManagementExample() throws Exception {
         // Give it a bit of time to run
-        //Thread.sleep(2000);
+//        Thread.sleep(2000);
 
         MBeanServer mbeanServer = context.getManagementStrategy().getManagementAgent().getMBeanServer();
 

@@ -25,7 +25,7 @@
             http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
             http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent" depends-on="camel">
+    <bean id="activemq" class="org.apache.camel.component.activemq.ActiveMQComponent" depends-on="camel">
         <property name="brokerURL" value="vm://localhost?broker.persistent=false"/>
     </bean>
 
