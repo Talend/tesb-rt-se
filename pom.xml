@@ -99,7 +99,7 @@
         <enterprise-legacy.features.tesb.version>${karaf.version}</enterprise-legacy.features.tesb.version>
         <spring.features.tesb.version>${karaf.version}</spring.features.tesb.version>
         <spring-legacy.features.tesb.version>${karaf.version}</spring-legacy.features.tesb.version>
-        <camel.version>3.8.0</camel.version>
+        <camel.version>3.9.0</camel.version>
         <camel.features.tesb.version>${camel.version}</camel.features.tesb.version>
         <cxf.version>3.4.3</cxf.version>
         <cxf.features.tesb.version>${cxf.version}</cxf.features.tesb.version>
