@@ -40,9 +40,9 @@
     </bean>
 
     <bean id="stsConfigurator" class="org.talend.esb.sts.config.StsConfigurator" init-method="init">
-  		 <argument ref="cxf"/>
-  		 <property name="useMessageLogging" value="$sts{useMessageLogging}" />
-	</bean>
+        <argument ref="cxf"/>
+         <property name="useMessageLogging" value="$sts{useMessageLogging}" />
+    </bean>
 
     <bean id="utIssueDelegate"
         class="org.apache.cxf.sts.operation.TokenIssueOperation">
@@ -51,17 +51,17 @@
         <property name="services"><list><ref component-id="utService"/></list></property>
         <property name="stsProperties" ref="utSTSProperties"/>
         <property name="delegationHandlers">
-			<list>
-				<bean class="org.apache.cxf.sts.token.delegation.HOKDelegationHandler" >
-					<property name="checkAudienceRestriction" value="false"/>
-				</bean>
-			</list>
-		</property>
+            <list>
+                <bean class="org.apache.cxf.sts.token.delegation.HOKDelegationHandler" >
+                    <property name="checkAudienceRestriction" value="false"/>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean id="utValidateDelegate"
         class="org.apache.cxf.sts.operation.TokenValidateOperation">
-		<property name="tokenValidators"><list><ref component-id="utSamlTokenValidator"/></list></property>
+        <property name="tokenValidators"><list><ref component-id="utSamlTokenValidator"/></list></property>
         <property name="stsProperties" ref="utSTSProperties"/>
     </bean>
 
@@ -86,22 +86,44 @@
         </property>
     </bean>
 
-	<!-- placeholder configurer -->
-   	<cm:property-placeholder persistent-id="org.talend.esb.sts.server" placeholder-prefix="$sts{" update-strategy="reload">
-		<cm:default-properties>
-			<cm:property name="stsServiceUrl" value="/SecurityTokenService/UT"/>
-			<cm:property name="stsX509ServiceUrl" value="/SecurityTokenService/X509"/>
-			<cm:property name="jaasContext" value="karaf"/>
-			<cm:property name="signatureProperties" value="file:./etc/keystores/stsKeystore.properties"/>
-			<cm:property name="signatureUsername" value="mystskey"/>
-			<cm:property name="bspCompliant" value="false"/>
-			<cm:property name="samlTokenLifetime" value="1800"/>
-		</cm:default-properties>
-	</cm:property-placeholder>
+    <!-- placeholder configurer -->
+    <cm:property-placeholder persistent-id="org.talend.esb.sts.server" placeholder-prefix="$sts{" update-strategy="reload">
+        <cm:default-properties>
+            <cm:property name="stsServiceUrl" value="/SecurityTokenService/UT"/>
+            <cm:property name="stsX509ServiceUrl" value="/SecurityTokenService/X509"/>
+            <cm:property name="jaasContext" value="karaf"/>
+            <cm:property name="signatureProperties" value="file:./etc/keystores/stsKeystore.properties"/>
+            <cm:property name="signatureUsername" value="mystskey"/>
+            <cm:property name="bspCompliant" value="false"/>
+            <cm:property name="samlTokenLifetime" value="1800"/>
+        </cm:default-properties>
+    </cm:property-placeholder>
+
+    <reference id="confadmin" interface="org.osgi.service.cm.ConfigurationAdmin"/>
+
+    <bean id="cryptoConfig" factory-ref="confadmin" factory-method="getConfiguration">
+        <argument value="org.talend.esb.sts.keystore"/>
+    </bean>
+
+    <bean id="cryptoPropertiesFactory" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
+        <property name="defaultProperties">
+            <map>
+                <entry key="org.apache.wss4j.crypto.provider" value="org.apache.wss4j.common.crypto.Merlin"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.type" value="jks"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.password" value=""/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.alias" value="mystskey"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.file" value="./etc/keystores/stsstore.jks"/>
+            </map>
+        </property>
+        <property name="propertiesSource" value="$sts{signatureProperties}"/>
+        <property name="updatedPropertiesConfiguration" ref="cryptoConfig"/>
+    </bean>
+
+    <bean id="cryptoProperties" factory-ref="cryptoPropertiesFactory" factory-method="createProperties"/>
 
     <bean id="utSTSProperties"
          class="org.apache.cxf.sts.StaticSTSProperties" >
-        <property name="signaturePropertiesFile" value="$sts{signatureProperties}"/>
+        <property name="signatureCryptoProperties" ref="cryptoProperties"/>
         <property name="signatureUsername" value="$sts{signatureUsername}"/>
         <property name="callbackHandlerClass" value="org.talend.esb.sts.callback.PasswordCallbackHandler"/>
         <!--property name="encryptionPropertiesFile" value="$sts{encryptionProperties}"/>
@@ -135,7 +157,7 @@
         <jaxws:properties>
             <entry key="security.signature.username" value="$sts{signatureUsername}"/>
             <entry key="security.callback-handler" value="org.talend.esb.sts.callback.PasswordCallbackHandler"/>
-            <entry key="security.signature.properties" value="$sts{signatureProperties}"/>
+            <entry key="security.signature.properties" value-ref="cryptoProperties"/>
             <entry key="security.encryption.username" value="useReqSigCert" />
             <!-- Below needs to be set to non-default value of false for Metro clients -->
             <entry key="ws-security.is-bsp-compliant" value="$sts{bspCompliant}"/>

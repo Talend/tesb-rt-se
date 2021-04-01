@@ -101,6 +101,7 @@
         <auxiliary-storage-features.version>${project.parent.version}</auxiliary-storage-features.version>
         <sts-config.version>${project.parent.version}</sts-config.version>
         <job-controller.version>${project.parent.version}</job-controller.version>
+        <cxf-crypto-config.version>${project.parent.version}</cxf-crypto-config.version>
 
         <org.apache.karaf.config.core.tesb.version>4.2.7.tesb1</org.apache.karaf.config.core.tesb.version>
         <cxf-rt-rs-service-description-swagger.tesb.version>3.3.4.tesb1</cxf-rt-rs-service-description-swagger.tesb.version>
@@ -192,6 +193,7 @@
         <module>transport-jms</module>
         <module>talend-sapjco3-connector</module>
         <module>camel-core-talend</module>
+        <module>cxf-crypto-config</module>
     </modules>
 
     <dependencyManagement>
@@ -673,8 +675,9 @@
                 <original.version>7.3.1</original.version>
                 <features.version>7.3.1.20210423</features.version>
                 <auxiliary-storage-features.version>7.3.1.20210122</auxiliary-storage-features.version>
-                <sts-config.version>7.3.1.20210224</sts-config.version>
+                <sts-config.version>7.3.1.20210399</sts-config.version>
                 <job-controller.version>7.3.1.20210224</job-controller.version>
+                <cxf-crypto-config.version>7.3.1.20210399</cxf-crypto-config.version>
             </properties>
         </profile>
     </profiles>

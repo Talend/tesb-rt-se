@@ -93,6 +93,12 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.talend.cxf</groupId>
+            <artifactId>crypto-config</artifactId>
+            <version>${cxf-crypto-config.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
