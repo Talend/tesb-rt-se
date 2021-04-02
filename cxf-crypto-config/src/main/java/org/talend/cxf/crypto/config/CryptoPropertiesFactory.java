@@ -1,5 +1,7 @@
 package org.talend.cxf.crypto.config;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -80,7 +82,14 @@ public class CryptoPropertiesFactory {
 				props.load(is);
 			}
 		} catch (MalformedURLException e) {
-			throw new IllegalArgumentException(e);
+			LOG.info("Properties source is not an URL, assuming file name");
+			LOG.log(Level.FINE, "MalformedURLException caught. ", e);
+			File propsFile = new File(propertiesSource);
+			try (InputStream is = new FileInputStream(propsFile)) {
+				props.load(is);
+			} catch (IOException ex) {
+				LOG.log(Level.WARNING, "Exception caught loading external properties. ", ex);
+			}
 		} catch (IOException e) {
 			LOG.log(Level.WARNING, "Exception caught loading external properties. ", e);
 		}

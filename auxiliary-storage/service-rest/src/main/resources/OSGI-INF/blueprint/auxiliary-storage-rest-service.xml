@@ -48,13 +48,7 @@
         </jaxrs:providers>
     </jaxrs:server>
 
-    <reference id="confadmin" interface="org.osgi.service.cm.ConfigurationAdmin"/>
-
-    <bean id="cryptoConfigSig" factory-ref="confadmin" factory-method="getConfiguration">
-        <argument value="org.talend.esb.auxstore.service.sig.keystore"/>
-    </bean>
-
-    <bean id="cryptoPropertiesFactorySig" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
+    <bean id="sigCryptoPropertiesFactory" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
         <property name="defaultProperties">
             <map>
                 <entry key="org.apache.wss4j.crypto.provider" value="org.apache.wss4j.common.crypto.Merlin"/>
@@ -65,10 +59,12 @@
             </map>
         </property>
         <property name="propertiesSource" value="file:./etc/keystores/$ccs{security.signature.properties}"/>
-        <property name="updatedPropertiesConfiguration" ref="cryptoConfigSig"/>
+        <property name="updatedProperties">
+            <cm:cm-properties persistent-id="org.talend.esb.auxstore.service.sig.keystore"/>
+        </properties>
     </bean>
 
-    <bean id="cryptoPropertiesSig" factory-ref="cryptoPropertiesFactorySig" factory-method="createProperties"/>
+    <bean id="sigCryptoProperties" factory-ref="sigCryptoPropertiesFactorySig" factory-method="createProperties"/>
 
     <bean class="org.talend.esb.auxiliary.storage.rest.security.AuxiliaryStorageRestServiceSecurityProvider"
             init-method="init">

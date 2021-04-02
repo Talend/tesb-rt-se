@@ -40,13 +40,7 @@
         </cm:default-properties>
     </cm:property-placeholder>
 
-    <reference id="confadmin" interface="org.osgi.service.cm.ConfigurationAdmin"/>
-
-    <bean id="cryptoConfigToken" factory-ref="confadmin" factory-method="getConfiguration">
-        <argument value="org.talend.esb.auxstore.client.keystore"/>
-    </bean>
-
-    <bean id="cryptoPropertiesFactoryToken" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
+    <bean id="stsTokenCryptoPropertiesFactory" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
         <property name="defaultProperties">
             <map>
                 <entry key="org.apache.wss4j.crypto.provider" value="org.apache.wss4j.common.crypto.Merlin"/>
@@ -57,16 +51,14 @@
             </map>
         </property>
         <property name="propertiesSource" value="file:./etc/keystores/${security.sts.token.properties}"/>
-        <property name="updatedPropertiesConfiguration" ref="cryptoConfigToken"/>
+        <property name="updatedProperties">
+            <cm:cm-properties persistent-id="org.talend.esb.auxstore.client.keystore"/>
+        </property>
     </bean>
 
-    <bean id="cryptoPropertiesToken" factory-ref="cryptoPropertiesFactoryToken" factory-method="createProperties"/>
+    <bean id="stsTokenCryptoProperties" factory-ref="stsTokenCryptoPropertiesFactory" factory-method="createProperties"/>
 
-    <bean id="cryptoConfigEnc" factory-ref="confadmin" factory-method="getConfiguration">
-        <argument value="org.talend.esb.auxstore.client.enc.keystore"/>
-    </bean>
-
-    <bean id="cryptoPropertiesFactoryEnc" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
+    <bean id="EncCryptoPropertiesFactory" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
         <property name="defaultProperties">
             <map>
                 <entry key="org.apache.wss4j.crypto.provider" value="org.apache.wss4j.common.crypto.Merlin"/>
@@ -77,10 +69,12 @@
             </map>
         </property>
         <property name="propertiesSource" value="file:./etc/keystores/${security.encryption.properties}"/>
-        <property name="updatedPropertiesConfiguration" ref="cryptoConfigEnc"/>
+        <property name="updatedProperties">
+            <cm:cm-properties persistent-id="org.talend.esb.auxstore.client.enc.keystore"/>
+        </property>
     </bean>
 
-    <bean id="cryptoPropertiesEnc" factory-ref="cryptoPropertiesFactoryEnc" factory-method="createProperties"/>
+    <bean id="EncCryptoProperties" factory-ref="EncCryptoPropertiesFactory" factory-method="createProperties"/>
 
     <bean id="auxiliaryStorageClient" class="org.talend.esb.auxiliary.storage.client.rest.AuxiliaryStorageClientRest">
 
@@ -101,10 +95,10 @@
                 <entry key="security.username" value="${security.username}" />
                 <entry key="security.password" value="${security.password}" />
 
-                <entry key="security.encryption.properties" value-ref="cryptoPropertiesEnc"/>
+                <entry key="security.encryption.properties" value-ref="encCryptoProperties"/>
                 <entry key="security.encryption.username" value="${security.encryption.username}"/>
 
-                <entry key="security.sts.token.properties" value-ref="cryptoPropertiesToken"/>
+                <entry key="security.sts.token.properties" value-ref="stsTokenCryptoProperties"/>
                 <entry key="security.sts.token.username" value="${ws-security.sts.token.username}"/>
                 <entry key="security.sts.token.usecert" value="true"/>
 

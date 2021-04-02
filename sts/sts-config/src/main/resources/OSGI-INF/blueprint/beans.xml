@@ -99,12 +99,6 @@
         </cm:default-properties>
     </cm:property-placeholder>
 
-    <reference id="confadmin" interface="org.osgi.service.cm.ConfigurationAdmin"/>
-
-    <bean id="cryptoConfig" factory-ref="confadmin" factory-method="getConfiguration">
-        <argument value="org.talend.esb.sts.keystore"/>
-    </bean>
-
     <bean id="cryptoPropertiesFactory" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
         <property name="defaultProperties">
             <map>
@@ -116,7 +110,9 @@
             </map>
         </property>
         <property name="propertiesSource" value="$sts{signatureProperties}"/>
-        <property name="updatedPropertiesConfiguration" ref="cryptoConfig"/>
+        <property name="updatedProperties">
+            <cm:cm-properties persistent-id="org.talend.esb.sts.keystore"/>
+        </property>
     </bean>
 
     <bean id="cryptoProperties" factory-ref="cryptoPropertiesFactory" factory-method="createProperties"/>
