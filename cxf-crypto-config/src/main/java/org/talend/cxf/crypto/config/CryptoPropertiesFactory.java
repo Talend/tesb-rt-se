@@ -84,7 +84,11 @@ public class CryptoPropertiesFactory {
 		} catch (MalformedURLException e) {
 			LOG.info("Properties source is not an URL, assuming file name");
 			LOG.log(Level.FINE, "MalformedURLException caught. ", e);
-			File propsFile = new File(propertiesSource);
+			String propsFileName = propertiesSource;
+			if (propsFileName.indexOf('/') < 0 && propsFileName.indexOf('\\') < 0) {
+			    propsFileName = System.getProperty("karaf.etc", "etc") + "/keystores/" + propsFileName;
+			}
+			File propsFile = new File(propsFileName);
 			try (InputStream is = new FileInputStream(propsFile)) {
 				props.load(is);
 			} catch (IOException ex) {

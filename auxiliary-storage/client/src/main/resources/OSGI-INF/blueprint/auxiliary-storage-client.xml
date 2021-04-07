@@ -58,7 +58,7 @@
 
     <bean id="stsTokenCryptoProperties" factory-ref="stsTokenCryptoPropertiesFactory" factory-method="createProperties"/>
 
-    <bean id="EncCryptoPropertiesFactory" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
+    <bean id="encCryptoPropertiesFactory" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
         <property name="defaultProperties">
             <map>
                 <entry key="org.apache.wss4j.crypto.provider" value="org.apache.wss4j.common.crypto.Merlin"/>
@@ -74,7 +74,7 @@
         </property>
     </bean>
 
-    <bean id="EncCryptoProperties" factory-ref="EncCryptoPropertiesFactory" factory-method="createProperties"/>
+    <bean id="encCryptoProperties" factory-ref="encCryptoPropertiesFactory" factory-method="createProperties"/>
 
     <bean id="auxiliaryStorageClient" class="org.talend.esb.auxiliary.storage.client.rest.AuxiliaryStorageClientRest">
 

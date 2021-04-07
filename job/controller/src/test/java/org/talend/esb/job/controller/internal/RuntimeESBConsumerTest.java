@@ -83,7 +83,7 @@ public class RuntimeESBConsumerTest {
 		String username = "";
 		String password = "";
 		String alias = "";
-		Map<String, String> clientProperties = new HashMap<String, String>();
+		Map<String, Object> clientProperties = new HashMap<String, Object>();
 		String roleName = "";
 		Object securityToken = null;
 		Crypto cryptoProvider = null;
