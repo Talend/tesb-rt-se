@@ -112,7 +112,7 @@
         <decanter.features.tesb.version>${decanter.version}</decanter.features.tesb.version>
         <jclouds.version>2.1.2</jclouds.version>
         <jclouds.features.tesb.version>${jclouds.version}</jclouds.features.tesb.version>
-        <zookeeper.version>3.4.14</zookeeper.version>
+        <zookeeper.version>3.5.9</zookeeper.version>
         <hapi-fhir.features.tesb.version>3.5.0</hapi-fhir.features.tesb.version>
         <hibernate-validator-osgi-karaf-features.features.tesb.version>7.0.1.Final</hibernate-validator-osgi-karaf-features.features.tesb.version>
         <pax-jdbc-features.features.tesb.version>1.4.4</pax-jdbc-features.features.tesb.version>

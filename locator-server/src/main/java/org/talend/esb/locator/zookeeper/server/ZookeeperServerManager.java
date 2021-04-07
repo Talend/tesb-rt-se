@@ -7,7 +7,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-//import org.apache.aries.blueprint.compendium.cm.CmPropertyPlaceholder;
+import org.apache.zookeeper.server.admin.AdminServer.AdminServerException;
 
 public class ZookeeperServerManager implements ZookeeperServer {
 
@@ -21,17 +21,9 @@ public class ZookeeperServerManager implements ZookeeperServer {
         this.properties = properties;
     }
 
-//    CmPropertyPlaceholder cmPropertyPlaceholder;
-//    public void setCmPropertyPlaceholder(CmPropertyPlaceholder cmPropertyPlaceholder) {
-//        this.cmPropertyPlaceholder = cmPropertyPlaceholder;
-//    }
-
     public void startup() {
 
-//        Dictionary<?, ?> dict = cmPropertyPlaceholder.getConfigAdmin()
-//                .getConfiguration(cmPropertyPlaceholder.getPersistentId()).getProperties();
         Dictionary<?, ?> dict = properties;
-        // System.out.println("### ZOOKEEPER :: dictionary : " + dict);
 
         LOG.info("Staring up ZooKeeper server");
 
@@ -66,7 +58,7 @@ public class ZookeeperServerManager implements ZookeeperServer {
                 public void run() {
                     try {
                         main.startup();
-                    } catch (IOException e) {
+                    } catch (IOException|AdminServerException e) {
                         LOG.log(Level.SEVERE, "Problem running ZooKeeper server.", e);
                     }
                 }

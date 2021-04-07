@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import org.apache.zookeeper.server.ServerConfig;
 import org.apache.zookeeper.server.ZooKeeperServerMain;
+import org.apache.zookeeper.server.admin.AdminServer.AdminServerException;
 import org.apache.zookeeper.server.quorum.QuorumPeerConfig;
 import org.apache.zookeeper.server.quorum.QuorumPeerMain;
 
@@ -27,7 +28,7 @@ public class ZookeeperServerImpl implements ZookeeperServer {
         }
     }
 
-    public void startup() throws IOException {
+    public void startup() throws IOException, AdminServerException {
         serverInner.startup();
     }
 
@@ -44,7 +45,7 @@ public class ZookeeperServerImpl implements ZookeeperServer {
             this.config = config;
         }
 
-        public void startup() throws IOException {
+        public void startup() throws IOException, AdminServerException {
             runFromConfig(config);
         }
 
@@ -64,7 +65,7 @@ public class ZookeeperServerImpl implements ZookeeperServer {
             this.config = config;
         }
 
-        public void startup() throws IOException {
+        public void startup() throws IOException, AdminServerException {
              ServerConfig serverConfig = new ServerConfig();
              serverConfig.readFrom(config);
              runFromConfig(serverConfig);

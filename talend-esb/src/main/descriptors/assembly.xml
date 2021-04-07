@@ -160,7 +160,7 @@
 
         <!-- Expanded ZooKeeper Runtime -->
         <fileSet>
-            <directory>target/dependencies/zookeeper/zookeeper-${zookeeper.version}</directory>
+            <directory>target/dependencies/zookeeper/apache-zookeeper-${zookeeper.version}-bin</directory>
             <outputDirectory>./zookeeper</outputDirectory>
             <excludes>
                 <exclude>LICENSE.txt</exclude>
@@ -174,7 +174,7 @@
             <fileMode>0644</fileMode>
         </fileSet>
         <fileSet>
-            <directory>target/dependencies/zookeeper/zookeeper-${zookeeper.version}/bin</directory>
+            <directory>target/dependencies/zookeeper/apache-zookeeper-${zookeeper.version}-bin/bin</directory>
             <outputDirectory>./zookeeper/bin</outputDirectory>
             <includes>
                 <include>*.sh</include>

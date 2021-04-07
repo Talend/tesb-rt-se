@@ -29,8 +29,8 @@
     <properties>
         <use.service.registry>false</use.service.registry>
 
-        <cxf.xjc-utils.version>3.3.1</cxf.xjc-utils.version>
-        <zookeeper.version>3.4.14</zookeeper.version>
+        <cxf.xjc-utils.version>3.4.3</cxf.xjc-utils.version>
+        <zookeeper.version>3.5.9</zookeeper.version>
         <derby.version>10.14.2.0</derby.version>
 
         <!-- Log dependencies -->
