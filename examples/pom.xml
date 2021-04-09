@@ -67,7 +67,7 @@
         <karaf.version>4.2.10</karaf.version>
         <jettison.version>1.4.0</jettison.version>
         <activemq.version>5.15.13</activemq.version>
-        <xstream.version>1.4.15</xstream.version>
+        <xstream.version>1.4.16</xstream.version>
         <osgi.version>6.0.0</osgi.version>
         <osgi.compendium.version>5.0.0</osgi.compendium.version>
         <eclipse.osgi.version>3.12.100</eclipse.osgi.version>
