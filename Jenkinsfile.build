@@ -6,5 +6,6 @@ Build(
         CRON_SCAN_MASTER: '0 10 * * 0',
         ARTIFACTS: '**/target/*.zip,**/target/*.tar.gz',
         NEXUS_PUBLIC: true,
-        SCAN_EXCLUDES: '**/*-sources.jar,**/ds-service-*.jar,**/examples.jar,**/examples/**'
+        SCAN_EXCLUDES: '**/*-sources.jar,**/ds-service-*.jar,**/examples.jar,**/examples/**',
+        MAVEN_GOAL: 'deploy'
 )
