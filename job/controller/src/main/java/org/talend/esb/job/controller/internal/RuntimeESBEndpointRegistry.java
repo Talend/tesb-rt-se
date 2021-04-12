@@ -113,9 +113,14 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         boolean useCrypto = getBoolean(props, ESBEndpointConstants.USE_CRYPTO);
         final EsbSecurity esbSecurity = EsbSecurity.fromString((String) props.get(ESBEndpointConstants.ESB_SECURITY));
         Policy policy = buildSecurePolicy(authorizationRole, useCrypto, esbSecurity);
-        Map<String, Object> effectiveClientProperties = new HashMap<String, Object>(clientProperties);
+        Map<String, Object> effectiveClientProperties = clientProperties == null
+                ? null : new HashMap<String, Object>(clientProperties);
         if (clientPropertiesOverride != null) {
-            effectiveClientProperties.putAll(clientPropertiesOverride);
+            if (effectiveClientProperties == null) {
+                effectiveClientProperties = new HashMap<String, Object>(clientPropertiesOverride);
+            } else {
+                effectiveClientProperties.putAll(clientPropertiesOverride);
+            }
         }
         final SecurityArguments securityArguments = new SecurityArguments(
                 esbSecurity,

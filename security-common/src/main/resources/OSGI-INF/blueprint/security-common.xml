@@ -22,8 +22,51 @@
         xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.3.0" >
 
     <cm:cm-properties persistent-id="org.talend.esb.job.client.sts" id="org.talend.esb.job.client.sts" />
+
+    <bean id="stsTokenCryptoPropertiesFactory" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
+        <property name="defaultProperties">
+            <map>
+                <entry key="org.apache.wss4j.crypto.provider" value="org.apache.wss4j.common.crypto.Merlin"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.type" value="jks"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.password" value=""/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.alias" value="myclientkey"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.file" value="./etc/keystores/clientstore.jks"/>
+            </map>
+        </property>
+        <property name="propertiesSource" value="file:./etc/keystores/clientKeystore.properties"/>
+        <property name="updatedProperties">
+            <cm:cm-properties persistent-id="org.talend.esb.job.client.keystore"/>
+        </property>
+    </bean>
+
+    <bean id="stsTokenCryptoProperties" factory-ref="stsTokenCryptoPropertiesFactory" factory-method="createProperties"/>
+
+    <bean id="encCryptoPropertiesFactory" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
+        <property name="defaultProperties">
+            <map>
+                <entry key="org.apache.wss4j.crypto.provider" value="org.apache.wss4j.common.crypto.Merlin"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.type" value="jks"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.password" value=""/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.alias" value="myclientkey"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.file" value="./etc/keystores/clientstore.jks"/>
+            </map>
+        </property>
+        <property name="propertiesSource" value="file:./etc/keystores/clientKeystore.properties"/>
+        <property name="updatedProperties">
+            <cm:cm-properties persistent-id="org.talend.esb.job.client.enc.keystore"/>
+        </property>
+    </bean>
+
+    <bean id="encCryptoProperties" factory-ref="encCryptoPropertiesFactory" factory-method="createProperties"/>
+
     <bean class="org.talend.esb.security.saml.STSClientUtils" >
         <argument ref="org.talend.esb.job.client.sts" />
+        <argument>
+            <map>
+                <entry key="security.sts.token.properties" value-ref="stsTokenCryptoProperties"/>
+                <entry key="security.encryption.properties" value-ref="encCryptoProperties"/>
+            </map>
+        </argument>
     </bean>
 
     <cm:cm-properties persistent-id="org.talend.esb.job.oidc" id="org.talend.esb.job.oidc" />

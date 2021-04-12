@@ -49,9 +49,13 @@ public class STSClientUtils {
     }
 
     public STSClientUtils(Map<String, Object> stsProperties, Map<String, Object> stsPropertiesOverride) {
-        Map<String, Object> props = new HashMap<String, Object>(stsProperties);
+        Map<String, Object> props = stsProperties == null ? null : new HashMap<String, Object>(stsProperties);
         if (stsPropertiesOverride != null) {
-            props.putAll(stsPropertiesOverride);
+            if (props == null) {
+                props = new HashMap<String, Object>(stsPropertiesOverride);
+            } else {
+                props.putAll(stsPropertiesOverride);
+            }
         }
         STSClientUtils.stsProperties = props;
     }
