@@ -28,7 +28,6 @@
         <repository>mvn:org.apache.karaf.features/spring-legacy/4.3.0-SNAPSHOT/xml/features</repository>
     </blacklistedRepositories>
 
-    <!-- fix the TESB-29223 -->
     <blacklistedFeatures>
         <feature>jetty</feature>
         <feature>activemq-camel</feature>

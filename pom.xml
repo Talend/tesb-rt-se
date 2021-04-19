@@ -121,7 +121,7 @@
         <jpa-features.features.tesb.version>2.7.2</jpa-features.features.tesb.version>
         <openjpa-features.features.tesb.version>3.1.1</openjpa-features.features.tesb.version>
 
-        <commons-codec.version>1.14</commons-codec.version>
+        <commons-codec.version>1.15</commons-codec.version>
         <derby.version>10.14.2.0</derby.version>
         <derby.servicemix.version>10.14.2.0_2</derby.servicemix.version>
         <slf4j.version>1.7.12</slf4j.version>
@@ -154,7 +154,7 @@
         <javax.el.version>3.0.0</javax.el.version>
         <pax-cdi.version>1.0.0.RC2</pax-cdi.version>
         <quartz.version>2.3.2</quartz.version>
-        <c3p0.bundle.version>0.9.5.4_1</c3p0.bundle.version>
+        <c3p0.bundle.version>0.9.5.5_1</c3p0.bundle.version>
         <hikaricp.version>2.4.13</hikaricp.version>
         <xstream.version>1.4.15</xstream.version>
         <eclipse.osgi.version>3.12.100</eclipse.osgi.version>

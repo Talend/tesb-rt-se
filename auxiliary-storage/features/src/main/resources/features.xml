@@ -33,7 +33,7 @@
         <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-spi/${jackrabbit.version}</bundle>
         <bundle dependency='true'>mvn:org.apache.jackrabbit/jackrabbit-spi-commons/${jackrabbit.version}</bundle>
         <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.derby/${derby.servicemix.version}</bundle>
-        <bundle dependency='true'>mvn:org.apache.tika/tika-core/${tika-core.version}</bundle>
+        <bundle dependency='true'>mvn:org.apache.tika/tika-core/${tika.version}</bundle>
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.concurrent/${concurrent.version}</bundle>
     </feature>
 
