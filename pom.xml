@@ -99,8 +99,14 @@
         <original.version>${project.parent.version}</original.version>
         <features.version>${project.parent.version}</features.version>
         <auxiliary-storage-features.version>${project.parent.version}</auxiliary-storage-features.version>
+        <auxiliary-storage-client.version>${project.parent.version}</auxiliary-storage-client.version>
+        <auxiliary-storage-service-rest.version>${project.parent.version}</auxiliary-storage-service-rest.version>
         <sts-config.version>${project.parent.version}</sts-config.version>
         <job-controller.version>${project.parent.version}</job-controller.version>
+        <sam-agent.version>${project.parent.version}</sam-agent.version>
+        <sam-service-rest.version>${project.parent.version}</sam-service-rest.version>
+        <sam-service-soap.version>${project.parent.version}</sam-service-soap.version>
+        <security-common.version>${project.parent.version}</security-common.version>
         <cxf-crypto-config.version>${project.parent.version}</cxf-crypto-config.version>
 
         <org.apache.karaf.config.core.tesb.version>4.2.7.tesb1</org.apache.karaf.config.core.tesb.version>
@@ -681,10 +687,16 @@
             <properties>
                 <original.version>7.3.1</original.version>
                 <features.version>7.3.1.20210423</features.version>
-                <auxiliary-storage-features.version>7.3.1.20210122</auxiliary-storage-features.version>
-                <sts-config.version>7.3.1.20210399</sts-config.version>
-                <job-controller.version>7.3.1.20210224</job-controller.version>
-                <cxf-crypto-config.version>7.3.1.20210399</cxf-crypto-config.version>
+                <auxiliary-storage-features.version>7.3.1.20210444</auxiliary-storage-features.version>
+                <auxiliary-storage-client.version>7.3.1.20210444</auxiliary-storage-client.version>
+                <auxiliary-storage-service-rest.version>7.3.1.20210444</auxiliary-storage-service-rest.version>
+                <sts-config.version>7.3.1.20210444</sts-config.version>
+                <job-controller.version>7.3.1.20210444</job-controller.version>
+                <sam-agent.version>7.3.1.20210444</sam-agent.version>
+                <sam-service-rest.version>7.3.1.20210444</sam-service-rest.version>
+                <sam-service-soap.version>7.3.1.20210444</sam-service-soap.version>
+                <security-common.version>7.3.1.20210444</security-common.version>
+                <cxf-crypto-config.version>7.3.1.20210444</cxf-crypto-config.version>
             </properties>
         </profile>
     </profiles>

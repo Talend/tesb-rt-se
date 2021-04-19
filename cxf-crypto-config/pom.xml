@@ -9,7 +9,7 @@
     <artifactId>crypto-config</artifactId>
     <name>Talend ESB :: CXF :: Crypto configuration</name>
     <description>CXF crypto configuration</description>
-    <version>7.3.2-SNAPSHOT</version>
+    <version>${revision}</version>
     
     <parent>
         <artifactId>esb-parent</artifactId>

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>auxiliary-storage-client-rest</artifactId>
-    <version>7.3.2-SNAPSHOT</version>
+    <version>${revision}</version>
     <packaging>bundle</packaging>
     <name>Talend ESB :: Auxiliary Storage :: REST client </name>
 
@@ -19,6 +19,10 @@
         <artifactId>auxiliary-storage-parent</artifactId>
         <version>7.3.2-SNAPSHOT</version>
     </parent>
+
+    <properties>
+        <revision>${auxiliary-storage-client.version}</revision>
+    </properties>
 
     <prerequisites>
         <maven>${maven.version}</maven>
@@ -41,19 +45,19 @@
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-common</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-client-common</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-rest-security</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
         </dependency>
 
         <dependency>
@@ -105,21 +109,21 @@
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-persistence-file</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-server</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-service-rest</artifactId>
-            <version>${project.version}</version>
+            <version>${auxiliary-storage-service-rest.version}</version>
             <scope>test</scope>
         </dependency>
 

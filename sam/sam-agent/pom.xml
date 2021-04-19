@@ -4,6 +4,7 @@
     <groupId>org.talend.esb</groupId>
     <artifactId>sam-agent</artifactId>
     <packaging>bundle</packaging>
+    <version>${revision}</version>
 
     <parent>
         <groupId>org.talend.esb</groupId>
@@ -12,6 +13,10 @@
     </parent>
 
     <name>Talend ESB :: SAM :: Agent</name>
+
+    <properties>
+        <revision>${sam-agent.version}</revision>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -28,7 +33,7 @@
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>sam-common</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
         </dependency>
 
         <dependency>

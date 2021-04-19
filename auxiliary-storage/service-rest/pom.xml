@@ -20,12 +20,17 @@
     <artifactId>auxiliary-storage-service-rest</artifactId>
     <packaging>bundle</packaging>
     <name>Talend ESB :: Auxiliary Storage :: REST Service</name>
+    <version>${revision}</version>
 
     <parent>
         <groupId>org.talend.esb.auxiliary.storage</groupId>
         <artifactId>auxiliary-storage-parent</artifactId>
         <version>7.3.2-SNAPSHOT</version>
     </parent>
+
+    <properties>
+        <revision>${auxiliary-storage-service-rest.version}</revision>
+    </properties>
 
     <prerequisites>
         <maven>${maven.version}</maven>
@@ -36,13 +41,13 @@
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-common</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-rest-security</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
         </dependency>
 
         <dependency>
@@ -70,6 +75,11 @@
             <version>${derby.servicemix.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.talend.cxf</groupId>
+            <artifactId>crypto-config</artifactId>
+            <version>${cxf-crypto-config.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -84,21 +94,16 @@
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-persistence</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-server</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.talend.cxf</groupId>
-            <artifactId>crypto-config</artifactId>
-            <version>${cxf-crypto-config.version}</version>
-        </dependency>
     </dependencies>
 
     <build>

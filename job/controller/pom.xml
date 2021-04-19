@@ -35,7 +35,7 @@
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>sam-agent</artifactId>
-            <version>${original.version}</version>
+            <version>${sam-agent.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -47,7 +47,7 @@
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>security-common</artifactId>
-            <version>${original.version}</version>
+            <version>${security-common.version}</version>
             <scope>provided</scope>
         </dependency>
 

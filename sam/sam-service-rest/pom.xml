@@ -7,6 +7,7 @@
     <groupId>org.talend.esb.sam.service</groupId>
     <artifactId>sam-service-rest</artifactId>
     <packaging>bundle</packaging>
+    <version>${revision}</version>
 
     <name>Talend ESB :: SAM :: REST Service</name>
 
@@ -16,11 +17,15 @@
         <version>7.3.2-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <revision>${sam-service-rest.version}</revision>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>sam-server</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
         </dependency>
 
         <dependency>

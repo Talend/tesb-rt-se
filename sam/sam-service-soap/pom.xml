@@ -6,6 +6,7 @@
     <groupId>org.talend.esb.sam.service</groupId>
     <artifactId>sam-service-soap</artifactId>
     <packaging>bundle</packaging>
+    <version>${revision}</version>
 
     <parent>
         <groupId>org.talend.esb</groupId>
@@ -15,12 +16,16 @@
 
     <name>Talend ESB :: SAM :: SOAP Service</name>
 
-   <dependencies>
+    <properties>
+        <revision>${sam-service-soap.version}</revision>
+    </properties>
 
-		<dependency>
+    <dependencies>
+
+        <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>sam-server</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
         </dependency>
 
         <dependency>
@@ -52,7 +57,7 @@
         </dependency>
 
         <!--  Test  -->
-		<dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -75,7 +80,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
