@@ -32,7 +32,7 @@
     <bundle dependency="true" start-level="30">mvn:commons-beanutils/commons-beanutils/${commons-beanutils.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>
     <bundle start-level="30" dependency="true">mvn:org.eclipse.jdt.core.compiler/ecj/4.5.1</bundle>
-    <bundle start-level="30" dependency="true">mvn:javax.el/javax.el-api/${javax.el.version}</bundle>
+    <bundle start-level="30" dependency="true">mvn:org.glassfish/javax.el/${javax.el.version}</bundle>
     <bundle dependency="true">mvn:org.ops4j.pax.web/pax-web-jsp/${pax.web.version}</bundle>
     <bundle dependency="true">mvn:commons-jxpath/commons-jxpath/${commons-jxpath.version}</bundle>
     <bundle>mvn:org.talend.esb/sam-common/${original.version}</bundle>
@@ -309,7 +309,7 @@
     <bundle dependency="true" start-level="30">mvn:commons-beanutils/commons-beanutils/${commons-beanutils.version}</bundle>
     <bundle dependency="true">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jdom/${jdom.bundle.version}</bundle>
     <bundle start-level="30" dependency="true">mvn:org.eclipse.jdt.core.compiler/ecj/4.5.1</bundle>
-    <bundle start-level="30" dependency="true">mvn:javax.el/javax.el-api/${javax.el.version}</bundle>
+    <bundle start-level="30" dependency="true">mvn:org.glassfish/javax.el/${javax.el.version}</bundle>
     <bundle dependency="true">mvn:org.ops4j.pax.web/pax-web-jsp/${pax.web.version}</bundle>
     <bundle dependency="true">mvn:commons-jxpath/commons-jxpath/${commons-jxpath.version}</bundle>
     <bundle>mvn:org.talend.esb.policies/correlationid-policy/${original.version}</bundle>
@@ -358,6 +358,9 @@
        to avoid unnecessary bundles refresh problem e.g APPINT-32247.
   -->
   <feature name='talend-common-dependencies' version='${original.version}'>
+    <!-- for camel-bean-validator -->
+    <bundle>mvn:javax.validation/validation-api/2.0.1.Final</bundle>
+
     <!-- the newest guava version -->
     <bundle>mvn:com.google.guava/failureaccess/${guava.failureaccess.version}</bundle>
     <bundle>mvn:com.google.guava/guava/${guava.version}</bundle>
