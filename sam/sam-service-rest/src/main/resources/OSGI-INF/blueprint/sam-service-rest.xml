@@ -80,7 +80,7 @@
         <property name="authenticationType" value="${sam.service.rest.authentication}" />
         <property name="signatureUsername" value="${security.signature.username}" />
         <property name="signaturePassword" value="${security.signature.password}" />
-        <property name="signatureProperties" value-ref="sigCryptoProperties" />
+        <property name="signatureProperties" ref="sigCryptoProperties" />
     </bean>
 
 </blueprint>

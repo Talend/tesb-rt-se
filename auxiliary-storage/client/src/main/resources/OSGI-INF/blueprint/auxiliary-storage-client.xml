@@ -52,7 +52,7 @@
         </property>
         <property name="propertiesSource" value="file:./etc/keystores/${security.sts.token.properties}"/>
         <property name="updatedProperties">
-            <cm:cm-properties persistent-id="org.talend.esb.auxstore.client.keystore"/>
+            <cm:cm-properties persistent-id="org.talend.esb.auxiliary.storage.client.keystore"/>
         </property>
     </bean>
 
@@ -70,7 +70,7 @@
         </property>
         <property name="propertiesSource" value="file:./etc/keystores/${security.encryption.properties}"/>
         <property name="updatedProperties">
-            <cm:cm-properties persistent-id="org.talend.esb.auxstore.client.enc.keystore"/>
+            <cm:cm-properties persistent-id="org.talend.esb.auxiliary.storage.client.enc.keystore"/>
         </property>
     </bean>
 

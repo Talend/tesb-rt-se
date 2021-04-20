@@ -94,6 +94,11 @@
                         <configuration>
                             <artifacts>
                                 <artifact>
+                                    <file>etc/org.talend.esb.sts.server.keystore.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.sts.server.keystore</classifier>
+                                </artifact>
+                                <artifact>
                                     <file>etc/keystores/stsKeystore.properties</file>
                                     <type>properties</type>
                                     <classifier>stsKeystore</classifier>

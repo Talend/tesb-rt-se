@@ -60,7 +60,7 @@
         </property>
         <property name="propertiesSource" value="file:./etc/keystores/$ccs{security.signature.properties}"/>
         <property name="updatedProperties">
-            <cm:cm-properties persistent-id="org.talend.esb.auxstore.service.sig.keystore"/>
+            <cm:cm-properties persistent-id="org.talend.esb.auxiliary.storage.service.sig.keystore"/>
         </property>
     </bean>
 
@@ -70,7 +70,7 @@
             init-method="init">
         <property name="auxiliaryStorageEndpoint" ref="auxiliaryStorageService" />
         <property name="auxiliaryStorageAuthentication" value="$ccs{auxiliary.storage.service.authentication}" />
-        <property name="signatureProperties" value-ref="sigCryptoProperties" />
+        <property name="signatureProperties" ref="sigCryptoProperties" />
         <property name="signatureUsername" value="$ccs{security.signature.username}" />
         <property name="signaturePassword" value="$ccs{security.signature.password}" />
     </bean>

@@ -180,6 +180,16 @@
                                     <classifier>org.talend.esb.auxiliary.storage.client.rest</classifier>
                                 </artifact>
                                 <artifact>
+                                    <file>etc/org.talend.esb.auxiliary.storage.client.keystore.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.auxiliary.storage.client.keystore</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/org.talend.esb.auxiliary.storage.client.enc.keystore.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.auxiliary.storage.client.enc.keystore</classifier>
+                                </artifact>
+                                <artifact>
                                     <file>etc/keystores/clientKeystore.properties</file>
                                     <type>properties</type>
                                     <classifier>clientKeystore</classifier>
