@@ -398,4 +398,17 @@
     <bundle dependency="true">mvn:org.codehaus.groovy/groovy-xml/${groovy.version}</bundle>
   </feature>
 
+  <feature name='tesb-keystore-configs' version='${original.version}'>
+    <configfile finalname="/etc/org.talend.esb.auxiliary.storage.client.keystore.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-client-rest/${auxiliary-storage-client.version}/cfg/org.talend.esb.auxiliary.storage.client.keystore</configfile>
+    <configfile finalname="/etc/org.talend.esb.auxiliary.storage.client.enc.keystore.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-client-rest/${auxiliary-storage-client.version}/cfg/org.talend.esb.auxiliary.storage.client.enc.keystore</configfile>
+    <configfile finalname="/etc/org.talend.esb.auxiliary.storage.service.sig.keystore.cfg">mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-service-rest/${auxiliary-storage-service-rest.version}/cfg/org.talend.esb.auxiliary.storage.service.sig.keystore</configfile>
+    <configfile finalname="/etc/org.talend.esb.job.client.keystore.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/cfg/org.talend.esb.job.client.keystore</configfile>
+    <configfile finalname="/etc/org.talend.esb.job.client.enc.keystore.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/cfg/org.talend.esb.job.client.enc.keystore</configfile>
+    <configfile finalname="/etc/org.talend.esb.job.client.sig.keystore.cfg">mvn:org.talend.esb.job/org.talend.esb.job.controller/${job-controller.version}/cfg/org.talend.esb.job.client.sig.keystore</configfile>
+    <configfile finalname="/etc/org.talend.esb.sam.service.rest.keystore.cfg">mvn:org.talend.esb.sam.service/sam-service-rest/${sam-service-rest.version}/cfg/org.talend.esb.sam.service.rest.keystore</configfile>
+    <configfile finalname="/etc/org.talend.esb.sam.service.soap.keystore.cfg">mvn:org.talend.esb.sam.service/sam-service-soap/${sam-service-soap.version}/cfg/org.talend.esb.sam.service.soap.keystore</configfile>
+    <configfile finalname="/etc/org.talend.esb.sam.agent.keystore.cfg">mvn:org.talend.esb/sam-agent/${sam-agent.version}/cfg/org.talend.esb.sam.agent.keystore</configfile>
+    <configfile finalname="/etc/org.talend.esb.sts.server.keystore.cfg">mvn:org.talend.esb.sts/org.talend.esb.sts.config/${sts-config.version}/cfg/org.talend.esb.sts.server.keystore</configfile>
+  </feature>
+
 </features>
