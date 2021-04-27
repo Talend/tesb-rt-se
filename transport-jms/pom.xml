@@ -24,10 +24,6 @@
 	<name>Talend ESB :: JMS Transport</name>
 	<description>JMS Transport for TESB which provides CXF 3 JMS configuration style </description>
 
-	<properties>
-		<log4j.version>1.2.17</log4j.version>
-	</properties>
-
 	<dependencies>
 		<!-- JMS -->
 		<dependency>

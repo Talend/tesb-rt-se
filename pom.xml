@@ -171,7 +171,7 @@
         <mustache-compiler.version>0.9.5_1</mustache-compiler.version>
 
         <cxf.build-utils.version>3.4.3</cxf.build-utils.version>
-        <cxf.xjc-utils.version>3.3.0</cxf.xjc-utils.version>
+        <cxf.xjc-utils.version>3.3.1</cxf.xjc-utils.version>
         <cxf.resources.base.path/>
         <cxf.checkstyle.extension/>
 
@@ -669,7 +669,7 @@
         <profile>
             <id>examples</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
                 <module>examples</module>
