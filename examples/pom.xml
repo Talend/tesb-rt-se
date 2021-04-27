@@ -49,8 +49,6 @@
 
     <modules>
         <module>tesb</module>
-        <module>camel</module>
-        <module>cxf</module>
     </modules>
 
     <properties>
