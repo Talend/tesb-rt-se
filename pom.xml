@@ -101,6 +101,7 @@
         <auxiliary-storage-features.version>${project.parent.version}</auxiliary-storage-features.version>
         <auxiliary-storage-client.version>${project.parent.version}</auxiliary-storage-client.version>
         <auxiliary-storage-service-rest.version>${project.parent.version}</auxiliary-storage-service-rest.version>
+        <auxiliary-storage-rest-security.version>${project.parent.version}</auxiliary-storage-rest-security.version>
         <sts-config.version>${project.parent.version}</sts-config.version>
         <job-controller.version>${project.parent.version}</job-controller.version>
         <sam-agent.version>${project.parent.version}</sam-agent.version>
@@ -690,6 +691,7 @@
                 <auxiliary-storage-features.version>7.3.1.20210444</auxiliary-storage-features.version>
                 <auxiliary-storage-client.version>7.3.1.20210444</auxiliary-storage-client.version>
                 <auxiliary-storage-service-rest.version>7.3.1.20210444</auxiliary-storage-service-rest.version>
+                <auxiliary-storage-rest-security.version>7.3.1.20210444</auxiliary-storage-rest-security.version>
                 <sts-config.version>7.3.1.20210444</sts-config.version>
                 <job-controller.version>7.3.1.20210444</job-controller.version>
                 <sam-agent.version>7.3.1.20210444</sam-agent.version>

@@ -44,7 +44,7 @@
         <feature version='${cxf.version}'>cxf-rs-security-xml</feature>
 
         <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-common/${original.version}</bundle>
-        <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-rest-security/${original.version}</bundle>
+        <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-rest-security/${auxiliary-storage-rest-security.version}</bundle>
     </feature>
 
     <!-- Client Side -->

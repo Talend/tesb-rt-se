@@ -20,6 +20,7 @@
     <artifactId>auxiliary-storage-rest-security</artifactId>
     <packaging>bundle</packaging>
     <name>Talend ESB :: Auxiliary Storage :: REST Security</name>
+    <version>${revision}</version>
 
     <parent>
         <groupId>org.talend.esb.auxiliary.storage</groupId>
@@ -30,6 +31,10 @@
     <prerequisites>
         <maven>${maven.version}</maven>
     </prerequisites>
+
+    <properties>
+        <revision>${auxiliary-storage-rest-security.version}</revision>
+    </properties>
 
     <dependencies>
         <dependency>
