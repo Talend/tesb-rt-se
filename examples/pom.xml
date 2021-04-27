@@ -50,18 +50,12 @@
 
     <modules>
         <module>tesb</module>
-        <module>camel</module>
-        <module>cxf</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <endpoint.prefix>http://localhost:8040/services</endpoint.prefix>
         <sts.endpoint.prefix>${endpoint.prefix}</sts.endpoint.prefix>
-
-        <!-- Log dependencies -->
-        <log4j.version>1.2.17</log4j.version>
-        <slf4j.version>1.7.12</slf4j.version>
     </properties>
 
     <dependencyManagement>
