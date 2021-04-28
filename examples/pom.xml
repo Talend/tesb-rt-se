@@ -56,31 +56,15 @@
         <endpoint.prefix>http://localhost:8040/services</endpoint.prefix>
         <sts.endpoint.prefix>${endpoint.prefix}</sts.endpoint.prefix>
 
-        <bouncycastle.version>1.68</bouncycastle.version>
-        <cxf.version>3.3.7</cxf.version>
         <cxf.xjc.version>3.3.1</cxf.xjc.version>
-        <camel.version>2.25.2</camel.version>
         <httpclient.version>4.5.13</httpclient.version>
-        <spring.version>5.2.9.RELEASE</spring.version>
-        <karaf.version>4.2.10</karaf.version>
-        <jettison.version>1.4.0</jettison.version>
-        <activemq.version>5.15.13</activemq.version>
         <xstream.version>1.4.16</xstream.version>
         <osgi.version>6.0.0</osgi.version>
-        <osgi.compendium.version>5.0.0</osgi.compendium.version>
         <eclipse.osgi.version>3.12.100</eclipse.osgi.version>
-        <zookeeper.version>3.4.14</zookeeper.version>
-        <derby.version>10.14.2.0</derby.version>
         <aries.version>1.0.0</aries.version>
-        <jetty.version>9.4.35.v20201120</jetty.version>
-        <pax-jdbc.version>1.3.4</pax-jdbc.version>
 
         <!-- Test dependencies -->
         <junit.version>4.13.1</junit.version>
-
-        <!-- Log dependencies -->
-        <log4j.version>1.2.17</log4j.version>
-        <slf4j.version>1.7.12</slf4j.version>
     </properties>
 
     <dependencyManagement>
