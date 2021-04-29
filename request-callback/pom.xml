@@ -13,6 +13,11 @@
     <packaging>bundle</packaging>
     <name>Talend ESB :: Request-Callback</name>
     <description>Decoupled request-callback message exchange pattern support through correlated one-way exchanges</description>
+    <version>${revision}</version>
+
+    <properties>
+        <revision>${request-callback.version}</revision>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -68,27 +73,27 @@
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-common</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
         </dependency>
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-client-common</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
         </dependency>
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-client-rest</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
         </dependency>
         <!-- dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>transport-jms</artifactId>
-            <version>7.3.2-SNAPSHOT</version>
+            <version>${original.version}</version>
         </dependency -->
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>sam-agent</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

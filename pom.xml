@@ -101,13 +101,14 @@
         <auxiliary-storage-features.version>${project.parent.version}</auxiliary-storage-features.version>
         <sts-config.version>${project.parent.version}</sts-config.version>
         <job-controller.version>${project.parent.version}</job-controller.version>
+        <request-callback.version>${project.parent.version}</request-callback.version>
 
         <org.apache.karaf.config.core.tesb.version>4.2.7.tesb1</org.apache.karaf.config.core.tesb.version>
-        <cxf-rt-rs-service-description-swagger.tesb.version>3.3.4.tesb1</cxf-rt-rs-service-description-swagger.tesb.version>
+        <cxf-rt-rs-service-description-swagger.tesb.version>3.3.10.tesb1</cxf-rt-rs-service-description-swagger.tesb.version>
         <packages.version>${project.version}</packages.version>
-        <cxf.version>3.3.4</cxf.version>
+        <cxf.version>3.3.10</cxf.version>
         <camel.version>2.24.2</camel.version>
-        <activemq.version>5.15.10</activemq.version>
+        <activemq.version>5.15.15</activemq.version>
         <spring.version>5.1.14.RELEASE</spring.version>
         <karaf.version>4.2.7</karaf.version>
         <decanter.version>2.2.0</decanter.version>
@@ -678,10 +679,11 @@
             <id>patch</id>
             <properties>
                 <original.version>7.3.1</original.version>
-                <features.version>7.3.1.20210423</features.version>
-                <auxiliary-storage-features.version>7.3.1.20210122</auxiliary-storage-features.version>
+                <features.version>7.3.1.20210433</features.version>
+                <auxiliary-storage-features.version>7.3.1.20210433</auxiliary-storage-features.version>
                 <sts-config.version>7.3.1.20210224</sts-config.version>
                 <job-controller.version>7.3.1.20210224</job-controller.version>
+                <request-callback.version>7.3.1.20210433</request-callback.version>
             </properties>
         </profile>
     </profiles>
