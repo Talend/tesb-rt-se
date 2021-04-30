@@ -31,24 +31,11 @@
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
             <version>${zookeeper.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.jms</groupId>
-                    <artifactId>jms</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sun.jdmk</groupId>
-                    <artifactId>jmxtools</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sun.jmx</groupId>
-                    <artifactId>jmxri</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.github.spotbugs</groupId>
-                    <artifactId>spotbugs-annotations</artifactId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper-jute</artifactId>
+            <version>${zookeeper.version}</version>
         </dependency>
 
         <!-- Test dependencies -->
@@ -107,8 +94,17 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
                     <instructions>
+                        <!-- keep org.apache.zookeeper.* packages as private to avoid
+                         conflicts of exported packages org.apache.zookeeper.server.persistence by both bundles
+                         org.apache.zookeeper and org.apache.zookeper-jute -->
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Import-Package>*;resolution:=optional</Import-Package>
                         <Export-Package />
+                        <Private-Package>
+                            org.talend.esb.locator.*,
+                            org.apache.zookeeper.*,
+                            org.apache.jute.*
+                        </Private-Package>
                     </instructions>
                 </configuration>
             </plugin>

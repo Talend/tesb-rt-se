@@ -186,9 +186,8 @@
   <feature name='tesb-zookeeper' version='${project.version}'>
     <configfile finalname="/etc/org.talend.esb.locator.server.cfg">mvn:org.talend.esb/org.talend.esb.locator.server/${project.version}/cfg</configfile>
     <bundle start-level='50'>mvn:org.talend.esb/org.talend.esb.locator.auth/${project.version}</bundle>
-<!--    <bundle start-level='50'>mvn:org.apache.zookeeper/zookeeper/${zookeeper.version}</bundle>-->
-    <bundle dependency='true'>wrap:mvn:org.apache.zookeeper/zookeeper/${zookeeper.version}$Bundle-SymbolicName=org.apache.hadoop.zookeeper&amp;Export-Package=org.apache.zookeeper;version=${zookeeper.version},org.apache.zookeeper.*;version=${zookeeper.version}</bundle>
-    <bundle dependency='true'>wrap:mvn:org.apache.zookeeper/zookeeper-jute/${zookeeper.version}$Export-Package=org.apache.jute;version=${zookeeper.version},org.apache.zookeeper.*;version=${zookeeper.version}</bundle>
+    <bundle dependency='true'>wrap:mvn:org.apache.zookeeper/zookeeper/${zookeeper.version}$Bundle-SymbolicName=org.apache.zookeeper&amp;Export-Package=org.apache.zookeeper;version=${zookeeper.version},org.apache.zookeeper.*;version=${zookeeper.version}</bundle>
+    <bundle dependency='true'>wrap:mvn:org.apache.zookeeper/zookeeper-jute/${zookeeper.version}$Bundle-SymbolicName=org.apache.zookeeper-jute&amp;Export-Package=org.apache.jute;version=${zookeeper.version},org.apache.zookeeper.*;version=${zookeeper.version}</bundle>
   </feature>
 
   <feature name='tesb-locator-client' version='${project.version}'>
