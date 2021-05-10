@@ -679,11 +679,11 @@
             <id>patch</id>
             <properties>
                 <original.version>7.3.1</original.version>
-                <features.version>7.3.1.20210433</features.version>
-                <auxiliary-storage-features.version>7.3.1.20210433</auxiliary-storage-features.version>
+                <features.version>7.3.1.20210521</features.version>
+                <auxiliary-storage-features.version>7.3.1.20210521</auxiliary-storage-features.version>
                 <sts-config.version>7.3.1.20210224</sts-config.version>
                 <job-controller.version>7.3.1.20210224</job-controller.version>
-                <request-callback.version>7.3.1.20210433</request-callback.version>
+                <request-callback.version>7.3.1.20210521</request-callback.version>
             </properties>
         </profile>
     </profiles>
