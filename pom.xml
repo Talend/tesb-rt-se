@@ -93,18 +93,18 @@
     <properties>
         <packages.version>${project.version}</packages.version>
         <commons-codec.version>1.14</commons-codec.version>
-        <cxf.version>3.3.7</cxf.version>
-        <cxf.tesb.version>3.3.7.tesb2</cxf.tesb.version>
+        <cxf.version>3.3.10</cxf.version>
+        <cxf.tesb.version>3.3.10.tesb1</cxf.tesb.version>
         <camel.version>2.25.2</camel.version>
-        <camel.features.tesb.version>2.25.2.tesb6</camel.features.tesb.version>
-        <activemq.version>5.15.13</activemq.version>
-        <activemq.features.tesb.version>5.15.13.tesb2</activemq.features.tesb.version>
+        <camel.features.tesb.version>2.25.2.tesb7</camel.features.tesb.version>
+        <activemq.version>5.15.15</activemq.version>
+        <activemq.features.tesb.version>5.15.15.tesb1</activemq.features.tesb.version>
         <spring.version>5.2.9.RELEASE</spring.version>
         <karaf.version>4.2.10</karaf.version>
-        <standard.features.tesb.version>4.2.10.tesb2</standard.features.tesb.version>
+        <standard.features.tesb.version>4.2.10.tesb3</standard.features.tesb.version>
         <framework.features.tesb.version>4.2.10.tesb1</framework.features.tesb.version>
         <pax-web.version>7.2.19</pax-web.version>
-        <pax-web.features.tesb.version>7.2.19.tesb1</pax-web.features.tesb.version>
+        <pax-web.features.tesb.version>7.2.19.tesb2</pax-web.features.tesb.version>
         <decanter.version>2.5.0</decanter.version>
         <decanter.tesb.version>2.5.0.tesb2</decanter.tesb.version>
         <zookeeper.version>3.4.14</zookeeper.version>

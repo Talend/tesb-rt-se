@@ -87,11 +87,11 @@ public class RequestCallbackFeature extends AbstractFeature {
 
         try {
 
-            JAXBExtensionHelper.addExtensions(registry,
+            JAXBExtensionHelper.addExtensions(bus, registry,
                     javax.wsdl.Definition.class,
                     org.talend.esb.mep.requestcallback.impl.wsdl.PLType.class);
 
-            JAXBExtensionHelper.addExtensions(registry,
+            JAXBExtensionHelper.addExtensions(bus, registry,
                     javax.wsdl.Binding.class,
                     org.talend.esb.mep.requestcallback.impl.wsdl.CallbackExtension.class);
 
