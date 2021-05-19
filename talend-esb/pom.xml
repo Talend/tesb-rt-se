@@ -623,6 +623,15 @@
                                     <destFileName>activemq-karaf-${activemq.version}-features-core.xml</destFileName>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>org.apache.activemq</groupId>
+                                    <artifactId>activemq-karaf</artifactId>
+                                    <version>${activemq.features.tesb.version}</version>
+                                    <type>xml</type>
+                                    <classifier>features</classifier>
+                                    <outputDirectory>target/dependencies</outputDirectory>
+                                    <destFileName>activemq-karaf-${activemq.version}-features.xml</destFileName>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.ops4j.pax.logging</groupId>
                                     <artifactId>pax-logging-log4j2</artifactId>
                                     <version>${pax-logging.tesb.version}</version>
