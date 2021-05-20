@@ -340,7 +340,7 @@
     <feature version='${cxf.version}'>cxf</feature>
     <feature version='${original.version}'>tesb-aux-common</feature>
     <feature version='${original.version}'>tesb-aux-client-rest</feature>
-    <bundle>mvn:org.talend.esb.mep/request-callback/${original.version}</bundle>
+    <bundle>mvn:org.talend.esb.mep/request-callback/${request-callback.version}</bundle>
   </feature>
 
   <feature name="transport-jms" version='${original.version}'>

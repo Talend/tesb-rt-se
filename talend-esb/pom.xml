@@ -38,7 +38,7 @@
         <tag_label />
         <!-- used for assembly & dependency type, overwritten by dev-unix-assembly-only & dev-win-assembly-only profiles -->
         <assembly.formats>tar.gz,zip</assembly.formats>
-        <activemq.tesb.version>5.15.10.tesb1</activemq.tesb.version>
+        <activemq.tesb.version>5.15.15</activemq.tesb.version>
         <pax-logging.tesb.version>1.11.2.tesb1</pax-logging.tesb.version>
         <!-- version updates from the patch -->
         <standard.features.tesb.version>4.2.7.tesb5</standard.features.tesb.version>
