@@ -22,8 +22,8 @@
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
         default-activation="eager">
 
-    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
-        <property name="brokerURL" value="vm://localhost?broker.persistent=false"/>
+    <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="vm://localhost?broker.persistent=false" />
     </bean>
 
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/blueprint">
@@ -44,13 +44,13 @@
                     <correlationExpression>
                         <constant>3</constant>
                     </correlationExpression>
-                    <to uri="activemq:queue:stock"/>
+                    <to uri="jms:queue:stock"/>
                 </throttle>
             </split>
         </route>
 
         <route>
-            <from uri="activemq:queue:stock"/>
+            <from uri="jms:queue:stock"/>
             <delay><constant>100</constant></delay>
             <bean beanType="org.talend.esb.camel.example.management.StockService" method="transform"/>
             <to uri="log:stocks?groupSize=100"/>

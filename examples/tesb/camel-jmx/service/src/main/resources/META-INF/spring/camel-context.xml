@@ -25,10 +25,10 @@
             http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
             http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="activemq" class="org.apache.camel.component.activemq.ActiveMQComponent" depends-on="camel">
-        <property name="brokerURL" value="vm://localhost?broker.persistent=false"/>
+    <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="vm://localhost?broker.persistent=false" />
     </bean>
-
+    
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
         <!-- Default JMX connector url: "service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi/camel" -->
         <jmxAgent id="agent"/>
@@ -46,12 +46,12 @@
                 <throttle timePeriodMillis="1000">
                     <constant>3</constant>
                 </throttle>
-                <to uri="activemq:queue:stock"/>
+                <to uri="jms:queue:stock"/>
             </split>
         </route>
 
         <route>
-            <from uri="activemq:queue:stock"/>
+            <from uri="jms:queue:stock"/>
             <delay><constant>100</constant></delay>
             <bean beanType="org.talend.esb.camel.example.management.StockService" method="transform"/>
             <to uri="log:stocks?groupSize=100"/>

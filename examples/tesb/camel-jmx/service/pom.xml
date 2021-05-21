@@ -27,11 +27,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-jms</artifactId>
-			<version>${camel.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
 			<version>${camel.version}</version>
 		</dependency>
@@ -47,7 +42,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-activemq</artifactId>
+			<artifactId>camel-jms</artifactId>
 			<version>${camel.version}</version>
 		</dependency>
 <!--		<dependency>-->
@@ -60,11 +55,6 @@
 			<artifactId>xstream</artifactId>
 			<version>${xstream.version}</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.apache.activemq</groupId>-->
-<!--			<artifactId>activemq-camel</artifactId>-->
-<!--			<version>${activemq.version}</version>-->
-<!--		</dependency>-->
 
 		<dependency>
 			<groupId>jakarta.xml.bind</groupId>

@@ -25,6 +25,45 @@
   <repository>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</repository>
   <repository>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</repository>
 
+  <!-- forces latest bundle to be installed to avoid conflicts between versions -->
+  <feature name='talend-common-dependencies' version='${project.version}'>
+    <bundle start-level="30">mvn:com.google.code.gson/gson/${gson.version}</bundle>
+    <bundle start-level="30">mvn:com.google.guava/guava/${guava.version}</bundle>
+    <bundle start-level="30">mvn:commons-codec/commons-codec/${commons-codec.version}</bundle>
+    <bundle start-level="30">mvn:io.zipkin.brave/brave/${brave.version}</bundle>
+    <bundle start-level="30">mvn:io.zipkin.reporter2/zipkin-reporter-brave/${zipkin-reporter.version}</bundle>
+    <bundle start-level="30">mvn:io.zipkin.reporter2/zipkin-reporter/${zipkin-reporter.version}</bundle>
+    <bundle start-level="30">mvn:io.zipkin.zipkin2/zipkin/${zipkin.version}</bundle>
+    <bundle start-level="30">mvn:javax.annotation/javax.annotation-api/${javax.annotation-api.version}</bundle>
+    <bundle start-level="30">mvn:javax.interceptor/javax.interceptor-api/${javax.interceptor-api.version}</bundle>
+    <bundle start-level="30">mvn:joda-time/joda-time/${joda-time.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.aries.spifly/org.apache.aries.spifly.dynamic.bundle/${org.apache.aries.spifly.dynamic.bundle.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.commons/commons-collections4/${commons-collections4.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.commons/commons-lang3/${commons-lang3.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.commons/commons-text/${commons-text.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.httpcomponents/httpcore-osgi/${httpcore-osgi.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.james/apache-mime4j-core/${apache-mime4j-core.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.mina/mina-core/${mina-core.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aopalliance/${org.apache.servicemix.bundles.aopalliance.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aspectj/${org.apache.servicemix.bundles.aspectj.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.cglib/${org.apache.servicemix.bundles.cglib.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.javax-inject/${org.apache.servicemix.bundles.javax-inject.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxb-runtime/${org.apache.servicemix.bundles.jaxb-runtime.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jsch/${org.apache.servicemix.bundles.jsch.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jzlib/${org.apache.servicemix.bundles.jzlib.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.reflections/${org.apache.servicemix.bundles.reflections.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxrs-api-2.1/${org.apache.servicemix.specs.jaxrs-api-2.1.version}</bundle>
+    <bundle start-level="30">mvn:org.bouncycastle/bcpkix-jdk15on/${bcp.version}</bundle>
+    <bundle start-level="30">mvn:org.bouncycastle/bcprov-jdk15on/${bcp.version}</bundle>
+    <bundle start-level="30">mvn:org.eclipse.jetty.websocket/websocket-api/${websocket.version}</bundle>
+    <bundle start-level="30">mvn:org.eclipse.jetty.websocket/websocket-client/${websocket.version}</bundle>
+    <bundle start-level="30">mvn:org.eclipse.jetty.websocket/websocket-common/${websocket.version}</bundle>
+    <bundle start-level="30">mvn:org.eclipse.persistence/javax.persistence/${javax.persistence.version}</bundle>
+    <bundle start-level="30">mvn:org.javassist/javassist/${javassist.version}</bundle>
+    <bundle start-level="30">mvn:org.jboss.logging/jboss-logging/${jboss-logging.version}</bundle>
+    <bundle start-level="30">mvn:org.yaml/snakeyaml/${snakeyaml.version}</bundle>
+  </feature>
+
   <feature name='tesb-sam-common' version='${project.version}'>
     <bundle dependency="true">mvn:org.apache.commons/commons-lang3/${commons-lang3.version}</bundle>
     <!-- All those bundles should be optional I think, but the commons-jxpath osgi metadata is not really good -->

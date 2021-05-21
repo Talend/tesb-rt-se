@@ -143,7 +143,7 @@
                             <resolveDefinedRepositoriesRecursively>false</resolveDefinedRepositoriesRecursively>
                             <features>
                                 <!-- list of features to ignore -->
-                                <feature>^(?!camel-cdi|cxf-jaxrs-cdi|camel-ignite|camel-json-validator|camel-zookeeper-master|pax-jms-artemis|activemq-camel$).*</feature>
+                                <feature>^(?!(camel-cdi|cxf-jaxrs-cdi|camel-ignite|camel-json-validator|camel-zookeeper-master|pax-jms-artemis|activemq-camel)$).*</feature>
                             </features>
                         </configuration>
                     </execution>
