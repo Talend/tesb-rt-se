@@ -48,7 +48,6 @@
     <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aspectj/${org.apache.servicemix.bundles.aspectj.version}</bundle>
     <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.cglib/${org.apache.servicemix.bundles.cglib.version}</bundle>
     <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.javax-inject/${org.apache.servicemix.bundles.javax-inject.version}</bundle>
-    <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxb-runtime/${org.apache.servicemix.bundles.jaxb-runtime.version}</bundle>
     <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jsch/${org.apache.servicemix.bundles.jsch.version}</bundle>
     <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jzlib/${org.apache.servicemix.bundles.jzlib.version}</bundle>
     <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.reflections/${org.apache.servicemix.bundles.reflections.version}</bundle>

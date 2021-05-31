@@ -98,11 +98,6 @@
                             <goal>features-add-to-repository</goal>
                         </goals>
                         <configuration>
-                            <!--
-                            order of descriptors is important, as latest declared features are taking precedence
-                            because of resolveDefinedRepositoriesRecursively, we can have features resolved from a repository dependency before accessing the repository itself
-                            therefore tesb overriding repository features XML should be declared AFTER pristine Karaf features XML
-                            -->
                             <descriptors>
                                 <!-- descriptors without any repository dependency -->
                                 <descriptor>mvn:org.ops4j.pax.web/pax-web-features/${pax-web.features.tesb.version}/xml/features</descriptor>
@@ -140,6 +135,8 @@
                                 <descriptor>mvn:org.talend.esb/features/${project.version}/xml</descriptor>
                             </descriptors>
                             <repository>target/features-repo</repository>
+                            
+                            <!-- do not resolve repositoriy dependencies, this means all repository features HAVE TO BE declared above -->
                             <resolveDefinedRepositoriesRecursively>false</resolveDefinedRepositoriesRecursively>
                             <features>
                                 <!-- list of features to ignore -->

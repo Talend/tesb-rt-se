@@ -103,7 +103,7 @@
         
         <!-- core libraries versions -->
         <camel.version>3.9.0</camel.version>
-        <camel.features.tesb.version>${camel.version}</camel.features.tesb.version>
+        <camel.features.tesb.version>3.9.0.tesb1</camel.features.tesb.version>
         <cxf.version>3.4.3</cxf.version>
         <cxf.features.tesb.version>${cxf.version}</cxf.features.tesb.version>
         <spring.version>5.2.9.RELEASE</spring.version>
@@ -204,7 +204,6 @@
         <org.apache.servicemix.bundles.aspectj.version>1.9.5_1</org.apache.servicemix.bundles.aspectj.version>
         <org.apache.servicemix.bundles.cglib.version>3.3.0_1</org.apache.servicemix.bundles.cglib.version>
         <org.apache.servicemix.bundles.javax-inject.version>1_3</org.apache.servicemix.bundles.javax-inject.version>
-        <org.apache.servicemix.bundles.jaxb-runtime.version>2.3.2_1</org.apache.servicemix.bundles.jaxb-runtime.version>
         <org.apache.servicemix.bundles.jsch.version>0.1.55_1</org.apache.servicemix.bundles.jsch.version>
         <org.apache.servicemix.bundles.jzlib.version>1.1.3_2</org.apache.servicemix.bundles.jzlib.version>
         <org.apache.servicemix.bundles.reflections.version>0.9.12_1</org.apache.servicemix.bundles.reflections.version>
