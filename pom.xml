@@ -688,19 +688,19 @@
             <id>patch</id>
             <properties>
                 <original.version>7.3.1</original.version>
-                <features.version>7.3.1.20210555</features.version>
-                <auxiliary-storage-features.version>7.3.1.20210555</auxiliary-storage-features.version>
-                <auxiliary-storage-client.version>7.3.1.20210555</auxiliary-storage-client.version>
-                <auxiliary-storage-service-rest.version>7.3.1.20210555</auxiliary-storage-service-rest.version>
-                <auxiliary-storage-rest-security.version>7.3.1.20210555</auxiliary-storage-rest-security.version>
-                <sts-config.version>7.3.1.20210555</sts-config.version>
-                <job-controller.version>7.3.1.20210555</job-controller.version>
+                <features.version>7.3.1.20210618</features.version>
+                <auxiliary-storage-features.version>7.3.1.20210618</auxiliary-storage-features.version>
+                <auxiliary-storage-client.version>7.3.1.20210618</auxiliary-storage-client.version>
+                <auxiliary-storage-service-rest.version>7.3.1.20210618</auxiliary-storage-service-rest.version>
+                <auxiliary-storage-rest-security.version>7.3.1.20210618</auxiliary-storage-rest-security.version>
+                <sts-config.version>7.3.1.20210618</sts-config.version>
+                <job-controller.version>7.3.1.20210618</job-controller.version>
                 <request-callback.version>7.3.1.20210521</request-callback.version>
-                <sam-agent.version>7.3.1.20210555</sam-agent.version>
-                <sam-service-rest.version>7.3.1.20210555</sam-service-rest.version>
-                <sam-service-soap.version>7.3.1.20210555</sam-service-soap.version>
-                <security-common.version>7.3.1.20210555</security-common.version>
-                <cxf-crypto-config.version>7.3.1.20210555</cxf-crypto-config.version>
+                <sam-agent.version>7.3.1.20210618</sam-agent.version>
+                <sam-service-rest.version>7.3.1.20210618</sam-service-rest.version>
+                <sam-service-soap.version>7.3.1.20210618</sam-service-soap.version>
+                <security-common.version>7.3.1.20210618</security-common.version>
+                <cxf-crypto-config.version>7.3.1.20210618</cxf-crypto-config.version>
             </properties>
         </profile>
     </profiles>
