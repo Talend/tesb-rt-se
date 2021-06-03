@@ -206,6 +206,7 @@
                 <exclude>etc/org.apache.karaf.features.xml</exclude>
                 <exclude>system/org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
+                <exclude>system/org/apache/karaf/features/spring-legacy/${karaf.version}/spring-legacy-${karaf.version}-features.xml</exclude>
                 <exclude>system/org/ops4j/pax/web/pax-web-features/7.2.11/**</exclude>
                 <exclude>system/org/ops4j/pax/logging/pax-logging-log4j2/1.11.7/**</exclude>
                 <exclude>README.md</exclude>
@@ -378,6 +379,7 @@
                 <exclude>org/apache/servicemix/bundles/org.apache.servicemix.bundles.xstream/1.4.8_1/**</exclude>
                 <exclude>org/apache/karaf/features/framework/${karaf.version}/framework-${karaf.version}-features.xml</exclude>
                 <exclude>org/apache/karaf/features/standard/${karaf.version}/standard-${karaf.version}-features.xml</exclude>
+                <exclude>org/apache/karaf/features/spring-legacy/${karaf.version}/spring-legacy-${karaf.version}-features.xml</exclude>
                 <exclude>org/ops4j/pax/web/**/7.2.11/**</exclude>
             </excludes>
         </fileSet>
