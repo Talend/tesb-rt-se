@@ -101,7 +101,7 @@
         <activemq.features.tesb.version>5.15.15.tesb1</activemq.features.tesb.version>
         <spring.version>5.2.9.RELEASE</spring.version>
         <karaf.version>4.2.10</karaf.version>
-        <standard.features.tesb.version>4.2.10.tesb3</standard.features.tesb.version>
+        <standard.features.tesb.version>4.2.10.tesb4</standard.features.tesb.version>
         <framework.features.tesb.version>4.2.10.tesb1</framework.features.tesb.version>
         <spring-legacy.features.tesb.version>4.2.10.tesb1</spring-legacy.features.tesb.version>
         <pax-web.version>7.2.21</pax-web.version>
