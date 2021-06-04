@@ -1285,10 +1285,10 @@
                                         token="mvn:org.apache.karaf.config/org.apache.karaf.config.core/${karaf.version}&lt;"
                                         value="mvn:org.apache.karaf.config/org.apache.karaf.config.core/${org.apache.karaf.config.core.tesb.version}&lt;"/>
                                     <replacefilter token="mvn:org.ops4j.pax.web/pax-web-features/7.2.11/xml/features&lt;"
-                                                   value="mvn:org.ops4j.pax.web/pax-web-features/${pax.web.version}/xml/features&lt;"/>
+                                                   value="mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features&lt;"/>
                                     <replacefilter>
                                         <replacetoken>feature name="pax-http-service" description="Pax-Web OSGi HTTP Service" version="7.2.11"</replacetoken>
-                                        <replacevalue>feature name="pax-http-service" description="Pax-Web OSGi HTTP Service" version="${pax.web.version}"</replacevalue>
+                                        <replacevalue>feature name="pax-http-service" description="Pax-Web OSGi HTTP Service" version="${pax-web.version}"</replacevalue>
                                     </replacefilter>
                                     <replacefilter
                                         token="9.4.20.v20190813"
@@ -1302,7 +1302,7 @@
                                 </replace>
                                 <replace file="target/dependencies/spring-legacy-${karaf.version}-features.xml">
                                     <replacefilter token="mvn:org.ops4j.pax.web/pax-web-features/7.2.11/xml/features&lt;"
-                                                   value="mvn:org.ops4j.pax.web/pax-web-features/${pax.web.version}/xml/features&lt;"/>
+                                                   value="mvn:org.ops4j.pax.web/pax-web-features/${pax-web.version}/xml/features&lt;"/>
                                 </replace>
                                  <!-- patch for pax-logging-log4j2-->
                                  <replaceregexp byline="true"
