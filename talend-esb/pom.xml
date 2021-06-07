@@ -136,7 +136,7 @@
                             </descriptors>
                             <repository>target/features-repo</repository>
                             
-                            <!-- do not resolve repositoriy dependencies, this means all repository features HAVE TO BE declared above -->
+                            <!-- do not resolve repository dependencies, this means all repository features HAVE TO BE declared above -->
                             <resolveDefinedRepositoriesRecursively>false</resolveDefinedRepositoriesRecursively>
                             <features>
                                 <!-- list of features to ignore -->

@@ -29,7 +29,6 @@
   <feature name='talend-common-dependencies' version='${project.version}'>
     <bundle start-level="30">mvn:com.google.code.gson/gson/${gson.version}</bundle>
     <bundle start-level="30">mvn:com.google.guava/guava/${guava.version}</bundle>
-    <bundle start-level="30">mvn:commons-codec/commons-codec/${commons-codec.version}</bundle>
     <bundle start-level="30">mvn:io.zipkin.brave/brave/${brave.version}</bundle>
     <bundle start-level="30">mvn:io.zipkin.reporter2/zipkin-reporter-brave/${zipkin-reporter.version}</bundle>
     <bundle start-level="30">mvn:io.zipkin.reporter2/zipkin-reporter/${zipkin-reporter.version}</bundle>
@@ -40,8 +39,6 @@
     <bundle start-level="30">mvn:org.apache.aries.spifly/org.apache.aries.spifly.dynamic.bundle/${org.apache.aries.spifly.dynamic.bundle.version}</bundle>
     <bundle start-level="30">mvn:org.apache.commons/commons-collections4/${commons-collections4.version}</bundle>
     <bundle start-level="30">mvn:org.apache.commons/commons-lang3/${commons-lang3.version}</bundle>
-    <bundle start-level="30">mvn:org.apache.commons/commons-text/${commons-text.version}</bundle>
-    <bundle start-level="30">mvn:org.apache.httpcomponents/httpcore-osgi/${httpcore-osgi.version}</bundle>
     <bundle start-level="30">mvn:org.apache.james/apache-mime4j-core/${apache-mime4j-core.version}</bundle>
     <bundle start-level="30">mvn:org.apache.mina/mina-core/${mina-core.version}</bundle>
     <bundle start-level="30">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aopalliance/${org.apache.servicemix.bundles.aopalliance.version}</bundle>
