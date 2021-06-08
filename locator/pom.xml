@@ -19,32 +19,25 @@
 
 	<parent>
 		<groupId>org.talend.esb</groupId>
-		<artifactId>esb-parent</artifactId>
+		<artifactId>bom</artifactId>
 		<version>7.4.2-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../bom</relativePath>
 	</parent>
-
-    <properties>
-        <patch.suffix>TESB25256</patch.suffix>
-    </properties>
 
 	<dependencies>
 	    <dependency>
             <groupId>org.ops4j.pax.cdi</groupId>
             <artifactId>pax-cdi-api</artifactId>
-            <version>${pax-cdi.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
-            <version>1</version>
         </dependency>
 	    <!-- For the spring annotations -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>spring-aop</artifactId>
@@ -68,7 +61,6 @@
         <dependency>
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
-            <version>${zookeeper.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>jline</groupId>
@@ -87,22 +79,18 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-features-clustering</artifactId>
-            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-policy</artifactId>
-            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-security</artifactId>
-            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-cxf</artifactId>
-            <version>${camel.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>jaxb-core</artifactId>
@@ -178,7 +166,6 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-client</artifactId>
-            <version>${cxf.version}</version>
 			<scope>test</scope>
         </dependency>
 		<dependency>
@@ -204,13 +191,11 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            <version>${cxf.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -220,15 +205,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-xjc-plugin</artifactId>
-                <version>${cxf.xjc-utils.version}</version>
                 <executions>
                     <execution>
                         <id>generate-sources</id>
@@ -277,7 +257,6 @@
                             org.talend.esb.servicelocator.client.ExpiredEndpointCollector,
                             org.talend.esb.servicelocator.cxf.LocatorFeature
                         </Export-Service>
-                        <TESB-Version>${patch.suffix}</TESB-Version>
                     </instructions>
                 </configuration>
             </plugin>
@@ -300,24 +279,6 @@
                     </excludeArtifacts>
                 </configuration>
             </plugin>
-            <!--
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<includeScope>runtime</includeScope>
-						</configuration>
-					</execution>
-				</executions>
-            </plugin>
-             -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>

@@ -22,9 +22,9 @@
 
 	<parent>
 		<groupId>org.talend.esb</groupId>
-		<artifactId>esb-parent</artifactId>
+		<artifactId>bom</artifactId>
 		<version>7.4.2-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../bom</relativePath>
 	</parent>
 
     <prerequisites>
@@ -35,25 +35,21 @@
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>locator</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.karaf.shell</groupId>
             <artifactId>org.apache.karaf.shell.core</artifactId>
-            <version>${karaf.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.karaf.shell</groupId>
             <artifactId>org.apache.karaf.shell.console</artifactId>
-            <version>${karaf.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
-            <version>${osgi.core.version}</version>
         </dependency>
 
     </dependencies>

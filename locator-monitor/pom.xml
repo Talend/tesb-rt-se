@@ -20,16 +20,15 @@
 
 	<parent>
 		<groupId>org.talend.esb</groupId>
-		<artifactId>esb-parent</artifactId>
+		<artifactId>bom</artifactId>
 		<version>7.4.2-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../bom</relativePath>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.talend.esb</groupId>
 			<artifactId>locator</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<!-- Test dependencies -->
 		<dependency>
@@ -40,17 +39,14 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
 		</dependency>
 	</dependencies>
 

@@ -3,9 +3,10 @@
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>esb-parent</artifactId>
+        <artifactId>bom</artifactId>
         <groupId>org.talend.esb</groupId>
         <version>7.4.2-SNAPSHOT</version>
+        <relativePath>../bom</relativePath>
     </parent>
 
     <groupId>org.talend.esb.mep</groupId>
@@ -18,93 +19,71 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-policy</artifactId>
-            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-addr</artifactId>
-            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-security</artifactId>
-            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-bindings-soap</artifactId>
-            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http</artifactId>
-            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-local</artifactId>
-            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http-jetty</artifactId>
-            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-jms</artifactId>
-            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-wsdl</artifactId>
-            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-client-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-client-rest</artifactId>
-            <version>${project.version}</version>
         </dependency>
-        <!-- dependency>
-            <groupId>org.talend.esb</groupId>
-            <artifactId>transport-jms</artifactId>
-            <version>7.4.2-SNAPSHOT</version>
-        </dependency -->
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>sam-agent</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <!-- version>${junit.version}</version -->
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.compendium</artifactId>
-            <version>${osgi.compendium.version}</version>
         </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
-            <version>${osgi.core.version}</version>
         </dependency>
     </dependencies>
 

@@ -12,36 +12,32 @@
 
 
     <parent>
-        <artifactId>esb-parent</artifactId>
+        <artifactId>bom</artifactId>
         <groupId>org.talend.esb</groupId>
         <version>7.4.2-SNAPSHOT</version>
+        <relativePath>../bom</relativePath>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
             <artifactId>org.apache.servicemix.bundles.jasypt</artifactId>
-            <version>${jasypt.version}</version>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
-            <version>${bouncycastle.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.karaf.shell</groupId>
             <artifactId>org.apache.karaf.shell.core</artifactId>
-            <version>${karaf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.karaf.shell</groupId>
             <artifactId>org.apache.karaf.shell.console</artifactId>
-            <version>${karaf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
-            <version>${osgi.core.version}</version>
         </dependency>
 
         <!-- Test dependencies -->

@@ -5,8 +5,9 @@
 
     <parent>
         <groupId>org.talend.esb</groupId>
-        <artifactId>esb-parent</artifactId>
+        <artifactId>bom</artifactId>
         <version>7.4.2-SNAPSHOT</version>
+		<relativePath>../bom</relativePath>
     </parent>
 
     <groupId>org.talend.esb.job</groupId>

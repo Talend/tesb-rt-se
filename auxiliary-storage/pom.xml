@@ -19,9 +19,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>esb-parent</artifactId>
+        <artifactId>bom</artifactId>
         <groupId>org.talend.esb</groupId>
         <version>7.4.2-SNAPSHOT</version>
+        <relativePath>../bom</relativePath>
     </parent>
 
     <groupId>org.talend.esb.auxiliary.storage</groupId>
@@ -43,23 +44,9 @@
         <resources.plugin.version>2.5</resources.plugin.version>
         <build.helper.plugin.version>1.7</build.helper.plugin.version>
         <exec.plugin.version>1.2.1</exec.plugin.version>
-
-        <commons-io.version>2.8.0</commons-io.version>
-
-        <xmlParserAPIs.version>2.0.2</xmlParserAPIs.version>
-        <concurrent.version>1.3.4_1</concurrent.version>
-
-        <velocity.version>2.3</velocity.version>
-
-        <abdera.version>1.1.3</abdera.version>
+        
         <cxf.resources.base.path />
         <cxf.checkstyle.extension />
-
-        <!-- persistence -->
-        <jcr-version>2.0</jcr-version>
-        <jackrabbit.version>2.18.6</jackrabbit.version>
-        <tika.version>1.25</tika.version>
-
     </properties>
 
 
@@ -85,45 +72,19 @@
 
     </modules>
 
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.13.1</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.easymock</groupId>
-                <artifactId>easymock</artifactId>
-                <version>3.1</version>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>${resources.plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${compiler.plugin.version}</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-eclipse-plugin</artifactId>
-                <version>2.9</version>
                 <configuration>
                     <downloadSources>true</downloadSources>
                 </configuration>
@@ -173,7 +134,6 @@
         		<plugin>
         			<groupId>org.eclipse.m2e</groupId>
         			<artifactId>lifecycle-mapping</artifactId>
-        			<version>1.0.0</version>
         			<configuration>
         				<lifecycleMappingMetadata>
         					<pluginExecutions>

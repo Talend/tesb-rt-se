@@ -10,9 +10,10 @@
 	<description>Parent module for Talend ESB policies</description>
 
 	<parent>
-		<artifactId>esb-parent</artifactId>
+		<artifactId>bom</artifactId>
 		<groupId>org.talend.esb</groupId>
 		<version>7.4.2-SNAPSHOT</version>
+        <relativePath>../bom</relativePath>
 	</parent>
 
 	<modules>

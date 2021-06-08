@@ -47,7 +47,6 @@
         <dependency>
             <groupId>org.talend.esb.auxiliary.storage</groupId>
             <artifactId>auxiliary-storage-common</artifactId>
-			<version>${project.version}</version>
         </dependency>
     </dependencies>
 
@@ -56,7 +55,6 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>${bundle.plugin.version}</version>
                 <extensions>true</extensions>
             </plugin>
         </plugins>

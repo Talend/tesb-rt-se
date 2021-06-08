@@ -13,9 +13,9 @@
 
     <parent>
         <groupId>org.talend.esb</groupId>
-        <artifactId>esb-parent</artifactId>
+        <artifactId>bom</artifactId>
         <version>7.4.2-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../bom</relativePath>
     </parent>
 
     <properties>
@@ -28,7 +28,6 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.4.0</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>

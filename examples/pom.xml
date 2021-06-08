@@ -17,9 +17,9 @@
 
     <parent>
         <groupId>org.talend.esb</groupId>
-        <artifactId>esb-parent</artifactId>
+        <artifactId>bom</artifactId>
         <version>7.4.2-SNAPSHOT</version>
-        <relativePath>..</relativePath>
+        <relativePath>../bom</relativePath>
     </parent>
 
     <groupId>org.talend.esb.examples</groupId>
@@ -61,29 +61,8 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>jakarta.xml.bind</groupId>
-                <artifactId>jakarta.xml.bind-api</artifactId>
-                <version>2.3.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.geronimo.specs</groupId>
-                <artifactId>geronimo-ws-metadata_2.0_spec</artifactId>
-                <version>1.1.3</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.servicemix.specs</groupId>
-                <artifactId>org.apache.servicemix.specs.jaxws-api-2.2</artifactId>
-                <version>2.9.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.bouncycastle</groupId>
-                <artifactId>bcprov-jdk15on</artifactId>
-                <version>${bouncycastle.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.apache.activemq</groupId>
                 <artifactId>activemq-client</artifactId>
-                <version>${activemq.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
@@ -115,26 +94,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <!-- Override the OpenSAML dependency for a security fix -->
-            <dependency>
-                <groupId>org.cryptacular</groupId>
-                <artifactId>cryptacular</artifactId>
-                <version>1.2.4</version>
-            </dependency>
-
-            <!-- Override commons-codec dependency for a security fix -->
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>${commons-codec.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.13.1</version>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 

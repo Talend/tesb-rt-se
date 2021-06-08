@@ -22,28 +22,25 @@
 
     <parent>
         <groupId>org.talend.esb</groupId>
-        <artifactId>esb-parent</artifactId>
+        <artifactId>bom</artifactId>
         <version>7.4.2-SNAPSHOT</version>
-	<relativePath>../pom.xml</relativePath>
+	<relativePath>../bom</relativePath>
     </parent>
 
 	<dependencies>
         <dependency>
             <groupId>org.ops4j.pax.cdi</groupId>
             <artifactId>pax-cdi-api</artifactId>
-            <version>1.0.0.RC1</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
-            <version>1</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>locator</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

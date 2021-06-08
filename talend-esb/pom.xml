@@ -22,8 +22,9 @@
 
     <parent>
         <groupId>org.talend.esb</groupId>
-        <artifactId>esb-parent</artifactId>
+        <artifactId>bom</artifactId>
         <version>7.4.2-SNAPSHOT</version>
+        <relativePath>../bom</relativePath>
     </parent>
 
     <groupId>org.talend.esb.assembly</groupId>
@@ -45,15 +46,7 @@
         <dependency>
             <groupId>org.talend.esb.sts</groupId>
             <artifactId>cxf-sts-war</artifactId>
-            <version>${project.version}</version>
             <type>war</type>
-        </dependency>
-        <!-- workaround for pax-url-classpath bundle (TESB-6904) -->
-        <dependency>
-            <groupId>org.ops4j.pax.url</groupId>
-            <artifactId>pax-url-classpath</artifactId>
-            <version>${pax-url-classpath.version}</version>
-            <type>jar</type>
         </dependency>
     </dependencies>
 
@@ -89,7 +82,6 @@
             <plugin>
                 <groupId>org.apache.karaf.tooling</groupId>
                 <artifactId>karaf-maven-plugin</artifactId>
-                <version>4.2.11</version>
                 <executions>
                     <execution>
                         <id>add-features-to-repo</id>
@@ -286,7 +278,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
                 <executions>
                     <execution>
                         <id>collect-add-ons</id>
