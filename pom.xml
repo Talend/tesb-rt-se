@@ -200,6 +200,7 @@
         <org.apache.aries.spifly.dynamic.bundle.version>1.3.2</org.apache.aries.spifly.dynamic.bundle.version>
         <org.apache.servicemix.bundles.aopalliance.version>1.0_6</org.apache.servicemix.bundles.aopalliance.version>
         <org.apache.servicemix.bundles.aspectj.version>1.9.5_1</org.apache.servicemix.bundles.aspectj.version>
+        <org.apache.servicemix.bundles.c3p0.version>0.9.5.5_1</org.apache.servicemix.bundles.c3p0.version>
         <org.apache.servicemix.bundles.cglib.version>3.3.0_1</org.apache.servicemix.bundles.cglib.version>
         <org.apache.servicemix.bundles.javax-inject.version>1_3</org.apache.servicemix.bundles.javax-inject.version>
         <org.apache.servicemix.bundles.jsch.version>0.1.55_1</org.apache.servicemix.bundles.jsch.version>
