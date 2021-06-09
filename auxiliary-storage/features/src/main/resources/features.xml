@@ -20,10 +20,6 @@
   -->
 <features name="tesb-aux-${original.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
 
-    <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
-    <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
-
-
     <feature name='jackrabbit-aux-bundles' version='${original.version}'>
         <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/${commons-dbcp.bundle.version}</bundle>
         <bundle dependency='true'>mvn:javax.jcr/jcr/${jcr-version}</bundle>
@@ -41,7 +37,7 @@
 
     <feature name='tesb-aux-common' version='${original.version}'>
         <!--External dependency -->
-        <feature version='${cxf.version}'>cxf-rs-security-xml</feature>
+        <feature version='${cxf-version-range}'>cxf-rs-security-xml</feature>
 
         <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-common/${original.version}</bundle>
         <bundle>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-rest-security/${auxiliary-storage-rest-security.version}</bundle>

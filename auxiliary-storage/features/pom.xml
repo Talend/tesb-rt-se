@@ -26,6 +26,7 @@
 
     <properties>
         <revision>${auxiliary-storage-features.version}</revision>
+        <cxf-version-range>[${cxf.version},3.4)</cxf-version-range>
     </properties>
 
     <build>
