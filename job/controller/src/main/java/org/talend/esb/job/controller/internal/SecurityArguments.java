@@ -32,7 +32,7 @@ import org.apache.cxf.ws.security.trust.STSClient;
 import org.apache.neethi.Policy;
 import org.apache.wss4j.common.crypto.Crypto;
 import org.talend.esb.job.controller.ESBEndpointConstants.EsbSecurity;
-import org.talend.esb.security.saml.SAMLRESTUtils;
+// import org.talend.esb.security.saml.SAMLRESTUtils;
 import org.talend.esb.security.saml.STSClientUtils;
 import org.talend.esb.security.saml.WSPasswordCallbackHandler;
 
@@ -43,7 +43,7 @@ public class SecurityArguments {
     private final String username;
     private final String password;
     private final String alias;
-    private final Map<String, String> clientProperties;
+    private final Map<String, Object> clientProperties;
     private final String roleName;
     private final Object securityToken;
     private final Crypto cryptoProvider;
@@ -53,7 +53,7 @@ public class SecurityArguments {
             String username,
             String password,
             String alias,
-            Map<String, String> clientProperties,
+            Map<String, Object> clientProperties,
             String roleName,
             Object securityToken,
             Crypto cryptoProvider) {
@@ -88,7 +88,7 @@ public class SecurityArguments {
         return alias;
     }
 
-    public Map<String, String> getClientProperties() {
+    public Map<String, Object> getClientProperties() {
         return clientProperties;
     }
 
@@ -132,18 +132,19 @@ public class SecurityArguments {
             final STSClient stsClient = configureSTSClient(bus);
             clientConfig.put(SecurityConstants.STS_CLIENT, stsClient);
 
-            for (Map.Entry<String, String> entry : clientProperties.entrySet()) {
+            for (Map.Entry<String, Object> entry : clientProperties.entrySet()) {
                 if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
                     clientConfig.put(entry.getKey(), processFileURI(entry.getValue()));
                 }
             }
             if (null == alias) {
-                String sigUser = clientProperties.get(SecurityConstants.SIGNATURE_USERNAME);
+                String sigUser = (String) clientProperties.get(SecurityConstants.SIGNATURE_USERNAME);
                 if (sigUser == null) {
-                    sigUser = clientProperties.get("ws-" + SecurityConstants.SIGNATURE_USERNAME);
+                    sigUser = (String) clientProperties.get("ws-" + SecurityConstants.SIGNATURE_USERNAME);
                 }
                 clientConfig.put(SecurityConstants.CALLBACK_HANDLER,
-                        new WSPasswordCallbackHandler(sigUser, clientProperties.get(SecurityConstants.SIGNATURE_PASSWORD)));
+                        new WSPasswordCallbackHandler(sigUser,
+                                (String) clientProperties.get(SecurityConstants.SIGNATURE_PASSWORD)));
             } else {
                 clientConfig.put(SecurityConstants.SIGNATURE_USERNAME, alias);
                 clientConfig.put(SecurityConstants.CALLBACK_HANDLER, new WSPasswordCallbackHandler(alias, password));
@@ -179,11 +180,15 @@ public class SecurityArguments {
         return stsClient;
     }
 
-    private static Object processFileURI(String fileURI) {
-        if (fileURI.startsWith("file:")) {
-            try {
-                return new URL(fileURI);
-            } catch (MalformedURLException e) {
+    private static Object processFileURI(Object fileURI) {
+        if (fileURI instanceof String) {
+            String fileURIName = (String) fileURI;
+            if (fileURIName.startsWith("file:")) {
+                try {
+                    return new URL(fileURIName);
+                } catch (MalformedURLException e) {
+                    // return input value
+                }
             }
         }
         return fileURI;

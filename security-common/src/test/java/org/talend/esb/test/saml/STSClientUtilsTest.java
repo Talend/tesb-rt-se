@@ -87,9 +87,9 @@ public class STSClientUtilsTest {
 
 	}
 
-	private Map<String, String> getSTSProperties() {
+	private Map<String, Object> getSTSProperties() {
 
-		Map<String, String> stsProperties = new HashMap<String, String>();
+		Map<String, Object> stsProperties = new HashMap<String, Object>();
 
 		stsProperties.put(STS_NAMESPACE, "STS_NAMESPACE");
 		stsProperties.put(STS_SERVICE_NAME, "STS_SERVICE_NAME");

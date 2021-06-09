@@ -20,7 +20,7 @@ public class SAMServiceSecurityProvider {
 
     private JAXRSServerFactoryBean server;
     private String authenticationType;
-    private String signatureProperties;
+    private Object signatureProperties;
     private String signatureUsername;
     private String signaturePassword;
 
@@ -40,11 +40,11 @@ public class SAMServiceSecurityProvider {
         this.authenticationType = authenticationType;
     }
 
-    public String getSignatureProperties() {
+    public Object getSignatureProperties() {
         return signatureProperties;
     }
 
-    public void setSignatureProperties(String signatureProperties) {
+    public void setSignatureProperties(Object signatureProperties) {
         this.signatureProperties = signatureProperties;
     }
 

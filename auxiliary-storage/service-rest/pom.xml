@@ -60,6 +60,10 @@
             <artifactId>org.apache.servicemix.bundles.derby</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.talend.cxf</groupId>
+            <artifactId>crypto-config</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -120,6 +124,11 @@
                                     <file>etc/org.talend.esb.auxiliary.storage.service.cfg</file>
                                     <type>cfg</type>
                                     <classifier>org.talend.esb.auxiliary.storage.service</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/org.talend.esb.auxiliary.storage.service.sig.keystore.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.auxiliary.storage.service.sig.keystore</classifier>
                                 </artifact>
                             </artifacts>
                         </configuration>

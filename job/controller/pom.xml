@@ -175,6 +175,21 @@
                                     <classifier>org.talend.esb.job.client.sts</classifier>
                                 </artifact>
                                 <artifact>
+                                    <file>etc/org.talend.esb.job.client.keystore.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.job.client.keystore</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/org.talend.esb.job.client.enc.keystore.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.job.client.enc.keystore</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/org.talend.esb.job.client.sig.keystore.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.job.client.sig.keystore</classifier>
+                                </artifact>
+                                <artifact>
                                     <file>etc/org.talend.esb.job.oidc.cfg</file>
                                     <type>cfg</type>
                                     <classifier>org.talend.esb.job.oidc</classifier>

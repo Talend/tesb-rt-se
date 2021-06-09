@@ -40,6 +40,10 @@
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.talend.cxf</groupId>
+            <artifactId>crypto-config</artifactId>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
@@ -80,6 +84,11 @@
                         </goals>
                         <configuration>
                             <artifacts>
+                                <artifact>
+                                    <file>etc/org.talend.esb.sts.server.keystore.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.sts.server.keystore</classifier>
+                                </artifact>
                                 <artifact>
                                     <file>etc/keystores/stsKeystore.properties</file>
                                     <type>properties</type>

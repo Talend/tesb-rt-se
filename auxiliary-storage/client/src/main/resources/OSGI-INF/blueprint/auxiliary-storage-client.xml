@@ -24,9 +24,9 @@
             <cm:property name="auxiliary.storage.service.url" value="http://localhost:8040/services/AuxStorageService" />
             <cm:property name="auxiliary.storage.service.authentication" value="NO" />
             <cm:property name="auxiliary.storage.service.authentication.user" value="tadmin" />
-            <cm:property name="auxiliary.storage.service.authentication.password" value="tadmin" />
+            <cm:property name="auxiliary.storage.service.authentication.password" value="" />
             <cm:property name="security.username" value="tadmin" />
-            <cm:property name="security.password" value="tadmin" />
+            <cm:property name="security.password" value="" />
             <cm:property name="security.sts.token.username" value="myclientkey" />
             <cm:property name="security.sts.token.properties" value="clientKeystore.properties" />
             <cm:property name="security.encryption.username" value="mystskey" />
@@ -39,6 +39,42 @@
             <cm:property name="sts.allow.renewing" value="false" />
         </cm:default-properties>
     </cm:property-placeholder>
+
+    <bean id="stsTokenCryptoPropertiesFactory" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
+        <property name="defaultProperties">
+            <map>
+                <entry key="org.apache.wss4j.crypto.provider" value="org.apache.wss4j.common.crypto.Merlin"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.type" value="jks"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.password" value=""/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.alias" value="myclientkey"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.file" value="./etc/keystores/clientstore.jks"/>
+            </map>
+        </property>
+        <property name="propertiesSource" value="file:./etc/keystores/${security.sts.token.properties}"/>
+        <property name="updatedProperties">
+            <cm:cm-properties persistent-id="org.talend.esb.auxiliary.storage.client.keystore"/>
+        </property>
+    </bean>
+
+    <bean id="stsTokenCryptoProperties" factory-ref="stsTokenCryptoPropertiesFactory" factory-method="createProperties"/>
+
+    <bean id="encCryptoPropertiesFactory" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
+        <property name="defaultProperties">
+            <map>
+                <entry key="org.apache.wss4j.crypto.provider" value="org.apache.wss4j.common.crypto.Merlin"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.type" value="jks"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.password" value=""/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.alias" value="myclientkey"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.file" value="./etc/keystores/clientstore.jks"/>
+            </map>
+        </property>
+        <property name="propertiesSource" value="file:./etc/keystores/${security.encryption.properties}"/>
+        <property name="updatedProperties">
+            <cm:cm-properties persistent-id="org.talend.esb.auxiliary.storage.client.enc.keystore"/>
+        </property>
+    </bean>
+
+    <bean id="encCryptoProperties" factory-ref="encCryptoPropertiesFactory" factory-method="createProperties"/>
 
     <bean id="auxiliaryStorageClient" class="org.talend.esb.auxiliary.storage.client.rest.AuxiliaryStorageClientRest">
 
@@ -59,10 +95,10 @@
                 <entry key="security.username" value="${security.username}" />
                 <entry key="security.password" value="${security.password}" />
 
-                <entry key="security.encryption.properties" value="${security.encryption.properties}"/>
+                <entry key="security.encryption.properties" value-ref="encCryptoProperties"/>
                 <entry key="security.encryption.username" value="${security.encryption.username}"/>
 
-                <entry key="security.sts.token.properties" value="${ws-security.sts.token.properties}"/>
+                <entry key="security.sts.token.properties" value-ref="stsTokenCryptoProperties"/>
                 <entry key="security.sts.token.username" value="${ws-security.sts.token.username}"/>
                 <entry key="security.sts.token.usecert" value="true"/>
 

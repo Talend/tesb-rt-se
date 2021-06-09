@@ -122,6 +122,7 @@
         <javax-annotation.version>1.3.1</javax-annotation.version>
         <javax.el.version>3.0.0</javax.el.version>
         <javax.inject.version>1</javax.inject.version>
+        <javax.interceptor-api.version>1.2.2</javax.interceptor-api.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <javax.servlet.jsp-api.version>2.3.1</javax.servlet.jsp-api.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
@@ -148,6 +149,7 @@
         <metrics-core.version>3.2.6</metrics-core.version>
         <mustache-compiler.version>0.9.5_1</mustache-compiler.version>
         <openjpa-features.features.tesb.version>3.1.1</openjpa-features.features.tesb.version>
+        <org.apache.felix.configadmin.version>1.9.16</org.apache.felix.configadmin.version>
         <org.apache.logging.log4j.version>2.13.3</org.apache.logging.log4j.version>
         <org.apache.servicemix.bundles.javax.mail.version>1.4.1_5</org.apache.servicemix.bundles.javax.mail.version>
         <org.apache.servicemix.bundles.wsdl4j.version>1.6.3_1</org.apache.servicemix.bundles.wsdl4j.version>
@@ -184,13 +186,11 @@
         <bcp.version>1.68</bcp.version>
         <brave.version>5.13.3</brave.version>
         <commons-collections4.version>4.4</commons-collections4.version>
-        <commons-lang.version>2.6</commons-lang.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <gson.version>2.8.5</gson.version>
         <guava.version>30.1-jre</guava.version>
         <javassist.version>3.27.0-GA</javassist.version>
         <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
-        <javax.interceptor-api.version>1.2.2</javax.interceptor-api.version>
         <javax.persistence.version>2.2.0</javax.persistence.version>
         <jboss-logging.version>3.4.1.Final</jboss-logging.version>
         <joda-time.version>2.10.6</joda-time.version>
@@ -715,6 +715,16 @@
                 <artifactId>features</artifactId>
                 <version>${project.version}</version>
                 <type>xml</type>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.cxf</groupId>
+                <artifactId>crypto-config</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>org.apache.felix.configadmin</artifactId>
+                <version>${org.apache.felix.configadmin.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.karaf.features</groupId>

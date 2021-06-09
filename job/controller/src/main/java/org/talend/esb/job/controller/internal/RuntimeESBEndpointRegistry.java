@@ -20,6 +20,7 @@
 package org.talend.esb.job.controller.internal;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -69,7 +70,8 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
     private EventFeature samFeature;
     private LocatorFeature locatorFeature;
     private PolicyProvider policyProvider;
-    private Map<String, String> clientProperties;
+    private Map<String, Object> clientProperties;
+    private Map<String, Object> clientPropertiesOverride;
     private Crypto cryptoProvider;
 
     public void setBus(Bus bus) {
@@ -88,14 +90,19 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         this.policyProvider = policyProvider;
     }
 
-    public void setClientProperties(Map<String, String> clientProperties) {
+    public void setClientProperties(Map<String, Object> clientProperties) {
         this.clientProperties = clientProperties;
+    }
+
+    public void setClientPropertiesOverride(Map<String, Object> clientPropertiesOverride) {
+        this.clientPropertiesOverride = clientPropertiesOverride;
     }
 
     public void setCryptoProvider(Crypto cryptoProvider) {
         this.cryptoProvider = cryptoProvider;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public ESBConsumer createConsumer(ESBEndpointInfo endpoint) {
         final Map<String, Object> props = endpoint.getEndpointProperties();
@@ -106,13 +113,22 @@ public class RuntimeESBEndpointRegistry implements ESBEndpointRegistry {
         boolean useCrypto = getBoolean(props, ESBEndpointConstants.USE_CRYPTO);
         final EsbSecurity esbSecurity = EsbSecurity.fromString((String) props.get(ESBEndpointConstants.ESB_SECURITY));
         Policy policy = buildSecurePolicy(authorizationRole, useCrypto, esbSecurity);
+        Map<String, Object> effectiveClientProperties = clientProperties == null
+                ? null : new HashMap<String, Object>(clientProperties);
+        if (clientPropertiesOverride != null) {
+            if (effectiveClientProperties == null) {
+                effectiveClientProperties = new HashMap<String, Object>(clientPropertiesOverride);
+            } else {
+                effectiveClientProperties.putAll(clientPropertiesOverride);
+            }
+        }
         final SecurityArguments securityArguments = new SecurityArguments(
                 esbSecurity,
                 policy,
                 (String) props.get(ESBEndpointConstants.USERNAME),
                 (String) props.get(ESBEndpointConstants.PASSWORD),
                 (String) props.get(ESBEndpointConstants.ALIAS),
-                clientProperties,
+                effectiveClientProperties,
                 authorizationRole,
                 props.get(ESBEndpointConstants.SECURITY_TOKEN),
                 (useCrypto || useServiceRegistry) ? cryptoProvider : null);

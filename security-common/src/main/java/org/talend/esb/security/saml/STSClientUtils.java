@@ -42,24 +42,37 @@ public class STSClientUtils {
     private static final String STS_KEY_TYPE = "sts.keytype";
     private static final String STS_ALLOW_RENEWING = "sts.allow.renewing";
 
-    private static Map<String, String> stsProperties;
+    private static Map<String, Object> stsProperties;
 
-    public STSClientUtils(Map<String, String> stsProperties) {
+    public STSClientUtils(Map<String, Object> stsProperties) {
         STSClientUtils.stsProperties = stsProperties;
     }
 
+    public STSClientUtils(Map<String, Object> stsProperties, Map<String, Object> stsPropertiesOverride) {
+        Map<String, Object> props = stsProperties == null ? null : new HashMap<String, Object>(stsProperties);
+        if (stsPropertiesOverride != null) {
+            if (props == null) {
+                props = new HashMap<String, Object>(stsPropertiesOverride);
+            } else {
+                props.putAll(stsPropertiesOverride);
+            }
+        }
+        STSClientUtils.stsProperties = props;
+    }
+
     // for registry
-    public static STSClient createSTSClient(Bus bus, Map<String, String> stsProps) {
+    public static STSClient createSTSClient(Bus bus, Map<String, Object> stsProps) {
         STSClient stsClient = createClient(bus, stsProps);
 
-        stsClient.setWsdlLocation(stsProps.get(STS_WSDL_LOCATION));
-        stsClient.setEndpointQName(new QName(stsProps.get(STS_NAMESPACE), stsProps.get(STS_ENDPOINT_NAME)));
+        stsClient.setWsdlLocation((String) stsProps.get(STS_WSDL_LOCATION));
+        stsClient.setEndpointQName(new QName(
+                (String) stsProps.get(STS_NAMESPACE), (String) stsProps.get(STS_ENDPOINT_NAME)));
 
         return stsClient;
     }
 
     public static STSClient createSTSClient(Bus bus, String username, String password) {
-        final Map<String, String> stsProps = new HashMap<String, String>(stsProperties);
+        final Map<String, Object> stsProps = new HashMap<String, Object>(stsProperties);
         stsProps.put(SecurityConstants.USERNAME, username);
         stsProps.put(SecurityConstants.PASSWORD, password);
 
@@ -67,17 +80,18 @@ public class STSClientUtils {
     }
 
     // for bpm connector
-    public static STSClient createSTSX509Client(Bus bus, Map<String, String> stsProps) {
+    public static STSClient createSTSX509Client(Bus bus, Map<String, Object> stsProps) {
         final STSClient stsClient = createClient(bus, stsProps);
 
-        stsClient.setWsdlLocation(stsProps.get(STS_X509_WSDL_LOCATION));
-        stsClient.setEndpointQName(new QName(stsProps.get(STS_NAMESPACE), stsProps.get(STS_X509_ENDPOINT_NAME)));
+        stsClient.setWsdlLocation((String) stsProps.get(STS_X509_WSDL_LOCATION));
+        stsClient.setEndpointQName(new QName(
+                (String) stsProps.get(STS_NAMESPACE), (String) stsProps.get(STS_X509_ENDPOINT_NAME)));
 
         return stsClient;
     }
 
     public static STSClient createSTSX509Client(Bus bus, String alias) {
-        Map<String, String> stsProps = new HashMap<String, String>(stsProperties);
+        Map<String, Object> stsProps = new HashMap<String, Object>(stsProperties);
         stsProps.put(SecurityConstants.STS_TOKEN_USERNAME, alias);
 
         return createSTSX509Client(bus, stsProps);
@@ -91,12 +105,13 @@ public class STSClientUtils {
         }
     }
 
-    private static STSClient createClient(Bus bus, Map<String, String> stsProps) {
+    private static STSClient createClient(Bus bus, Map<String, Object> stsProps) {
         final STSClient stsClient = new STSClient(bus);
-        stsClient.setServiceQName(new QName(stsProps.get(STS_NAMESPACE), stsProps.get(STS_SERVICE_NAME)));
+        stsClient.setServiceQName(new QName(
+                (String) stsProps.get(STS_NAMESPACE), (String) stsProps.get(STS_SERVICE_NAME)));
 
         final Map<String, Object> props = new HashMap<String, Object>();
-        for (Map.Entry<String, String> entry : stsProps.entrySet()) {
+        for (Map.Entry<String, Object> entry : stsProps.entrySet()) {
             if (SecurityConstants.ALL_PROPERTIES.contains(entry.getKey())) {
                 props.put(entry.getKey(), processFileURI(entry.getValue()));
             }
@@ -106,27 +121,30 @@ public class STSClientUtils {
         stsClient.setEnableLifetime(true);
 
         if (stsProps.get(STS_TOKEN_TYPE) != null) {
-            stsClient.setTokenType(stsProps.get(STS_TOKEN_TYPE));
+            stsClient.setTokenType((String) stsProps.get(STS_TOKEN_TYPE));
         }
 
         if (stsProps.get(STS_KEY_TYPE) != null) {
-            stsClient.setKeyType(stsProps.get(STS_KEY_TYPE));
+            stsClient.setKeyType((String) stsProps.get(STS_KEY_TYPE));
         }
 
         stsClient.setAllowRenewingAfterExpiry(true);
         if (stsProps.get(STS_ALLOW_RENEWING) != null) {
-            stsClient.setAllowRenewing(Boolean.valueOf(stsProps.get(STS_ALLOW_RENEWING)));
+            stsClient.setAllowRenewing(Boolean.valueOf((String) stsProps.get(STS_ALLOW_RENEWING)));
         }
 
         return stsClient;
     }
 
-    private static Object processFileURI(String fileURI) {
-        if (null != fileURI && fileURI.startsWith("file:")) {
-            try {
-                return new URL(fileURI);
-            } catch (MalformedURLException e) {
-                // keep as is
+    private static Object processFileURI(Object fileURI) {
+        if (fileURI instanceof String) {
+            String fileURIName = (String) fileURI;
+            if (fileURIName.startsWith("file:")) {
+                try {
+                    return new URL(fileURIName);
+                } catch (MalformedURLException e) {
+                    // keep as is
+                }
             }
         }
         return fileURI;

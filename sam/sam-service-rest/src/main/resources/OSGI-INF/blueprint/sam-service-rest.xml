@@ -56,13 +56,31 @@
         </jaxrs:providers>
     </jaxrs:server>
 
+    <bean id="sigCryptoPropertiesFactory" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
+        <property name="defaultProperties">
+            <map>
+                <entry key="org.apache.wss4j.crypto.provider" value="org.apache.wss4j.common.crypto.Merlin"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.type" value="jks"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.password" value=""/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.alias" value="myservicekey"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.file" value="./etc/keystores/servicestore.jks"/>
+            </map>
+        </property>
+        <property name="propertiesSource" value="${security.signature.properties}"/>
+        <property name="updatedProperties">
+            <cm:cm-properties persistent-id="org.talend.esb.sam.service.rest.keystore"/>
+        </property>
+    </bean>
+
+    <bean id="sigCryptoProperties" factory-ref="sigCryptoPropertiesFactory" factory-method="createProperties"/>
+
     <bean id="securityProvider" class="org.talend.esb.sam.service.rest.security.SAMServiceSecurityProvider"
         init-method="init">
         <property name="monitoringEndpoint" ref="SAMRestService" />
         <property name="authenticationType" value="${sam.service.rest.authentication}" />
         <property name="signatureUsername" value="${security.signature.username}" />
         <property name="signaturePassword" value="${security.signature.password}" />
-        <property name="signatureProperties" value="${security.signature.properties}" />
+        <property name="signatureProperties" ref="sigCryptoProperties" />
     </bean>
 
 </blueprint>

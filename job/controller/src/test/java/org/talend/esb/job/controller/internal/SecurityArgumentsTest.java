@@ -30,7 +30,7 @@ public class SecurityArgumentsTest {
 		String username = "username";
 		String password = "password";
 		String alias = "alias";
-		Map<String, String> clientProperties = new HashMap<String, String>();
+		Map<String, Object> clientProperties = new HashMap<String, Object>();
 		String roleName = "roleName";
 		Object securityToken = new Object();
 		Crypto cryptoProvider = createNiceMock(Crypto.class);
@@ -95,7 +95,7 @@ public class SecurityArgumentsTest {
 		String username = "username";
 		String password = "password";
 		String alias = "alias";
-		Map<String, String> clientProperties = new HashMap<String, String>();
+		Map<String, Object> clientProperties = new HashMap<String, Object>();
 		String actor = "actor";
 		String cacheConfiFile = "file:123";
 		clientProperties.put(SecurityConstants.ACTOR, actor);
@@ -130,7 +130,7 @@ public class SecurityArgumentsTest {
 		String username = "username";
 		String password = "password";
 		String alias = null;
-		Map<String, String> clientProperties = new HashMap<String, String>();
+		Map<String, Object> clientProperties = new HashMap<String, Object>();
 		String actor = "ws-security.actor";
 		clientProperties.put("ws-security.actor", actor);
 
@@ -154,7 +154,7 @@ public class SecurityArgumentsTest {
 	}
 
 	private void initSTSClientUtils() {
-		Map<String, String> m = new HashMap<String, String>();
+		Map<String, Object> m = new HashMap<>();
 		m.put("sts.namespace", "test");
 		m.put("sts.service.name", "test");
 		m.put("sts.endpoint.name", "test");

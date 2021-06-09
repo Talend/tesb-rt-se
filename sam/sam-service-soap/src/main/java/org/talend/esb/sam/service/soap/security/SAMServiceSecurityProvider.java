@@ -26,8 +26,8 @@ public class SAMServiceSecurityProvider {
     private EndpointImpl serviceEndpoint;
     private String authenticationType;
     private String policyUsernameToken;
-	private String policySaml;
-    private String signatureProperties;
+    private String policySaml;
+    private Object signatureProperties;
     private String signatureUsername;
     private String signaturePassword;
 
@@ -63,11 +63,11 @@ public class SAMServiceSecurityProvider {
         this.policySaml = policySaml;
     }
 
-    public String getSignatureProperties() {
+    public Object getSignatureProperties() {
         return signatureProperties;
     }
 
-    public void setSignatureProperties(String signatureProperties) {
+    public void setSignatureProperties(Object signatureProperties) {
         this.signatureProperties = signatureProperties;
     }
 
@@ -112,22 +112,22 @@ public class SAMServiceSecurityProvider {
             interceptor.setContextName("karaf");
             serviceEndpoint.getInInterceptors().add(interceptor);
         } else if (EsbSecurityConstants.USERNAMETOKEN == esbSecurity) {
-        	policies.add(loadPolicy(policyUsernameToken, bus));
+            policies.add(loadPolicy(policyUsernameToken, bus));
 
             JAASUsernameTokenValidator jaasUTValidator = new JAASUsernameTokenValidator();
             jaasUTValidator.setContextName("karaf");
             properties.put(SecurityConstants.USERNAME_TOKEN_VALIDATOR, jaasUTValidator);
             serviceEndpoint.setProperties(properties);
         } else if (EsbSecurityConstants.SAML == esbSecurity) {
-        	policies.add(loadPolicy(policySaml, bus));
+            policies.add(loadPolicy(policySaml, bus));
 
-        	properties.put(SecurityConstants.SIGNATURE_PROPERTIES, getSignatureProperties());
-        	properties.put(SecurityConstants.SIGNATURE_USERNAME, getSignatureUsername());
-        	properties.put(SecurityConstants.SIGNATURE_PASSWORD, getSignaturePassword());
-        	properties.put(SecurityConstants.CALLBACK_HANDLER, new WSPasswordCallbackHandler(
+            properties.put(SecurityConstants.SIGNATURE_PROPERTIES, getSignatureProperties());
+            properties.put(SecurityConstants.SIGNATURE_USERNAME, getSignatureUsername());
+            properties.put(SecurityConstants.SIGNATURE_PASSWORD, getSignaturePassword());
+            properties.put(SecurityConstants.CALLBACK_HANDLER, new WSPasswordCallbackHandler(
                     getSignatureUsername(), getSignaturePassword()));
 
-        	serviceEndpoint.setProperties(properties);
+            serviceEndpoint.setProperties(properties);
 
         }
 

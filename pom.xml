@@ -108,6 +108,7 @@
         <module>transport-jms</module>
         <module>talend-sapjco3-connector</module>
         <module>camel-core-talend</module>
+        <module>cxf-crypto-config</module>
     </modules>
 
     <repositories>

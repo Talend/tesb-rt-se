@@ -32,7 +32,7 @@ import org.apache.cxf.ws.security.SecurityConstants;
 @NoJSR250Annotations(unlessNull = "bus")
 public class AuxiliaryStorageRestServiceSecurityProvider extends AbstractRestSecurityProvider {
 
-    private String signatureProperties;
+    private Object signatureProperties;
     private String signatureUsername;
     private String signaturePassword;
 
@@ -97,7 +97,7 @@ public class AuxiliaryStorageRestServiceSecurityProvider extends AbstractRestSec
         server.create();
     }
 
-    public void setSignatureProperties(String signatureProperties) {
+    public void setSignatureProperties(Object signatureProperties) {
         this.signatureProperties = signatureProperties;
     }
 

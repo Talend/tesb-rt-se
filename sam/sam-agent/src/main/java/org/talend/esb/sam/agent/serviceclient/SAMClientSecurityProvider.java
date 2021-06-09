@@ -37,7 +37,7 @@ public class SAMClientSecurityProvider {
     private String authenticationType;
     private String policyUsernameToken;
     private String policySaml;
-    private String signatureProperties;
+    private Object signatureProperties;
     private String signatureUsername;
     private String signaturePassword;
     private String username;
@@ -83,11 +83,11 @@ public class SAMClientSecurityProvider {
         this.policySaml = policySaml;
     }
 
-    public String getSignatureProperties() {
+    public Object getSignatureProperties() {
         return signatureProperties;
     }
 
-    public void setSignatureProperties(String signatureProperties) {
+    public void setSignatureProperties(Object signatureProperties) {
         this.signatureProperties = signatureProperties;
     }
 
@@ -229,7 +229,7 @@ public class SAMClientSecurityProvider {
             properties.put(SecurityConstants.SIGNATURE_USERNAME, getSignatureUsername());
             properties.put(SecurityConstants.SIGNATURE_PASSWORD, getSignaturePassword());
             properties.put(SecurityConstants.CALLBACK_HANDLER, 
-            		new WSPasswordCallbackHandler(getSignatureUsername(), getSignaturePassword()));
+                    new WSPasswordCallbackHandler(getSignatureUsername(), getSignaturePassword()));
 
             // STS client
             STSClient stsClient = new STSClient(bus);
@@ -276,11 +276,15 @@ public class SAMClientSecurityProvider {
         }
     }
 
-    private static Object processFileURI(String fileURI) {
-        if (fileURI.startsWith("file:")) {
-            try {
-                return new URL(fileURI);
-            } catch (MalformedURLException e) {
+    private static Object processFileURI(Object fileURI) {
+        if (fileURI instanceof String) {
+            String fileURIName = (String) fileURI;
+            if (fileURIName.startsWith("file:")) {
+                try {
+                    return new URL(fileURIName);
+                } catch (MalformedURLException e) {
+                    // assume file path name
+                }
             }
         }
         return fileURI;

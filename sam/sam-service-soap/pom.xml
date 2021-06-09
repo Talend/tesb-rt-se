@@ -17,7 +17,7 @@
 
    <dependencies>
 
-		<dependency>
+        <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>sam-server</artifactId>
         </dependency>
@@ -46,7 +46,7 @@
         </dependency>
 
         <!--  Test  -->
-		<dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -106,6 +106,11 @@
                                     <file>etc/org.talend.esb.sam.service.soap.cfg</file>
                                     <type>cfg</type>
                                     <classifier>org.talend.esb.sam.service.soap</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>etc/org.talend.esb.sam.service.soap.keystore.cfg</file>
+                                    <type>cfg</type>
+                                    <classifier>org.talend.esb.sam.service.soap.keystore</classifier>
                                 </artifact>
                                 <artifact>
                                     <file>etc/org.talend.esb.sam.service.soap.ut.policy</file>

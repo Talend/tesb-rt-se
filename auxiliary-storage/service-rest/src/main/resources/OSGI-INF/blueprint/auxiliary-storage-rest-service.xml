@@ -48,11 +48,29 @@
         </jaxrs:providers>
     </jaxrs:server>
 
+    <bean id="sigCryptoPropertiesFactory" class="org.talend.cxf.crypto.config.CryptoPropertiesFactory">
+        <property name="defaultProperties">
+            <map>
+                <entry key="org.apache.wss4j.crypto.provider" value="org.apache.wss4j.common.crypto.Merlin"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.type" value="jks"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.password" value=""/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.alias" value="myservicekey"/>
+                <entry key="org.apache.wss4j.crypto.merlin.keystore.file" value="./etc/keystores/servicestore.jks"/>
+            </map>
+        </property>
+        <property name="propertiesSource" value="file:./etc/keystores/$ccs{security.signature.properties}"/>
+        <property name="updatedProperties">
+            <cm:cm-properties persistent-id="org.talend.esb.auxiliary.storage.service.sig.keystore"/>
+        </property>
+    </bean>
+
+    <bean id="sigCryptoProperties" factory-ref="sigCryptoPropertiesFactory" factory-method="createProperties"/>
+
     <bean class="org.talend.esb.auxiliary.storage.rest.security.AuxiliaryStorageRestServiceSecurityProvider"
             init-method="init">
         <property name="auxiliaryStorageEndpoint" ref="auxiliaryStorageService" />
         <property name="auxiliaryStorageAuthentication" value="$ccs{auxiliary.storage.service.authentication}" />
-        <property name="signatureProperties" value="$ccs{security.signature.properties}" />
+        <property name="signatureProperties" ref="sigCryptoProperties" />
         <property name="signatureUsername" value="$ccs{security.signature.username}" />
         <property name="signaturePassword" value="$ccs{security.signature.password}" />
     </bean>
