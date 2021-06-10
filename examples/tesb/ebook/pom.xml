@@ -69,42 +69,35 @@
         <dependency>
             <groupId>org.ops4j.pax.cdi</groupId>
             <artifactId>pax-cdi-api</artifactId>
-            <version>1.0.0.RC2</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
-            <version>1</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>javax.transaction</groupId>
             <artifactId>javax.transaction-api</artifactId>
-            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>1.0.0.Final</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
-            <version>${osgi.core.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.compendium</artifactId>
-            <version>${osgi.compendium.version}</version>
         </dependency>
 
         <dependency>
@@ -114,7 +107,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
-            <version>${slf4j.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -126,20 +118,11 @@
                 <plugin>
                     <groupId>org.apache.aries.blueprint</groupId>
                     <artifactId>blueprint-maven-plugin</artifactId>
-                    <version>1.10.0</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.apache.xbean</groupId>
-                            <artifactId>xbean-finder-shaded</artifactId>
-                            <version>4.12</version>
-                        </dependency>
-                    </dependencies>
                     <executions>
                         <execution>
                             <goals>
                                 <goal>blueprint-generate</goal>
                             </goals>
-                            <phase>process-classes</phase>
                         </execution>
                     </executions>
                     <configuration>
@@ -151,16 +134,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>3.0.0</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>

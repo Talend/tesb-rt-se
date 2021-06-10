@@ -3,8 +3,8 @@ package org.talend.esb.client.app.validation;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class DateFormatValidator implements
 		ConstraintValidator<ValidDateFormat, String> {

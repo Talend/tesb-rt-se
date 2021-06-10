@@ -1,6 +1,7 @@
 package org.talend.esb.client.app.model;
 
-import org.hibernate.validator.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
+
 import org.talend.esb.client.app.validation.DateNotInPast;
 import org.talend.esb.client.app.validation.DatesConsistent;
 import org.talend.esb.client.app.validation.ValidDateFormat;

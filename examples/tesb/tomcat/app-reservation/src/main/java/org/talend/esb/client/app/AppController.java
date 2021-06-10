@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;

@@ -23,6 +23,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.talend.esb.examples</groupId>
 	<artifactId>data-service-authentication</artifactId>
+	<packaging>kar</packaging>
 	<version>1.0</version>
 
 	<build>
@@ -30,21 +31,16 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.karaf.tooling</groupId>
-				<artifactId>features-maven-plugin</artifactId>
-				<version>2.2.6</version>
+				<artifactId>karaf-maven-plugin</artifactId>
+				<extensions>true</extensions>
 				<executions>
 					<execution>
 						<id>archive-kar</id>
 						<goals>
-							<goal>archive-kar</goal>
+							<goal>kar</goal>
 						</goals>
 						<configuration>
 							<resourcesDir>job-bundle</resourcesDir>

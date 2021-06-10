@@ -49,10 +49,6 @@
         </license>
     </licenses>
 
-    <prerequisites>
-        <maven>2.2.1</maven>
-    </prerequisites>
-
     <build>
         <resources>
             <resource>

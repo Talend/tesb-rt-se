@@ -26,7 +26,7 @@
     <groupId>talend</groupId>
     <artifactId>multijob-feature</artifactId>
     <version>1.0</version>
-    <packaging>pom</packaging>
+    <packaging>kar</packaging>
 
     <!--dependencies>
         <dependency>
@@ -40,17 +40,17 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.karaf.tooling</groupId>
-                <artifactId>features-maven-plugin</artifactId>
-                <version>2.2.6</version>
+                <artifactId>karaf-maven-plugin</artifactId>
+                <extensions>true</extensions>
                 <executions>
                     <execution>
                         <id>archive-kar</id>
                         <goals>
-                            <goal>archive-kar</goal>
+                            <goal>kar</goal>
                         </goals>
-                        <configuration>
-                            <featuresFile>src/main/resources/features.xml</featuresFile>
-                        </configuration>
+<!--                        <configuration>-->
+<!--                            <featuresFile>src/main/resources/features.xml</featuresFile>-->
+<!--                        </configuration>-->
                     </execution>
                 </executions>
             </plugin>

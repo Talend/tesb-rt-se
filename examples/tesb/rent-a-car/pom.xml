@@ -32,6 +32,21 @@
         <module>app-reservation</module>
         <module>features</module>
     </modules>
+    
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.talend.esb.examples.rent-a-car</groupId>
+                <artifactId>crmservice-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.rent-a-car</groupId>
+                <artifactId>reservationservice-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <profiles>
         <profile>
@@ -50,15 +65,6 @@
             <id>slsam</id>
         </profile>
     </profiles>
-	<build>
-		<!--extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-webdav</artifactId>
-				<version>1.0-beta-2</version>
-			</extension>
-		</extensions-->
-	</build>
 	<distributionManagement>
 		<repository>
 			<id>nexus.repo-release</id>

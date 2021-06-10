@@ -8,7 +8,6 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.talend.esb.examples</groupId>
     <artifactId>cxf-jmx-service</artifactId>
     <version>7.4.2-SNAPSHOT</version>
     <name>Talend ESB Runtime::CXF JMX Example Service</name>
@@ -23,7 +22,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>org.talend.esb.examples</groupId>
             <artifactId>cxf-jmx-common</artifactId>
         </dependency>
     </dependencies>

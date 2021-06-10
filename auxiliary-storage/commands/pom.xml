@@ -28,11 +28,6 @@
         <version>7.4.2-SNAPSHOT</version>
     </parent>
 
-
-    <prerequisites>
-        <maven>${maven.version}</maven>
-    </prerequisites>
-
     <dependencies>
 
         <dependency>

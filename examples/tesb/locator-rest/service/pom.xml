@@ -28,7 +28,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>org.talend.esb.examples.locator-rest</groupId>
             <artifactId>locator-rest-demo-common</artifactId>
         </dependency>
     </dependencies>

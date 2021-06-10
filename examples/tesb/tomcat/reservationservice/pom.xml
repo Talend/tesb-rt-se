@@ -47,6 +47,11 @@
             </dependency>
             <dependency>
                 <groupId>org.talend.esb.examples.tomcat</groupId>
+                <artifactId>crmservice-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.talend.esb.examples.tomcat</groupId>
                 <artifactId>reservationservice-client</artifactId>
                 <version>${project.version}</version>
             </dependency>

@@ -39,19 +39,6 @@
             </excludes>
         </fileSet>
 
-        <!-- Expanded Camel Runtime -->
-<!--        <fileSet>-->
-<!--            <directory>target/dependencies/camel/apache-camel-${camel.version}</directory>-->
-<!--            <outputDirectory>./</outputDirectory>-->
-<!--            <includes>-->
-<!--                <include>lib/**</include>-->
-<!--            </includes>-->
-<!--        </fileSet>-->
-<!--        <fileSet>-->
-<!--            <directory>target/dependencies/camel/apache-camel-${camel.version}/examples</directory>-->
-<!--            <outputDirectory>./examples/apache/camel</outputDirectory>-->
-<!--        </fileSet>-->
-
         <!-- Expanded CXF Runtime -->
         <fileSet>
             <directory>target/dependencies/cxf/apache-cxf-${cxf.version}</directory>
@@ -76,18 +63,6 @@
                 <exclude>lib/activemq**</exclude>
                 <exclude>samples/**</exclude>
             </excludes>
-            <directoryMode>755</directoryMode>
-            <fileMode>0644</fileMode>
-        </fileSet>
-        <fileSet>
-            <directory>target/dependencies/cxf/apache-cxf-${cxf.version}/samples</directory>
-            <outputDirectory>./examples/apache/cxf</outputDirectory>
-            <directoryMode>755</directoryMode>
-            <fileMode>0644</fileMode>
-        </fileSet>
-        <fileSet>
-            <directory>target/dependencies/cxf/apache-cxf-${cxf.version}/etc</directory>
-            <outputDirectory>./examples/apache/etc</outputDirectory>
             <directoryMode>755</directoryMode>
             <fileMode>0644</fileMode>
         </fileSet>
@@ -360,6 +335,13 @@
         </fileSet>
 
         <!-- Copy Examples -->
+        <fileSet>
+            <directory>target/dependencies/bom</directory>
+            <outputDirectory>./examples/bom</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+            </includes>
+        </fileSet>
         <fileSet>
             <directory>${basedir}/../examples</directory>
             <outputDirectory>./examples/talend</outputDirectory>

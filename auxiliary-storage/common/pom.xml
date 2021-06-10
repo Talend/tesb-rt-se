@@ -20,10 +20,6 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<prerequisites>
-		<maven>${maven.version}</maven>
-	</prerequisites>
-
 	<dependencies>
 
 		<dependency>

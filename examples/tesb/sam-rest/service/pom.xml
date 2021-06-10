@@ -28,7 +28,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>org.talend.esb.examples.sam-rest</groupId>
             <artifactId>sam-rest-demo-common</artifactId>
         </dependency>
     </dependencies>

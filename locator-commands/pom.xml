@@ -27,10 +27,6 @@
         <relativePath>../bom</relativePath>
 	</parent>
 
-    <prerequisites>
-        <maven>2.2.1</maven>
-    </prerequisites>
-
     <dependencies>
         <dependency>
             <groupId>org.talend.esb</groupId>
