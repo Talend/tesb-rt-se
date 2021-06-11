@@ -112,12 +112,12 @@
         <cxf-crypto-config.version>${project.parent.version}</cxf-crypto-config.version>
 
         <org.apache.karaf.config.core.tesb.version>4.2.7.tesb1</org.apache.karaf.config.core.tesb.version>
-        <cxf-rt-rs-service-description-swagger.tesb.version>3.3.10.tesb1</cxf-rt-rs-service-description-swagger.tesb.version>
+        <cxf-rt-rs-service-description-swagger.tesb.version>3.3.11.tesb1</cxf-rt-rs-service-description-swagger.tesb.version>
         <packages.version>${project.version}</packages.version>
-        <cxf.version>3.3.10</cxf.version>
+        <cxf.version>3.3.11</cxf.version>
         <camel.version>2.24.2</camel.version>
         <activemq.version>5.15.15</activemq.version>
-        <spring.version>5.1.14.RELEASE</spring.version>
+        <spring.version>5.2.18.RELEASE</spring.version>
         <karaf.version>4.2.7</karaf.version>
         <decanter.version>2.2.0</decanter.version>
         <zookeeper.version>3.4.14</zookeeper.version>
@@ -139,7 +139,7 @@
         <jdom.bundle.version>1.1_4</jdom.bundle.version>
         <osgi.core.version>6.0.0</osgi.core.version>
         <osgi.compendium.version>5.0.0</osgi.compendium.version>
-        <jetty.version>9.4.35.v20201120</jetty.version>
+        <jetty.version>9.4.41.v20210516</jetty.version>
         <pax-web.version>7.2.21</pax-web.version>
         <oscache.bundle.version>2.4_5</oscache.bundle.version>
         <cglib.bundle.version>3.2.4_1</cglib.bundle.version>
@@ -148,7 +148,7 @@
         <h2database.version>1.3.165</h2database.version>
         <jettison.version>1.4.0</jettison.version>
         <jasypt.version>1.9.3_1</jasypt.version>
-        <bouncycastle.version>1.68</bouncycastle.version>
+        <bouncycastle.version>1.69</bouncycastle.version>
         <hibersap.version>1.2.0</hibersap.version>
         <javax.el.version>3.0.0</javax.el.version>
         <pax-cdi.version>1.0.0.RC2</pax-cdi.version>
@@ -688,8 +688,8 @@
             <id>patch</id>
             <properties>
                 <original.version>7.3.1</original.version>
-                <features.version>7.3.1.20210618</features.version>
-                <auxiliary-storage-features.version>7.3.1.20210618</auxiliary-storage-features.version>
+                <features.version>7.3.1.20210633</features.version>
+                <auxiliary-storage-features.version>7.3.1.20210633</auxiliary-storage-features.version>
                 <auxiliary-storage-client.version>7.3.1.20210618</auxiliary-storage-client.version>
                 <auxiliary-storage-service-rest.version>7.3.1.20210618</auxiliary-storage-service-rest.version>
                 <auxiliary-storage-rest-security.version>7.3.1.20210618</auxiliary-storage-rest-security.version>
