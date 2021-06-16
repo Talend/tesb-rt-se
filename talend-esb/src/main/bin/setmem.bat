@@ -56,9 +56,9 @@ if "%JAVA_MIN_MEM%" == "" (
 
 if "%JAVA_MAX_MEM%" == "" (
 	if "%sixtyfour%" == "" (
-		set JAVA_MAX_MEM=512M 
+		set JAVA_MAX_MEM=1536M 
 	) else ( 
-		set JAVA_MAX_MEM=1024M
+		set JAVA_MAX_MEM=2048M
 	)
 )
 

@@ -58,9 +58,9 @@ setupMemorySettings() {
 
     if [ -z "${JAVA_MAX_MEM}" ]; then
         if ${JAVA_SIXTY_FOUR}; then
-            JAVA_MAX_MEM=1024M
+            JAVA_MAX_MEM=2048M
         else
-            JAVA_MAX_MEM=512M
+            JAVA_MAX_MEM=1536M
         fi
         export JAVA_MAX_MEM
     fi
