@@ -343,6 +343,13 @@
             </includes>
         </fileSet>
         <fileSet>
+            <directory>target/dependencies/bom-common</directory>
+            <outputDirectory>./examples/bom-common</outputDirectory>
+            <includes>
+                <include>pom.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>${basedir}/../examples</directory>
             <outputDirectory>./examples/talend</outputDirectory>
             <excludes>

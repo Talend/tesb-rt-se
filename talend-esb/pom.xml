@@ -170,6 +170,14 @@
                                     <outputDirectory>target/dependencies/bom</outputDirectory>
                                     <destFileName>pom.xml</destFileName>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.talend.esb</groupId>
+                                    <artifactId>bom-common</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>pom</type>
+                                    <outputDirectory>target/dependencies/bom-common</outputDirectory>
+                                    <destFileName>pom.xml</destFileName>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
