@@ -58,7 +58,7 @@
 
         <cxf.xjc.version>3.3.1</cxf.xjc.version>
         <httpclient.version>4.5.13</httpclient.version>
-        <xstream.version>1.4.16</xstream.version>
+        <xstream.version>1.4.17</xstream.version>
         <osgi.version>6.0.0</osgi.version>
         <eclipse.osgi.version>3.12.100</eclipse.osgi.version>
         <aries.version>1.0.0</aries.version>

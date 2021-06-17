@@ -96,9 +96,9 @@
         <cxf.version>3.3.10</cxf.version>
         <cxf.tesb.version>3.3.10.tesb1</cxf.tesb.version>
         <camel.version>2.25.2</camel.version>
-        <camel.features.tesb.version>2.25.2.tesb7</camel.features.tesb.version>
+        <camel.features.tesb.version>2.25.2.tesb8</camel.features.tesb.version>
         <activemq.version>5.15.15</activemq.version>
-        <activemq.features.tesb.version>5.15.15.tesb1</activemq.features.tesb.version>
+        <activemq.features.tesb.version>5.15.15.tesb2</activemq.features.tesb.version>
         <spring.version>5.2.9.RELEASE</spring.version>
         <karaf.version>4.2.10</karaf.version>
         <standard.features.tesb.version>4.2.10.tesb4</standard.features.tesb.version>
