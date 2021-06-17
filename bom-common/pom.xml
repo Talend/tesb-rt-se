@@ -31,8 +31,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <targetJdk>1.8</targetJdk>
-        <cxf.resources.base.path />
-        <cxf.checkstyle.extension />
 
         <packages.version>${project.version}</packages.version>
 
@@ -1587,9 +1585,9 @@
                     </dependencies>
                     <configuration>
                         <configLocation>
-                            ${cxf.resources.base.path}cxf-checkstyle${cxf.checkstyle.extension}.xml
+                            cxf-checkstyle.xml
                         </configLocation>
-                        <suppressionsLocation>${cxf.resources.base.path}cxf-checkstyle-suppressions.xml
+                        <suppressionsLocation>cxf-checkstyle-suppressions.xml
                         </suppressionsLocation>
                     </configuration>
                 </plugin>
@@ -1700,8 +1698,8 @@
                     </dependencies>
                     <configuration>
                         <rulesets>
-                            <ruleset>${cxf.resources.base.path}cxf-pmd-ruleset.xml</ruleset>
-                            <ruleset>${cxf.resources.base.path}cxf-pmd-custom.xml</ruleset>
+                            <ruleset>cxf-pmd-ruleset.xml</ruleset>
+                            <ruleset>cxf-pmd-custom.xml</ruleset>
                         </rulesets>
                         <targetJdk>${targetJdk}</targetJdk>
                         <linkXRef>false</linkXRef>

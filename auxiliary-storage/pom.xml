@@ -31,12 +31,6 @@
     <packaging>pom</packaging>
     <name>Talend ESB :: Auxiliary Storage :: Parent</name>
 
-    <properties>        
-        <cxf.resources.base.path />
-        <cxf.checkstyle.extension />
-    </properties>
-
-
     <modules>
 		<module>common</module>
 		<module>features</module>
