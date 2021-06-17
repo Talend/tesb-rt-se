@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <features name="ebook-${pom.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.3.0 http://karaf.apache.org/xmlns/features/v1.3.0">
-    <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
-    <repository>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</repository>
-    <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
-    <repository>mvn:org.ops4j.pax.jdbc/pax-jdbc-features/${pax-jdbc.version}/xml/features</repository>
 
     <feature name="example-ebook" version="${pom.version}">
         <feature>example-ebook-backend</feature>

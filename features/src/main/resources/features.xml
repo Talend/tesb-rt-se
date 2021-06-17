@@ -20,11 +20,6 @@
   -->
 <features name="tesb-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.3.0">
 
-  <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
-  <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
-  <repository>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</repository>
-  <repository>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</repository>
-
   <!-- forces latest bundle to be installed to avoid conflicts between versions -->
   <feature name='talend-common-dependencies' version='${project.version}'>
     <bundle start-level="30">mvn:com.google.code.gson/gson/${gson.version}</bundle>
