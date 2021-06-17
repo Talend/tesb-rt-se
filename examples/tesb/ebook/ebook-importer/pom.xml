@@ -50,10 +50,6 @@
                     <artifactId>jackson-databind</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>com.thoughtworks.xstream</groupId>
-                    <artifactId>xstream</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>org.linkedin</groupId>
                     <artifactId>org.linkedin.zookeeper-impl</artifactId>
                 </exclusion>
