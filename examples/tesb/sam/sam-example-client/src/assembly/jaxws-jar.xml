@@ -26,7 +26,7 @@
    <fileSets>
       <fileSet>
          <directory>target/classes/ch</directory>
-         <outputDirectory>/ch</outputDirectory>
+         <outputDirectory>./ch</outputDirectory>
       </fileSet>
    </fileSets>
 </assembly>
