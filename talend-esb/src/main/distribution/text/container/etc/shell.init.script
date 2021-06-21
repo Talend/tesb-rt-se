@@ -1,4 +1,4 @@
-// Copyright (C) 2010 Talend Inc. - www.talend.com
+// Copyright (c) 2006-2021 Talend Inc. - www.talend.com
 
 // This script is run each time a shell is created.
 // You can define here closures or variables that will be available

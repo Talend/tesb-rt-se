@@ -1,5 +1,5 @@
 ###################################################################################
-# Copyright (C) 2011-2019 Talend Inc. - www.talend.com
+# Copyright (c) 2006-2021 Talend Inc. - www.talend.com
 # This file is part of Talend ESB
 
 # Talend ESB is free software: you can redistribute it and/or modify

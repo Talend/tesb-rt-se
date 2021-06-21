@@ -93,6 +93,6 @@ into a database.
 
 ## License
 
-Copyright (c) 2006-2019 Talend
+Copyright (c) 2006-2021 Talend Inc. - www.talend.com
 
 Licensed under the [Apache Licence v2](https://www.apache.org/licenses/LICENSE-2.0.txt)

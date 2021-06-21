@@ -2,7 +2,7 @@
  * #%L
  * Locator Demo Client
  * %%
- * Copyright (C) 2011-2019 Talend Inc.
+ * Copyright (c) 2006-2021 Talend Inc. - www.talend.com
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
  */
 /*******************************************************************************
 *
-* Copyright (c) 2011 Talend Inc. - www.talend.com
+* Copyright (c) 2006-2021 Talend Inc. - www.talend.com
 * All rights reserved.
 *
 * This program and the accompanying materials are made available

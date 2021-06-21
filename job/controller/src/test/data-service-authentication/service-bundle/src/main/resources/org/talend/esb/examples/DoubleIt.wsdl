@@ -1,5 +1,5 @@
 <!--
-    Copyright (C) 2011 Talend Inc. - www.talend.com
+    Copyright (c) 2006-2021 Talend Inc. - www.talend.com
 -->
 <wsdl:definitions name="DoubleIt"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
