@@ -117,7 +117,7 @@
         <cxf.version>3.3.11</cxf.version>
         <camel.version>2.24.2</camel.version>
         <activemq.version>5.15.15</activemq.version>
-        <spring.version>5.2.18.RELEASE</spring.version>
+        <spring.version>5.2.15.RELEASE</spring.version>
         <karaf.version>4.2.7</karaf.version>
         <decanter.version>2.2.0</decanter.version>
         <zookeeper.version>3.4.14</zookeeper.version>
