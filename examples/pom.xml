@@ -18,13 +18,13 @@
     <parent>
         <groupId>org.talend.esb</groupId>
         <artifactId>bom</artifactId>
-        <version>7.4.2-SNAPSHOT</version>
+        <version>7.4.1-SNAPSHOT</version>
         <relativePath>../bom</relativePath>
     </parent>
 
     <groupId>org.talend.esb.examples</groupId>
     <artifactId>talend-esb-examples-parent</artifactId>
-    <version>7.4.2-SNAPSHOT</version>
+    <version>7.4.1-SNAPSHOT</version>
     <name>Talend ESB :: Examples Parent</name>
     <packaging>pom</packaging>
 
