@@ -131,7 +131,7 @@
         <jdom.bundle.version>2.0.6_1</jdom.bundle.version>
         <jest.version>2.0.3</jest.version>
         <jettison.version>1.4.0</jettison.version>
-        <jetty.version>9.4.39.v20210325</jetty.version>
+        <jetty.version>9.4.40.v20210413</jetty.version>
         <jlibs.version>2.2.3</jlibs.version>
         <jolokia.version>1.6.2</jolokia.version>
         <jpa-features.features.tesb.version>2.7.2</jpa-features.features.tesb.version>
