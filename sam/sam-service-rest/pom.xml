@@ -25,7 +25,7 @@
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>sam-server</artifactId>
-            <version>${original.version}</version>
+            <version>${sam-server.version}</version>
         </dependency>
 
         <dependency>

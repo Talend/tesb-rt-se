@@ -106,6 +106,7 @@
         <job-controller.version>${project.parent.version}</job-controller.version>
         <request-callback.version>${project.parent.version}</request-callback.version>
         <sam-agent.version>${project.parent.version}</sam-agent.version>
+        <sam-server.version>${project.parent.version}</sam-server.version>
         <sam-service-rest.version>${project.parent.version}</sam-service-rest.version>
         <sam-service-soap.version>${project.parent.version}</sam-service-soap.version>
         <security-common.version>${project.parent.version}</security-common.version>
@@ -698,6 +699,7 @@
                 <job-controller.version>7.3.1.20210618</job-controller.version>
                 <request-callback.version>7.3.1.20210521</request-callback.version>
                 <sam-agent.version>7.3.1.20210618</sam-agent.version>
+                <sam-server.version>7.3.1.20210633</sam-server.version>
                 <sam-service-rest.version>7.3.1.20210618</sam-service-rest.version>
                 <sam-service-soap.version>7.3.1.20210618</sam-service-soap.version>
                 <security-common.version>7.3.1.20210618</security-common.version>

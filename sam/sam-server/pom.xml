@@ -6,6 +6,7 @@
     <groupId>org.talend.esb</groupId>
     <artifactId>sam-server</artifactId>
     <packaging>bundle</packaging>
+    <version>${revision}</version>
 
     <parent>
         <groupId>org.talend.esb</groupId>
@@ -15,11 +16,15 @@
 
     <name>Talend ESB :: SAM :: Server</name>
 
+    <properties>
+        <revision>${sam-server.version}</revision>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.talend.esb</groupId>
             <artifactId>sam-common</artifactId>
-            <version>${project.version}</version>
+            <version>${original.version}</version>
         </dependency>
 
         <dependency>
