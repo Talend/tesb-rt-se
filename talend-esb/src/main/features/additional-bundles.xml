@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Declares additional bundles to be included in system
+Current repository and related features are not added to system
+-->
+<features name="additional-bundles" xmlns="http://karaf.apache.org/xmlns/features/v1.3.0">
+    <feature name="additional-bundles">
+        <!-- org.eclipse.osgi bundle with proper version-->
+        <bundle>mvn:org.eclipse.platform/org.eclipse.osgi/${eclipse.osgi.version}</bundle>
+    </feature>
+</features>

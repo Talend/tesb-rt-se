@@ -60,6 +60,13 @@
                 </includes>
             </resource>
             <resource>
+                <directory>${project.basedir}/src/main/features</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+            <resource>
                 <directory>${project.basedir}/bin</directory>
                 <filtering>true</filtering>
                 <targetPath>bin</targetPath>
@@ -118,6 +125,9 @@
                                 <descriptor>mvn:org.apache.activemq/activemq-karaf/${activemq.features.tesb.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.talend.esb.auxiliary.storage/auxiliary-storage-features/${project.version}/xml</descriptor>
                                 <descriptor>mvn:org.talend.esb/features/${esb.features.version}/xml</descriptor>
+
+                                <!-- Non Maven features aren't copied to system -->
+                                <descriptor>${project.build.outputDirectory}/additional-bundles.xml</descriptor>
                             </descriptors>
                             <repository>target/features-repo</repository>
                             
