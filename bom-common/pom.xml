@@ -39,7 +39,7 @@
         <esb.features.version>${project.version}</esb.features.version>
 
         <!-- eclipse osgi version -->
-        <eclipse.osgi.version>3.12.100</eclipse.osgi.version>
+        <eclipse.osgi.version>3.13.300</eclipse.osgi.version>
         
         <!-- karaf version -->
         <karaf.version>4.2.11</karaf.version>
