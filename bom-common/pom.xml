@@ -40,7 +40,7 @@
 
         <!-- eclipse osgi version -->
         <eclipse.osgi.version>3.13.300</eclipse.osgi.version>
-        
+
         <!-- karaf version -->
         <karaf.version>4.2.11</karaf.version>
         <standard.features.tesb.version>${karaf.version}</standard.features.tesb.version>
@@ -1162,6 +1162,11 @@
             <dependency>
                 <groupId>org.ops4j.pax.logging</groupId>
                 <artifactId>pax-logging-api</artifactId>
+                <version>${pax-logging.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ops4j.pax.logging</groupId>
+                <artifactId>pax-logging-service</artifactId>
                 <version>${pax-logging.version}</version>
             </dependency>
             <dependency>
