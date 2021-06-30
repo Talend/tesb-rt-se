@@ -141,7 +141,7 @@
         <jquery.version>3.5.0</jquery.version>
         <json-api.version>1.1</json-api.version>
         <json-simple.version>1.1.1</json-simple.version>
-        <json-smart-action.version>2.3</json-smart-action.version>
+        <json-smart.version>2.4.7</json-smart.version>
         <jsonevent-layout.version>1.7</jsonevent-layout.version>
         <jstl-api.version>1.2</jstl-api.version>
         <jstl-impl.version>1.2</jstl-impl.version>
@@ -431,8 +431,8 @@
             </dependency>
             <dependency>
                 <groupId>net.minidev</groupId>
-                <artifactId>json-smart-action</artifactId>
-                <version>${json-smart-action.version}</version>
+                <artifactId>json-smart</artifactId>
+                <version>${json-smart.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.sf.ehcache</groupId>
