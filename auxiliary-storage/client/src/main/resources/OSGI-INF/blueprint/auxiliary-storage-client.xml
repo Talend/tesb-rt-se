@@ -28,9 +28,9 @@
             <cm:property name="security.username" value="tadmin" />
             <cm:property name="security.password" value="" />
             <cm:property name="security.sts.token.username" value="myclientkey" />
-            <cm:property name="security.sts.token.properties" value="clientKeystore.properties" />
+            <cm:property name="security.sts.token.properties" value="file:./etc/keystores/clientKeystore.properties" />
             <cm:property name="security.encryption.username" value="mystskey" />
-            <cm:property name="security.encryption.properties" value="clientKeystore.properties" />
+            <cm:property name="security.encryption.properties" value="file:./etc/keystores/clientKeystore.properties" />
             <cm:property name="sts.wsdl.location" value="http://localhost:8042/services/SecurityTokenService/UT?wsdl" />
             <cm:property name="sts.service.name" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}SecurityTokenService" />
             <cm:property name="sts.endpoint.name" value="{http://docs.oasis-open.org/ws-sx/ws-trust/200512/}UT_Port" />
@@ -50,7 +50,7 @@
                 <entry key="org.apache.wss4j.crypto.merlin.keystore.file" value="./etc/keystores/clientstore.jks"/>
             </map>
         </property>
-        <property name="propertiesSource" value="file:./etc/keystores/${security.sts.token.properties}"/>
+        <property name="propertiesSource" value="${security.sts.token.properties}"/>
         <property name="updatedProperties">
             <cm:cm-properties persistent-id="org.talend.esb.auxiliary.storage.client.keystore"/>
         </property>
@@ -68,7 +68,7 @@
                 <entry key="org.apache.wss4j.crypto.merlin.keystore.file" value="./etc/keystores/clientstore.jks"/>
             </map>
         </property>
-        <property name="propertiesSource" value="file:./etc/keystores/${security.encryption.properties}"/>
+        <property name="propertiesSource" value="${security.encryption.properties}"/>
         <property name="updatedProperties">
             <cm:cm-properties persistent-id="org.talend.esb.auxiliary.storage.client.enc.keystore"/>
         </property>

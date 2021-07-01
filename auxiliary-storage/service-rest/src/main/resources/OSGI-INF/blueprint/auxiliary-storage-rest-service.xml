@@ -58,7 +58,7 @@
                 <entry key="org.apache.wss4j.crypto.merlin.keystore.file" value="./etc/keystores/servicestore.jks"/>
             </map>
         </property>
-        <property name="propertiesSource" value="file:./etc/keystores/$ccs{security.signature.properties}"/>
+        <property name="propertiesSource" value="$ccs{security.signature.properties}"/>
         <property name="updatedProperties">
             <cm:cm-properties persistent-id="org.talend.esb.auxiliary.storage.service.sig.keystore"/>
         </property>
