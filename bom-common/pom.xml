@@ -45,20 +45,20 @@
         <karaf.version>4.2.11</karaf.version>
         <standard.features.tesb.version>${karaf.version}</standard.features.tesb.version>
         <framework.features.tesb.version>${karaf.version}</framework.features.tesb.version>
-        <enterprise.features.tesb.version>${karaf.version}</enterprise.features.tesb.version>
-        <enterprise-legacy.features.tesb.version>${karaf.version}</enterprise-legacy.features.tesb.version>
-        <spring.features.tesb.version>${karaf.version}</spring.features.tesb.version>
-        <spring-legacy.features.tesb.version>${karaf.version}</spring-legacy.features.tesb.version>
+        <enterprise.features.tesb.version>4.2.11.tesb1</enterprise.features.tesb.version>
+        <enterprise-legacy.features.tesb.version>4.2.11.tesb1</enterprise-legacy.features.tesb.version>
+        <spring.features.tesb.version>4.2.11.tesb1</spring.features.tesb.version>
+        <spring-legacy.features.tesb.version>4.2.11.tesb1</spring-legacy.features.tesb.version>
 
         <!-- core libraries versions -->
         <camel.version>3.9.0</camel.version>
         <camel.features.tesb.version>3.9.0.tesb1</camel.features.tesb.version>
         <cxf.version>3.4.3</cxf.version>
-        <cxf.features.tesb.version>${cxf.version}</cxf.features.tesb.version>
+        <cxf.features.tesb.version>3.4.3.tesb1</cxf.features.tesb.version>
         <spring.version>5.2.9.RELEASE</spring.version>
         <pax-web.version>7.2.23</pax-web.version>
         <pax-web.features.tesb.version>${pax-web.version}</pax-web.features.tesb.version>
-        <activemq.version>5.16.1</activemq.version>
+        <activemq.version>5.16.3-SNAPSHOT</activemq.version>
         <activemq.features.tesb.version>${activemq.version}</activemq.features.tesb.version>
         <decanter.version>2.7.0</decanter.version>
         <decanter.features.tesb.version>${decanter.version}</decanter.features.tesb.version>
@@ -90,6 +90,7 @@
         <commons-jxpath.version>1.3</commons-jxpath.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-pool.version>1.6</commons-pool.version>
+        <commons-pool2.version>2.9.0</commons-pool2.version>
         <concurrent.version>1.3.4_1</concurrent.version>
         <cryptacular.version>1.2.4</cryptacular.version>
         <cxf.build-utils.version>3.4.3</cxf.build-utils.version>
@@ -183,11 +184,13 @@
         <org.apache.servicemix.bundles.xstream.version>1.4.15_1</org.apache.servicemix.bundles.xstream.version>
 
         <!-- bundles with potential version conflicts, set here latest version from all potential conflicting bundles -->
+        <activemq-osgi.version>5.16.3-SNAPSHOT</activemq-osgi.version>
         <apache-mime4j-core.version>0.8.3</apache-mime4j-core.version>
         <bcp.version>1.68</bcp.version>
         <brave.version>5.13.3</brave.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
+        <commons-pool2.version>2.9.0</commons-pool2.version>
         <gson.version>2.8.5</gson.version>
         <guava.version>30.1-jre</guava.version>
         <javassist.version>3.27.0-GA</javassist.version>
@@ -196,17 +199,20 @@
         <jboss-logging.version>3.4.1.Final</jboss-logging.version>
         <joda-time.version>2.10.6</joda-time.version>
         <mina-core.version>2.1.4</mina-core.version>
+        <netty.version>4.1.63.Final</netty.version>
         <org.apache.aries.spifly.dynamic.bundle.version>1.3.2</org.apache.aries.spifly.dynamic.bundle.version>
         <org.apache.servicemix.bundles.aopalliance.version>1.0_6</org.apache.servicemix.bundles.aopalliance.version>
         <org.apache.servicemix.bundles.aspectj.version>1.9.5_1</org.apache.servicemix.bundles.aspectj.version>
         <org.apache.servicemix.bundles.c3p0.version>0.9.5.5_1</org.apache.servicemix.bundles.c3p0.version>
         <org.apache.servicemix.bundles.cglib.version>3.3.0_1</org.apache.servicemix.bundles.cglib.version>
         <org.apache.servicemix.bundles.javax-inject.version>1_3</org.apache.servicemix.bundles.javax-inject.version>
-        <org.apache.servicemix.bundles.jsch.version>0.1.55_1</org.apache.servicemix.bundles.jsch.version>
         <org.apache.servicemix.bundles.jzlib.version>1.1.3_2</org.apache.servicemix.bundles.jzlib.version>
+        <org.apache.servicemix.bundles.okio.version>1.15.0_1</org.apache.servicemix.bundles.okio.version>
         <org.apache.servicemix.bundles.reflections.version>0.9.12_1</org.apache.servicemix.bundles.reflections.version>
         <org.apache.servicemix.specs.jaxrs-api-2.1.version>2.9.1</org.apache.servicemix.specs.jaxrs-api-2.1.version>
         <snakeyaml.version>1.28</snakeyaml.version>
+        <sshd-osgi.version>2.5.1</sshd-osgi.version>
+        <stax2-api.version>4.2.1</stax2-api.version>
         <websocket.version>9.4.38.v20210224</websocket.version>
         <zipkin.version>2.23.2</zipkin.version>
         <zipkin-reporter.version>2.16.3</zipkin-reporter.version>
