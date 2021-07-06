@@ -1792,6 +1792,19 @@
         </pluginManagement>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>esb-releases</id>
+            <name>ESB releases Repository</name>
+            <url>${esb.releases.repo.url}</url>
+        </repository>
+        <snapshotRepository>
+            <id>esb-snapshots</id>
+            <name>ESB snapshots Repository</name>
+            <url>${esb.snapshots.repo.url}</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <reporting>
         <plugins>
             <plugin>
