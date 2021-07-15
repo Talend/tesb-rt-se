@@ -45,7 +45,6 @@
         <bundle start-level="30">mvn:io.zipkin.zipkin2/zipkin/${zipkin.version}</bundle>
         <bundle start-level="30">mvn:javax.annotation/javax.annotation-api/${javax.annotation-api.version}</bundle>
         <bundle start-level="30">mvn:joda-time/joda-time/${joda-time.version}</bundle>
-        <bundle start-level="30">mvn:org.apache.activemq/activemq-osgi/${activemq-osgi.version}</bundle>
         <bundle start-level="30">mvn:org.apache.aries.spifly/org.apache.aries.spifly.dynamic.bundle/${org.apache.aries.spifly.dynamic.bundle.version}</bundle>
         <bundle start-level="30">mvn:org.apache.commons/commons-collections4/${commons-collections4.version}</bundle>
         <bundle start-level="30">mvn:org.apache.commons/commons-lang3/${commons-lang3.version}</bundle>
