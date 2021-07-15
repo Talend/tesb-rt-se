@@ -184,7 +184,6 @@
         <org.apache.servicemix.bundles.xstream.version>1.4.15_1</org.apache.servicemix.bundles.xstream.version>
 
         <!-- bundles with potential version conflicts, set here latest version from all potential conflicting bundles -->
-        <activemq-osgi.version>5.16.3-SNAPSHOT</activemq-osgi.version>
         <apache-mime4j-core.version>0.8.3</apache-mime4j-core.version>
         <bcp.version>1.68</bcp.version>
         <brave.version>5.13.3</brave.version>
